@@ -1,0 +1,122 @@
+nohup: ignoring input
+Importing module 'gym_38' (/home/user/Workspace/isaacgym/python/isaacgym/_bindings/linux-x86_64/gym_38.so)
+Setting GYM_USD_PLUG_INFO_PATH to /home/user/Workspace/isaacgym/python/isaacgym/_bindings/linux-x86_64/usd/plugInfo.json
+PyTorch version 2.4.1+cu124
+Device count 1
+/home/user/Workspace/isaacgym/python/isaacgym/_bindings/src/gymtorch
+Using /home/user/.cache/torch_extensions/py38_cu124 as PyTorch extensions root...
+Emitting ninja build file /home/user/.cache/torch_extensions/py38_cu124/gymtorch/build.ninja...
+Building extension module gymtorch...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module gymtorch...
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+2026-02-08 18:21:25,166 - INFO - logger - logger initialized
+Error: FBX library failed to load - importing FBX data will not succeed. Message: No module named 'fbx'
+FBX tools must be installed from https://help.autodesk.com/view/FBX/2020/ENU/?guid=FBX_Developer_Help_scripting_with_python_fbx_installing_python_fbx_html
+Error: FBX library failed to load - importing FBX data will not succeed. Message: No module named 'fbx'
+FBX tools must be installed from https://help.autodesk.com/view/FBX/2020/ENU/?guid=FBX_Developer_Help_scripting_with_python_fbx_installing_python_fbx_html
+[train] Creating student env with 4096 envs …
+Not connected to PVD
++++ Using GPU PhysX
+Physics Engine: PhysX
+Physics Device: cuda:0
+GPU Pipeline: enabled
+Loading 1/1 motion files: /home/user/Workspace/ProKnee/ProKnee-HoraStyle/ProKnee-Simulator/assets/amp/motions/amp_humanoid_walk.npy
+Loaded 1 motions with a total length of 2.550s.
+[ProKneeBase] Loaded frozen body policy from /home/user/Workspace/ProKnee/ProKnee-HoraStyle/ProKnee-Simulator/runs/HumanoidAMP_stable_06-18-14-00/nn/HumanoidAMP_stable_06-18-14-01_5000.pth
+[train] Env OK — obs=105, act=4
+[train] Loading teacher from outputs/stage1_teacher/checkpoints/epoch_3000.pth
+[train] Teacher loaded — 112,025 params (frozen)
+[train] Student — 112,025 trainable parameters
+[2026-02-08 18:21:26] [proknee_hora.algo.teacher_student] [INFO] Teacher policy frozen
+[train] Starting Stage-2 Student training epochs 1..3000 …
+
+  epoch     1 | reward   +2.756 | policy 0.0725 | value 109.2411 | distill 0.8280 | eps 0
+[2026-02-08 18:21:27] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:28] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:29] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:29] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:30] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:31] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:31] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:32] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+  epoch    10 | reward   +2.892 | policy 0.0002 | value 9.6880 | distill 0.6353 | eps 0
+[2026-02-08 18:21:32] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:33] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+  epoch    20 | reward   +2.750 | policy -0.0032 | value 3.2896 | distill 0.4978 | eps 0
+[2026-02-08 18:21:39] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:41] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:41] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:42] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:42] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+  epoch    30 | reward   +3.138 | policy -0.0014 | value 3.1677 | distill 0.2308 | eps 0
+[2026-02-08 18:21:43] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:43] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:45] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+  epoch    40 | reward   +3.141 | policy -0.0025 | value 3.2946 | distill 0.1552 | eps 0
+[2026-02-08 18:21:49] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:50] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:50] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:51] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:51] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+  epoch    50 | reward   +3.254 | policy 0.0035 | value 3.7382 | distill 0.1573 | eps 0
+[2026-02-08 18:21:53] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:54] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:55] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:55] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:56] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:56] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:56] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:57] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:21:57] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+  epoch    60 | reward   +3.299 | policy -0.0005 | value 4.3396 | distill 0.1771 | eps 0
+[2026-02-08 18:21:59] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+[2026-02-08 18:22:00] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+  epoch    70 | reward   +3.294 | policy -0.0005 | value 10.4343 | distill 0.2210 | eps 0
+  epoch    80 | reward   +3.264 | policy -0.0001 | value 27.5670 | distill 0.3272 | eps 0
+  epoch    90 | reward   +3.262 | policy -0.0003 | value 41.2935 | distill 0.3583 | eps 0
+  epoch   100 | reward   +3.271 | policy 0.0031 | value 80.2181 | distill 0.5137 | eps 0
+[2026-02-08 18:22:20] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/epoch_100.pth
+  epoch   110 | reward   +3.295 | policy -0.0004 | value 69.6990 | distill 0.5550 | eps 0
+[2026-02-08 18:22:30] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/best.pth
+  epoch   120 | reward   +3.295 | policy 0.0024 | value 66.7918 | distill 0.6744 | eps 0
+  epoch   130 | reward   +3.293 | policy 0.0048 | value 68.5812 | distill 0.7333 | eps 0
+  epoch   140 | reward   +3.288 | policy 0.0010 | value 90.5983 | distill 0.7261 | eps 0
+  epoch   150 | reward   +3.263 | policy -0.0009 | value 72.5938 | distill 0.8381 | eps 0
+  epoch   160 | reward   +3.236 | policy 0.0101 | value 55.0370 | distill 0.8936 | eps 0
+  epoch   170 | reward   +3.171 | policy 0.1063 | value 51.0597 | distill 0.9180 | eps 0
+  epoch   180 | reward   +3.221 | policy 0.0047 | value 50.3756 | distill 0.7837 | eps 0
+  epoch   190 | reward   +3.265 | policy 0.0074 | value 51.3003 | distill 0.5222 | eps 0
+  epoch   200 | reward   +3.286 | policy 0.0018 | value 67.3461 | distill 0.4565 | eps 0
+[2026-02-08 18:23:14] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/epoch_200.pth
+  epoch   210 | reward   +3.274 | policy 0.0014 | value 101.3562 | distill 0.4288 | eps 0
+  epoch   220 | reward   +3.260 | policy -0.0008 | value 137.3390 | distill 0.4013 | eps 0
+  epoch   230 | reward   +3.231 | policy -0.0005 | value 198.9527 | distill 0.3555 | eps 0
+  epoch   240 | reward   +3.217 | policy -0.0003 | value 310.3675 | distill 0.3405 | eps 0
+  epoch   250 | reward   +3.227 | policy -0.0002 | value 444.9372 | distill 0.3197 | eps 0
+  epoch   260 | reward   +3.236 | policy 0.0014 | value 628.0020 | distill 0.3260 | eps 0
+  epoch   270 | reward   +3.233 | policy 0.0010 | value 1039.4860 | distill 0.3414 | eps 0
+  epoch   280 | reward   +3.219 | policy 0.0002 | value 1595.0215 | distill 0.3830 | eps 0
+  epoch   290 | reward   +3.193 | policy 0.0001 | value 2136.7694 | distill 0.4176 | eps 0
+  epoch   300 | reward   +3.175 | policy 0.0016 | value 2795.5604 | distill 0.4836 | eps 0
+[2026-02-08 18:24:09] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/epoch_300.pth
+  epoch   310 | reward   +3.155 | policy 0.0005 | value 3344.3737 | distill 0.4543 | eps 0
+  epoch   320 | reward   +3.151 | policy 0.0011 | value 4686.7230 | distill 0.4747 | eps 0
+  epoch   330 | reward   +3.149 | policy 0.0021 | value 5913.2475 | distill 0.5045 | eps 0
+  epoch   340 | reward   +3.138 | policy 0.0021 | value 9188.0688 | distill 0.5405 | eps 0
+  epoch   350 | reward   +3.121 | policy 0.0013 | value 12262.1201 | distill 0.5466 | eps 0
+  epoch   360 | reward   +3.105 | policy 0.0021 | value 17442.5220 | distill 0.5434 | eps 0
+  epoch   370 | reward   +3.079 | policy 0.0019 | value 25031.0047 | distill 0.5513 | eps 0
+  epoch   380 | reward   +3.059 | policy 0.0027 | value 34002.7564 | distill 0.5553 | eps 0
+  epoch   390 | reward   +3.042 | policy 0.0020 | value 47331.7260 | distill 0.5309 | eps 0
+  epoch   400 | reward   +3.027 | policy 0.0037 | value 73742.4203 | distill 0.5389 | eps 0
+[2026-02-08 18:25:03] [proknee_hora.algo.teacher_student] [INFO] Saved student checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage2_student/checkpoints/epoch_400.pth
+  epoch   410 | reward   +3.019 | policy 0.0032 | value 92909.8813 | distill 0.5852 | eps 0
+  epoch   420 | reward   +3.012 | policy 0.0060 | value 129229.9145 | distill 0.6014 | eps 0
+  epoch   430 | reward   +3.003 | policy 0.0044 | value 181866.9828 | distill 0.6159 | eps 0
+  epoch   440 | reward   +2.974 | policy 0.0055 | value 222040.4000 | distill 0.6636 | eps 0
+  epoch   450 | reward   +2.959 | policy 0.0050 | value 288527.6766 | distill 0.7348 | eps 0
+  epoch   460 | reward   +2.938 | policy 0.0070 | value 344040.9266 | distill 0.8013 | eps 0

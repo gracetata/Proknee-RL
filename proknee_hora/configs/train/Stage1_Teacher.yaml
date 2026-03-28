@@ -1,0 +1,71 @@
+# Stage 1: Teacher Policy Training
+# Train prosthetic knee with privileged information
+
+defaults:
+  - default_train
+
+# Algorithm
+algorithm: PPO
+
+# Network architecture
+network:
+  actor:
+    type: mlp
+    units: [256, 128, 64]
+    activation: elu
+    
+  critic:
+    type: mlp
+    units: [256, 128, 64]
+    activation: elu
+    
+  # Privileged information encoder
+  priv_mlp:
+    units: [128, 64]
+    output_dim: 8  # Latent dimension
+    activation: elu
+    
+  separate: false  # Shared backbone
+
+# PPO hyperparameters
+ppo:
+  learning_rate: 1.0e-3
+  lr_schedule: adaptive
+  kl_threshold: 0.01
+  
+  # Rollout
+  horizon_length: 16
+  minibatch_size: 8192
+  mini_epochs: 5
+  
+  # GAE
+  gamma: 0.99
+  tau: 0.95
+  
+  # Losses
+  e_clip: 0.2
+  entropy_coef: 0.01
+  value_loss_coef: 1.0
+  
+  # Action noise (smaller for single joint)
+  init_noise_std: 0.5
+
+# Teacher-specific settings
+teacher:
+  use_priv_info: true
+  priv_info_dim: 18
+  freeze_body: true  # Freeze body policy from Stage 0
+
+# Training
+train:
+  max_epochs: 3000
+  save_interval: 100
+  eval_interval: 50
+  
+# Checkpoint loading
+load:
+  body_policy: outputs/stage0_fullbody/checkpoints/best.pth
+
+# Stage info
+stage: 1
+stage_name: teacher_priv_info

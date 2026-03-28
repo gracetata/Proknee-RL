@@ -1,0 +1,71 @@
+# Stage 0: Full Body AMP Training
+# Train complete humanoid walking policy
+
+defaults:
+  - default_train
+
+# Algorithm
+algorithm: PPO
+
+# Network architecture
+network:
+  actor:
+    type: mlp
+    units: [512, 256, 128]
+    activation: elu
+    
+  critic:
+    type: mlp  
+    units: [512, 256, 128]
+    activation: elu
+    
+  separate: true  # Separate actor and critic networks
+
+# PPO hyperparameters
+ppo:
+  learning_rate: 5.0e-4
+  lr_schedule: adaptive
+  kl_threshold: 0.008
+  
+  # Rollout
+  horizon_length: 16
+  minibatch_size: 16384
+  mini_epochs: 4
+  
+  # GAE
+  gamma: 0.99
+  tau: 0.95
+  
+  # Losses
+  e_clip: 0.2
+  entropy_coef: 0.0
+  value_loss_coef: 1.0
+  
+  # Bounds
+  bounds_loss_coef: 0.0001
+  
+  # Gradient
+  max_grad_norm: 1.0
+  
+  # Action noise
+  init_noise_std: 1.0
+
+# AMP settings (Adversarial Motion Priors)
+amp:
+  enabled: true
+  task_reward_scale: 0.5
+  style_reward_scale: 0.5
+  discriminator_lr: 1.0e-4
+  discriminator_units: [1024, 512]
+  replay_buffer_size: 100000
+  motion_file: amp_humanoid_walk.npy
+
+# Training
+train:
+  max_epochs: 5000
+  save_interval: 100
+  eval_interval: 50
+  
+# Stage info
+stage: 0
+stage_name: full_body_amp

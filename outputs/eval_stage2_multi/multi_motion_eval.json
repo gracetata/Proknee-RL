@@ -1,0 +1,10 @@
+[
+  {
+    "motion": "walk",
+    "avg_ep_len": 271.3947265625,
+    "std_ep_len": 69.71156150975501,
+    "avg_reward": 844.2431720227003,
+    "survival_rate": 0.8501953125,
+    "num_episodes": 5120
+  }
+]

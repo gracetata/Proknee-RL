@@ -1,0 +1,22 @@
+# Default training configuration
+# Base settings shared across all training stages
+
+# Device
+device: cuda:0
+
+# Random seed
+seed: 42
+
+# Mixed precision
+mixed_precision: false
+
+# Logging
+log_interval: 10
+tensorboard: true
+
+# Early stopping
+early_stopping:
+  enabled: false
+  patience: 100
+  metric: reward_mean
+  mode: max

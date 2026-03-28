@@ -1,0 +1,370 @@
+nohup: ignoring input
+Importing module 'gym_38' (/home/user/Workspace/isaacgym/python/isaacgym/_bindings/linux-x86_64/gym_38.so)
+Setting GYM_USD_PLUG_INFO_PATH to /home/user/Workspace/isaacgym/python/isaacgym/_bindings/linux-x86_64/usd/plugInfo.json
+PyTorch version 2.4.1+cu124
+Device count 1
+/home/user/Workspace/isaacgym/python/isaacgym/_bindings/src/gymtorch
+Using /home/user/.cache/torch_extensions/py38_cu124 as PyTorch extensions root...
+Emitting ninja build file /home/user/.cache/torch_extensions/py38_cu124/gymtorch/build.ninja...
+Building extension module gymtorch...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module gymtorch...
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+2026-02-08 16:34:30,468 - INFO - logger - logger initialized
+<unknown>:3: DeprecationWarning: invalid escape sequence \*
+Error: FBX library failed to load - importing FBX data will not succeed. Message: No module named 'fbx'
+FBX tools must be installed from https://help.autodesk.com/view/FBX/2020/ENU/?guid=FBX_Developer_Help_scripting_with_python_fbx_installing_python_fbx_html
+[train] Creating teacher env with 4096 envs …
+Not connected to PVD
++++ Using GPU PhysX
+Physics Engine: PhysX
+Physics Device: cuda:0
+GPU Pipeline: enabled
+/home/user/Workspace/ProKnee/ProKnee-HoraStyle/proknee_hora/envs/proknee_base.py:275: DeprecationWarning: an integer is required (got type isaacgym._bindings.linux-x86_64.gym_38.DofDriveMode).  Implicit conversion to integers using __int__ is deprecated, and may be removed in a future version of Python.
+  asset_options.default_dof_drive_mode = gymapi.DOF_MODE_NONE
+[ProKneeBase] Loaded frozen body policy from /home/user/Workspace/ProKnee/ProKnee-HoraStyle/ProKnee-Simulator/runs/HumanoidAMP_stable_06-18-14-00/nn/HumanoidAMP_stable_06-18-14-01_5000.pth
+[train] Env OK  — obs=105, act=1
+[train] Policy  — 111,635 parameters
+[train] Starting Stage-1 Teacher training epochs 1..3000 …
+
+  epoch     1 | reward   +2.746 | policy_loss 0.0197 | value_loss 79.1875 | episodes 0
+[2026-02-08 16:34:32] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/best.pth
+[2026-02-08 16:34:32] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/best.pth
+[2026-02-08 16:34:33] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/best.pth
+[2026-02-08 16:34:33] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/best.pth
+  epoch    10 | reward   +2.719 | policy_loss -0.0002 | value_loss 143.2612 | episodes 1447
+  epoch    20 | reward   +2.739 | policy_loss -0.0006 | value_loss 90.6105 | episodes 1115
+  epoch    30 | reward   +2.681 | policy_loss -0.0011 | value_loss 117.3667 | episodes 1016
+  epoch    40 | reward   +2.430 | policy_loss -0.0006 | value_loss 117.4377 | episodes 728
+  epoch    50 | reward   +2.521 | policy_loss 0.0011 | value_loss 125.6059 | episodes 801
+  epoch    60 | reward   +2.571 | policy_loss -0.0000 | value_loss 120.9318 | episodes 835
+  epoch    70 | reward   +2.613 | policy_loss -0.0003 | value_loss 131.4436 | episodes 872
+  epoch    80 | reward   +2.656 | policy_loss 0.0008 | value_loss 150.1904 | episodes 930
+  epoch    90 | reward   +2.672 | policy_loss 0.0076 | value_loss 170.8243 | episodes 927
+  epoch   100 | reward   +2.644 | policy_loss 0.0006 | value_loss 142.0458 | episodes 910
+[2026-02-08 16:35:08] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_100.pth
+  epoch   110 | reward   +2.617 | policy_loss -0.0001 | value_loss 137.1845 | episodes 862
+  epoch   120 | reward   +2.598 | policy_loss 0.0506 | value_loss 183.2528 | episodes 862
+  epoch   130 | reward   +2.572 | policy_loss 0.0052 | value_loss 128.6398 | episodes 838
+  epoch   140 | reward   +2.512 | policy_loss 0.0029 | value_loss 110.1033 | episodes 771
+  epoch   150 | reward   +2.446 | policy_loss 0.0025 | value_loss 124.8957 | episodes 769
+  epoch   160 | reward   +2.430 | policy_loss 0.0048 | value_loss 119.9193 | episodes 717
+  epoch   170 | reward   +2.427 | policy_loss 0.0007 | value_loss 121.3584 | episodes 773
+  epoch   180 | reward   +2.433 | policy_loss -0.0001 | value_loss 107.2270 | episodes 747
+  epoch   190 | reward   +2.392 | policy_loss -0.0002 | value_loss 109.4845 | episodes 778
+  epoch   200 | reward   +2.387 | policy_loss 0.0001 | value_loss 113.6068 | episodes 705
+[2026-02-08 16:35:45] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_200.pth
+  epoch   210 | reward   +2.436 | policy_loss 0.0009 | value_loss 106.9005 | episodes 708
+  epoch   220 | reward   +2.423 | policy_loss 0.0003 | value_loss 122.4020 | episodes 736
+  epoch   230 | reward   +2.416 | policy_loss 0.0014 | value_loss 122.5040 | episodes 741
+  epoch   240 | reward   +2.398 | policy_loss 0.0004 | value_loss 117.1252 | episodes 689
+  epoch   250 | reward   +2.393 | policy_loss 0.0019 | value_loss 117.0389 | episodes 677
+  epoch   260 | reward   +2.353 | policy_loss 0.0006 | value_loss 98.0456 | episodes 626
+  epoch   270 | reward   +2.368 | policy_loss 0.0015 | value_loss 101.5145 | episodes 678
+  epoch   280 | reward   +2.403 | policy_loss 0.0017 | value_loss 104.0699 | episodes 802
+  epoch   290 | reward   +2.498 | policy_loss 0.0158 | value_loss 101.6044 | episodes 748
+  epoch   300 | reward   +2.495 | policy_loss 0.0045 | value_loss 94.0080 | episodes 705
+[2026-02-08 16:36:21] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_300.pth
+  epoch   310 | reward   +2.471 | policy_loss 0.0015 | value_loss 95.8860 | episodes 740
+  epoch   320 | reward   +2.547 | policy_loss 0.0001 | value_loss 111.2531 | episodes 803
+  epoch   330 | reward   +2.478 | policy_loss 0.0005 | value_loss 93.1214 | episodes 642
+  epoch   340 | reward   +2.535 | policy_loss 0.0008 | value_loss 102.0781 | episodes 775
+  epoch   350 | reward   +2.536 | policy_loss 0.0012 | value_loss 117.9462 | episodes 895
+  epoch   360 | reward   +2.407 | policy_loss 0.0076 | value_loss 80.9970 | episodes 570
+  epoch   370 | reward   +2.513 | policy_loss 0.0024 | value_loss 107.0836 | episodes 761
+  epoch   380 | reward   +2.391 | policy_loss 0.0020 | value_loss 89.0747 | episodes 692
+  epoch   390 | reward   +2.453 | policy_loss 0.0069 | value_loss 96.0631 | episodes 683
+  epoch   400 | reward   +2.439 | policy_loss 0.0045 | value_loss 84.7102 | episodes 693
+[2026-02-08 16:36:59] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_400.pth
+  epoch   410 | reward   +2.478 | policy_loss 0.0012 | value_loss 83.0970 | episodes 637
+  epoch   420 | reward   +2.480 | policy_loss 0.0004 | value_loss 101.6373 | episodes 725
+  epoch   430 | reward   +2.491 | policy_loss -0.0005 | value_loss 93.6451 | episodes 641
+  epoch   440 | reward   +2.472 | policy_loss 0.0024 | value_loss 97.6976 | episodes 643
+  epoch   450 | reward   +2.514 | policy_loss 0.0019 | value_loss 100.2623 | episodes 699
+  epoch   460 | reward   +2.528 | policy_loss 0.0050 | value_loss 89.6892 | episodes 664
+  epoch   470 | reward   +2.576 | policy_loss 0.0046 | value_loss 105.4419 | episodes 722
+  epoch   480 | reward   +2.571 | policy_loss 0.0011 | value_loss 105.8940 | episodes 699
+  epoch   490 | reward   +2.583 | policy_loss 0.0013 | value_loss 105.0412 | episodes 656
+  epoch   500 | reward   +2.605 | policy_loss 0.0011 | value_loss 106.1478 | episodes 698
+[2026-02-08 16:37:37] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_500.pth
+  epoch   510 | reward   +2.588 | policy_loss 0.0019 | value_loss 105.5872 | episodes 657
+  epoch   520 | reward   +2.607 | policy_loss 0.0007 | value_loss 95.7199 | episodes 675
+  epoch   530 | reward   +2.611 | policy_loss 0.0033 | value_loss 89.8832 | episodes 666
+  epoch   540 | reward   +2.605 | policy_loss 0.0032 | value_loss 94.9285 | episodes 682
+  epoch   550 | reward   +2.635 | policy_loss 0.0031 | value_loss 87.1235 | episodes 668
+  epoch   560 | reward   +2.623 | policy_loss 0.0018 | value_loss 80.3998 | episodes 652
+  epoch   570 | reward   +2.613 | policy_loss 0.0014 | value_loss 81.2405 | episodes 640
+  epoch   580 | reward   +2.640 | policy_loss 0.0208 | value_loss 82.2665 | episodes 647
+  epoch   590 | reward   +2.479 | policy_loss 0.0028 | value_loss 86.8402 | episodes 669
+  epoch   600 | reward   +2.515 | policy_loss 0.0046 | value_loss 71.2840 | episodes 580
+[2026-02-08 16:38:14] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_600.pth
+  epoch   610 | reward   +2.567 | policy_loss 0.0047 | value_loss 73.7810 | episodes 600
+  epoch   620 | reward   +2.575 | policy_loss 0.0017 | value_loss 72.1090 | episodes 588
+  epoch   630 | reward   +2.579 | policy_loss 0.0027 | value_loss 78.3033 | episodes 630
+  epoch   640 | reward   +2.609 | policy_loss 0.0056 | value_loss 71.3549 | episodes 608
+  epoch   650 | reward   +2.617 | policy_loss 0.0071 | value_loss 71.3911 | episodes 589
+  epoch   660 | reward   +2.577 | policy_loss 0.0252 | value_loss 74.2127 | episodes 613
+  epoch   670 | reward   +2.498 | policy_loss 0.0039 | value_loss 75.9267 | episodes 608
+  epoch   680 | reward   +2.527 | policy_loss 0.0036 | value_loss 72.5649 | episodes 605
+  epoch   690 | reward   +2.575 | policy_loss 0.0092 | value_loss 68.8516 | episodes 611
+  epoch   700 | reward   +2.528 | policy_loss 0.0083 | value_loss 65.4048 | episodes 580
+[2026-02-08 16:38:52] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_700.pth
+  epoch   710 | reward   +2.518 | policy_loss 0.0052 | value_loss 69.7311 | episodes 615
+  epoch   720 | reward   +2.530 | policy_loss 0.0028 | value_loss 67.2631 | episodes 608
+  epoch   730 | reward   +2.549 | policy_loss 0.0040 | value_loss 66.7472 | episodes 612
+  epoch   740 | reward   +2.573 | policy_loss 0.0030 | value_loss 61.5343 | episodes 602
+  epoch   750 | reward   +2.556 | policy_loss 0.0024 | value_loss 61.3438 | episodes 575
+  epoch   760 | reward   +2.326 | policy_loss 0.0181 | value_loss 67.0582 | episodes 628
+  epoch   770 | reward   +2.362 | policy_loss 0.0077 | value_loss 62.3439 | episodes 594
+  epoch   780 | reward   +2.313 | policy_loss 0.0113 | value_loss 61.1826 | episodes 571
+  epoch   790 | reward   +2.322 | policy_loss 0.0075 | value_loss 59.4293 | episodes 572
+  epoch   800 | reward   +2.322 | policy_loss 0.0081 | value_loss 47.4760 | episodes 505
+[2026-02-08 16:39:30] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_800.pth
+  epoch   810 | reward   +2.306 | policy_loss 0.0048 | value_loss 55.5735 | episodes 532
+  epoch   820 | reward   +2.287 | policy_loss 0.0096 | value_loss 59.2801 | episodes 513
+  epoch   830 | reward   +2.289 | policy_loss 0.0081 | value_loss 50.7199 | episodes 508
+  epoch   840 | reward   +2.330 | policy_loss 0.0044 | value_loss 55.6477 | episodes 521
+  epoch   850 | reward   +2.337 | policy_loss 0.0046 | value_loss 58.0131 | episodes 558
+  epoch   860 | reward   +2.347 | policy_loss 0.0043 | value_loss 50.1911 | episodes 518
+  epoch   870 | reward   +2.311 | policy_loss 0.0114 | value_loss 57.2236 | episodes 541
+  epoch   880 | reward   +2.334 | policy_loss 0.0049 | value_loss 57.5067 | episodes 559
+  epoch   890 | reward   +2.335 | policy_loss 0.0105 | value_loss 52.9292 | episodes 519
+  epoch   900 | reward   +2.334 | policy_loss 0.0066 | value_loss 56.6428 | episodes 578
+[2026-02-08 16:40:07] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_900.pth
+  epoch   910 | reward   +2.363 | policy_loss 0.0078 | value_loss 51.4867 | episodes 546
+  epoch   920 | reward   +2.352 | policy_loss 0.0360 | value_loss 52.5709 | episodes 543
+  epoch   930 | reward   +2.350 | policy_loss 0.0164 | value_loss 56.2671 | episodes 542
+  epoch   940 | reward   +2.350 | policy_loss 0.0043 | value_loss 51.3885 | episodes 572
+  epoch   950 | reward   +2.350 | policy_loss 0.0032 | value_loss 60.5507 | episodes 515
+  epoch   960 | reward   +2.321 | policy_loss 0.0072 | value_loss 51.9786 | episodes 525
+  epoch   970 | reward   +2.334 | policy_loss 0.0048 | value_loss 50.9789 | episodes 507
+  epoch   980 | reward   +2.358 | policy_loss 0.0112 | value_loss 54.6960 | episodes 533
+  epoch   990 | reward   +2.348 | policy_loss 0.0042 | value_loss 44.4012 | episodes 477
+  epoch  1000 | reward   +2.332 | policy_loss 0.0121 | value_loss 54.0742 | episodes 522
+[2026-02-08 16:40:45] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_1000.pth
+  epoch  1010 | reward   +2.332 | policy_loss 0.0078 | value_loss 50.7234 | episodes 502
+  epoch  1020 | reward   +2.316 | policy_loss 0.0061 | value_loss 50.7149 | episodes 476
+  epoch  1030 | reward   +2.306 | policy_loss 0.0116 | value_loss 49.9135 | episodes 488
+  epoch  1040 | reward   +2.327 | policy_loss 0.0079 | value_loss 57.9489 | episodes 473
+  epoch  1050 | reward   +2.355 | policy_loss 0.0243 | value_loss 58.1129 | episodes 525
+  epoch  1060 | reward   +2.343 | policy_loss 0.0090 | value_loss 54.6202 | episodes 471
+  epoch  1070 | reward   +2.333 | policy_loss 0.0086 | value_loss 53.4229 | episodes 450
+  epoch  1080 | reward   +2.327 | policy_loss 0.0040 | value_loss 57.6303 | episodes 489
+  epoch  1090 | reward   +2.331 | policy_loss 0.0064 | value_loss 71.8015 | episodes 481
+  epoch  1100 | reward   +2.297 | policy_loss 0.0087 | value_loss 52.5127 | episodes 432
+[2026-02-08 16:41:23] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_1100.pth
+  epoch  1110 | reward   +2.318 | policy_loss 0.0068 | value_loss 52.3426 | episodes 437
+  epoch  1120 | reward   +2.287 | policy_loss 0.0070 | value_loss 48.9646 | episodes 441
+  epoch  1130 | reward   +2.304 | policy_loss 0.0113 | value_loss 57.7297 | episodes 481
+  epoch  1140 | reward   +2.318 | policy_loss 0.0065 | value_loss 57.6660 | episodes 413
+  epoch  1150 | reward   +2.291 | policy_loss 0.0107 | value_loss 53.0435 | episodes 419
+  epoch  1160 | reward   +2.307 | policy_loss 0.0080 | value_loss 66.6544 | episodes 475
+  epoch  1170 | reward   +2.306 | policy_loss 0.0050 | value_loss 56.9324 | episodes 424
+  epoch  1180 | reward   +2.275 | policy_loss 0.0048 | value_loss 60.4334 | episodes 433
+  epoch  1190 | reward   +2.308 | policy_loss 0.0049 | value_loss 59.1285 | episodes 441
+  epoch  1200 | reward   +2.283 | policy_loss 0.0070 | value_loss 53.2705 | episodes 389
+[2026-02-08 16:42:00] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_1200.pth
+  epoch  1210 | reward   +2.284 | policy_loss 0.0038 | value_loss 54.6901 | episodes 418
+  epoch  1220 | reward   +2.307 | policy_loss 0.0066 | value_loss 55.4611 | episodes 473
+  epoch  1230 | reward   +2.301 | policy_loss 0.0030 | value_loss 48.5223 | episodes 393
+  epoch  1240 | reward   +2.293 | policy_loss 0.0063 | value_loss 47.5206 | episodes 427
+  epoch  1250 | reward   +2.290 | policy_loss 0.0069 | value_loss 52.0861 | episodes 402
+  epoch  1260 | reward   +2.302 | policy_loss 0.0068 | value_loss 55.1345 | episodes 414
+  epoch  1270 | reward   +2.300 | policy_loss 0.0057 | value_loss 60.5344 | episodes 502
+  epoch  1280 | reward   +2.286 | policy_loss 0.0070 | value_loss 59.1146 | episodes 439
+  epoch  1290 | reward   +2.282 | policy_loss 0.0066 | value_loss 51.6808 | episodes 444
+  epoch  1300 | reward   +2.302 | policy_loss 0.0061 | value_loss 52.3196 | episodes 405
+[2026-02-08 16:42:38] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_1300.pth
+  epoch  1310 | reward   +2.285 | policy_loss 0.0071 | value_loss 57.7501 | episodes 412
+  epoch  1320 | reward   +2.290 | policy_loss 0.0061 | value_loss 54.8704 | episodes 439
+  epoch  1330 | reward   +2.288 | policy_loss 0.0039 | value_loss 49.3713 | episodes 454
+  epoch  1340 | reward   +2.304 | policy_loss 0.0107 | value_loss 59.6355 | episodes 422
+  epoch  1350 | reward   +2.299 | policy_loss 0.0053 | value_loss 54.1335 | episodes 456
+  epoch  1360 | reward   +2.290 | policy_loss 0.0066 | value_loss 55.4657 | episodes 424
+  epoch  1370 | reward   +2.299 | policy_loss 0.0065 | value_loss 59.8197 | episodes 455
+  epoch  1380 | reward   +2.291 | policy_loss 0.0065 | value_loss 54.1480 | episodes 459
+  epoch  1390 | reward   +2.307 | policy_loss 0.0115 | value_loss 50.1974 | episodes 442
+  epoch  1400 | reward   +2.282 | policy_loss 0.0059 | value_loss 55.3896 | episodes 426
+[2026-02-08 16:43:15] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_1400.pth
+  epoch  1410 | reward   +2.286 | policy_loss 0.0044 | value_loss 55.7490 | episodes 427
+  epoch  1420 | reward   +2.294 | policy_loss 0.0086 | value_loss 54.1727 | episodes 369
+  epoch  1430 | reward   +2.281 | policy_loss 0.0038 | value_loss 49.6124 | episodes 410
+  epoch  1440 | reward   +2.289 | policy_loss 0.0058 | value_loss 45.4116 | episodes 399
+  epoch  1450 | reward   +2.295 | policy_loss 0.0056 | value_loss 41.9364 | episodes 378
+  epoch  1460 | reward   +2.285 | policy_loss 0.0089 | value_loss 50.0684 | episodes 362
+  epoch  1470 | reward   +2.281 | policy_loss 0.0024 | value_loss 49.8341 | episodes 367
+  epoch  1480 | reward   +2.278 | policy_loss 0.0108 | value_loss 49.3207 | episodes 357
+  epoch  1490 | reward   +2.280 | policy_loss 0.0041 | value_loss 58.1075 | episodes 395
+  epoch  1500 | reward   +2.287 | policy_loss 0.0111 | value_loss 54.0695 | episodes 396
+[2026-02-08 16:43:52] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_1500.pth
+  epoch  1510 | reward   +2.273 | policy_loss 0.0081 | value_loss 50.5206 | episodes 372
+  epoch  1520 | reward   +2.279 | policy_loss 0.0057 | value_loss 56.4535 | episodes 393
+  epoch  1530 | reward   +2.271 | policy_loss 0.0062 | value_loss 53.1670 | episodes 379
+  epoch  1540 | reward   +2.288 | policy_loss 0.0057 | value_loss 52.4482 | episodes 362
+  epoch  1550 | reward   +2.271 | policy_loss 0.0013 | value_loss 50.8045 | episodes 404
+  epoch  1560 | reward   +2.270 | policy_loss 0.0074 | value_loss 53.0064 | episodes 379
+  epoch  1570 | reward   +2.284 | policy_loss 0.0097 | value_loss 56.4444 | episodes 379
+  epoch  1580 | reward   +2.254 | policy_loss 0.0060 | value_loss 67.5319 | episodes 385
+  epoch  1590 | reward   +2.267 | policy_loss 0.0063 | value_loss 62.5931 | episodes 386
+  epoch  1600 | reward   +2.251 | policy_loss 0.0069 | value_loss 62.0118 | episodes 359
+[2026-02-08 16:44:28] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_1600.pth
+  epoch  1610 | reward   +2.250 | policy_loss 0.0071 | value_loss 55.7651 | episodes 349
+  epoch  1620 | reward   +2.257 | policy_loss 0.0096 | value_loss 54.4332 | episodes 355
+  epoch  1630 | reward   +2.250 | policy_loss 0.0072 | value_loss 59.9772 | episodes 373
+  epoch  1640 | reward   +2.239 | policy_loss 0.0058 | value_loss 52.3308 | episodes 348
+  epoch  1650 | reward   +2.245 | policy_loss 0.0074 | value_loss 59.6088 | episodes 359
+  epoch  1660 | reward   +2.247 | policy_loss 0.0062 | value_loss 58.6976 | episodes 332
+  epoch  1670 | reward   +2.230 | policy_loss 0.0507 | value_loss 56.1618 | episodes 324
+  epoch  1680 | reward   +2.233 | policy_loss 0.0071 | value_loss 56.3340 | episodes 341
+  epoch  1690 | reward   +2.237 | policy_loss 0.0047 | value_loss 66.0025 | episodes 355
+  epoch  1700 | reward   +2.232 | policy_loss 0.0082 | value_loss 54.5078 | episodes 360
+[2026-02-08 16:45:06] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_1700.pth
+  epoch  1710 | reward   +2.230 | policy_loss 0.0041 | value_loss 55.2841 | episodes 351
+  epoch  1720 | reward   +2.218 | policy_loss 0.0032 | value_loss 51.1072 | episodes 313
+  epoch  1730 | reward   +2.238 | policy_loss 0.0062 | value_loss 52.1046 | episodes 331
+  epoch  1740 | reward   +2.238 | policy_loss 0.0065 | value_loss 62.1292 | episodes 334
+  epoch  1750 | reward   +2.257 | policy_loss 0.0075 | value_loss 55.8887 | episodes 348
+  epoch  1760 | reward   +2.222 | policy_loss 0.0028 | value_loss 56.9570 | episodes 329
+  epoch  1770 | reward   +2.233 | policy_loss 0.0077 | value_loss 59.7564 | episodes 351
+  epoch  1780 | reward   +2.229 | policy_loss 0.0047 | value_loss 62.0285 | episodes 347
+  epoch  1790 | reward   +2.235 | policy_loss 0.0115 | value_loss 61.6113 | episodes 371
+  epoch  1800 | reward   +2.226 | policy_loss 0.0052 | value_loss 49.9858 | episodes 304
+[2026-02-08 16:45:43] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_1800.pth
+  epoch  1810 | reward   +2.247 | policy_loss 0.0024 | value_loss 54.8519 | episodes 330
+  epoch  1820 | reward   +2.249 | policy_loss 0.0047 | value_loss 60.1587 | episodes 368
+  epoch  1830 | reward   +2.226 | policy_loss 0.0050 | value_loss 68.3950 | episodes 321
+  epoch  1840 | reward   +2.231 | policy_loss 0.0053 | value_loss 61.8291 | episodes 324
+  epoch  1850 | reward   +2.234 | policy_loss 0.0070 | value_loss 55.4797 | episodes 327
+  epoch  1860 | reward   +2.235 | policy_loss 0.0034 | value_loss 52.2666 | episodes 313
+  epoch  1870 | reward   +2.227 | policy_loss 0.0093 | value_loss 55.0221 | episodes 331
+  epoch  1880 | reward   +2.243 | policy_loss 0.0027 | value_loss 51.6093 | episodes 340
+  epoch  1890 | reward   +2.243 | policy_loss 0.0111 | value_loss 56.3252 | episodes 328
+  epoch  1900 | reward   +2.233 | policy_loss 0.0129 | value_loss 58.8323 | episodes 320
+[2026-02-08 16:46:32] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_1900.pth
+  epoch  1910 | reward   +2.234 | policy_loss 0.0056 | value_loss 64.3307 | episodes 345
+  epoch  1920 | reward   +2.245 | policy_loss 0.0056 | value_loss 58.4160 | episodes 340
+  epoch  1930 | reward   +2.236 | policy_loss 0.0104 | value_loss 49.4426 | episodes 329
+  epoch  1940 | reward   +2.235 | policy_loss 0.0216 | value_loss 59.9019 | episodes 325
+  epoch  1950 | reward   +2.241 | policy_loss 0.0033 | value_loss 63.1858 | episodes 316
+  epoch  1960 | reward   +2.229 | policy_loss 0.0157 | value_loss 61.8561 | episodes 330
+  epoch  1970 | reward   +2.228 | policy_loss 0.0098 | value_loss 61.6296 | episodes 311
+  epoch  1980 | reward   +2.229 | policy_loss 0.0050 | value_loss 52.6016 | episodes 328
+  epoch  1990 | reward   +2.230 | policy_loss 0.0058 | value_loss 57.9856 | episodes 320
+  epoch  2000 | reward   +2.225 | policy_loss 0.0035 | value_loss 59.9454 | episodes 307
+[2026-02-08 16:47:12] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_2000.pth
+  epoch  2010 | reward   +2.233 | policy_loss 0.0035 | value_loss 60.8462 | episodes 315
+  epoch  2020 | reward   +2.235 | policy_loss 0.0053 | value_loss 64.8209 | episodes 337
+  epoch  2030 | reward   +2.222 | policy_loss 0.0059 | value_loss 67.9712 | episodes 304
+  epoch  2040 | reward   +2.232 | policy_loss 0.0027 | value_loss 58.8675 | episodes 331
+  epoch  2050 | reward   +2.217 | policy_loss 0.0060 | value_loss 55.1936 | episodes 332
+  epoch  2060 | reward   +2.215 | policy_loss 0.0054 | value_loss 55.6782 | episodes 316
+  epoch  2070 | reward   +2.237 | policy_loss 0.0038 | value_loss 59.7714 | episodes 336
+  epoch  2080 | reward   +2.234 | policy_loss 0.0059 | value_loss 59.1933 | episodes 351
+  epoch  2090 | reward   +2.207 | policy_loss 0.0068 | value_loss 55.0425 | episodes 323
+  epoch  2100 | reward   +2.234 | policy_loss 0.0083 | value_loss 58.0317 | episodes 338
+[2026-02-08 16:47:52] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_2100.pth
+  epoch  2110 | reward   +2.234 | policy_loss 0.0086 | value_loss 56.1701 | episodes 320
+  epoch  2120 | reward   +2.212 | policy_loss 0.0057 | value_loss 51.5940 | episodes 301
+  epoch  2130 | reward   +2.224 | policy_loss 0.0157 | value_loss 55.8725 | episodes 319
+  epoch  2140 | reward   +2.222 | policy_loss 0.0178 | value_loss 59.7535 | episodes 308
+  epoch  2150 | reward   +2.224 | policy_loss 0.0023 | value_loss 53.0292 | episodes 302
+  epoch  2160 | reward   +2.220 | policy_loss 0.0022 | value_loss 50.5686 | episodes 337
+  epoch  2170 | reward   +2.196 | policy_loss 0.0052 | value_loss 46.2741 | episodes 297
+  epoch  2180 | reward   +2.227 | policy_loss 0.0042 | value_loss 55.1842 | episodes 293
+  epoch  2190 | reward   +2.241 | policy_loss 0.0050 | value_loss 54.7808 | episodes 327
+  epoch  2200 | reward   +2.215 | policy_loss 0.0078 | value_loss 55.3908 | episodes 312
+[2026-02-08 16:48:35] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_2200.pth
+  epoch  2210 | reward   +2.224 | policy_loss 0.0075 | value_loss 61.8841 | episodes 320
+  epoch  2220 | reward   +2.216 | policy_loss 0.0042 | value_loss 61.6797 | episodes 330
+  epoch  2230 | reward   +2.232 | policy_loss 0.0056 | value_loss 64.4785 | episodes 327
+  epoch  2240 | reward   +2.227 | policy_loss 0.0040 | value_loss 54.0420 | episodes 302
+  epoch  2250 | reward   +2.219 | policy_loss 0.0040 | value_loss 52.7474 | episodes 286
+  epoch  2260 | reward   +2.227 | policy_loss 0.0068 | value_loss 66.5424 | episodes 360
+  epoch  2270 | reward   +2.205 | policy_loss 0.0025 | value_loss 60.7501 | episodes 300
+  epoch  2280 | reward   +2.212 | policy_loss 0.0031 | value_loss 51.7146 | episodes 313
+  epoch  2290 | reward   +2.216 | policy_loss 0.0076 | value_loss 70.0242 | episodes 324
+  epoch  2300 | reward   +2.220 | policy_loss 0.0055 | value_loss 59.1656 | episodes 333
+[2026-02-08 16:49:10] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_2300.pth
+  epoch  2310 | reward   +2.211 | policy_loss 0.0026 | value_loss 65.3473 | episodes 299
+  epoch  2320 | reward   +2.218 | policy_loss 0.0054 | value_loss 69.9299 | episodes 336
+  epoch  2330 | reward   +2.210 | policy_loss 0.0085 | value_loss 62.7445 | episodes 304
+  epoch  2340 | reward   +2.207 | policy_loss 0.0054 | value_loss 66.7271 | episodes 311
+  epoch  2350 | reward   +2.216 | policy_loss 0.0057 | value_loss 65.0761 | episodes 333
+  epoch  2360 | reward   +2.211 | policy_loss 0.0038 | value_loss 49.6493 | episodes 285
+  epoch  2370 | reward   +2.230 | policy_loss 0.0053 | value_loss 66.2677 | episodes 350
+  epoch  2380 | reward   +2.210 | policy_loss 0.0125 | value_loss 63.3389 | episodes 299
+  epoch  2390 | reward   +2.211 | policy_loss 0.0096 | value_loss 59.8547 | episodes 336
+  epoch  2400 | reward   +2.209 | policy_loss 0.0078 | value_loss 59.3740 | episodes 316
+[2026-02-08 16:49:58] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_2400.pth
+  epoch  2410 | reward   +2.212 | policy_loss 0.0051 | value_loss 60.7471 | episodes 304
+  epoch  2420 | reward   +2.200 | policy_loss 0.0063 | value_loss 55.3834 | episodes 309
+  epoch  2430 | reward   +2.205 | policy_loss 0.0039 | value_loss 61.2125 | episodes 304
+  epoch  2440 | reward   +2.210 | policy_loss 0.0048 | value_loss 58.5863 | episodes 305
+  epoch  2450 | reward   +2.204 | policy_loss 0.0030 | value_loss 54.3335 | episodes 276
+  epoch  2460 | reward   +2.205 | policy_loss 0.0048 | value_loss 56.8557 | episodes 294
+  epoch  2470 | reward   +2.217 | policy_loss 0.0079 | value_loss 61.4912 | episodes 324
+  epoch  2480 | reward   +2.218 | policy_loss 0.0065 | value_loss 61.0923 | episodes 294
+  epoch  2490 | reward   +2.210 | policy_loss 0.0026 | value_loss 56.0929 | episodes 307
+  epoch  2500 | reward   +2.208 | policy_loss 0.0029 | value_loss 62.4973 | episodes 318
+[2026-02-08 16:50:35] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_2500.pth
+  epoch  2510 | reward   +2.206 | policy_loss 0.0052 | value_loss 56.4651 | episodes 296
+  epoch  2520 | reward   +2.214 | policy_loss 0.0050 | value_loss 59.3386 | episodes 335
+  epoch  2530 | reward   +2.210 | policy_loss 0.0051 | value_loss 63.0789 | episodes 342
+  epoch  2540 | reward   +2.205 | policy_loss 0.0048 | value_loss 52.3071 | episodes 291
+  epoch  2550 | reward   +2.205 | policy_loss 0.0049 | value_loss 59.7537 | episodes 307
+  epoch  2560 | reward   +2.210 | policy_loss 0.0052 | value_loss 55.5043 | episodes 344
+  epoch  2570 | reward   +2.182 | policy_loss 0.0047 | value_loss 56.7959 | episodes 289
+  epoch  2580 | reward   +2.212 | policy_loss 0.0067 | value_loss 61.7437 | episodes 311
+  epoch  2590 | reward   +2.208 | policy_loss 0.0043 | value_loss 55.5192 | episodes 302
+  epoch  2600 | reward   +2.199 | policy_loss 0.0044 | value_loss 60.3374 | episodes 323
+[2026-02-08 16:51:43] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_2600.pth
+  epoch  2610 | reward   +2.210 | policy_loss 0.0056 | value_loss 57.9908 | episodes 323
+  epoch  2620 | reward   +2.221 | policy_loss 0.0085 | value_loss 62.9842 | episodes 302
+  epoch  2630 | reward   +2.199 | policy_loss 0.0054 | value_loss 55.1009 | episodes 270
+  epoch  2640 | reward   +2.188 | policy_loss 0.0044 | value_loss 56.9686 | episodes 318
+  epoch  2650 | reward   +2.213 | policy_loss 0.0059 | value_loss 63.5503 | episodes 327
+  epoch  2660 | reward   +2.217 | policy_loss 0.0042 | value_loss 61.8219 | episodes 292
+  epoch  2670 | reward   +2.211 | policy_loss 0.0048 | value_loss 58.2117 | episodes 333
+  epoch  2680 | reward   +2.200 | policy_loss 0.0034 | value_loss 63.4308 | episodes 316
+  epoch  2690 | reward   +2.202 | policy_loss 0.0055 | value_loss 57.8106 | episodes 318
+  epoch  2700 | reward   +2.215 | policy_loss 0.0044 | value_loss 55.1655 | episodes 266
+[2026-02-08 16:52:50] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_2700.pth
+  epoch  2710 | reward   +2.198 | policy_loss 0.0056 | value_loss 57.5308 | episodes 323
+  epoch  2720 | reward   +2.192 | policy_loss 0.0045 | value_loss 66.1929 | episodes 328
+  epoch  2730 | reward   +2.206 | policy_loss 0.0046 | value_loss 60.8987 | episodes 282
+  epoch  2740 | reward   +2.210 | policy_loss 0.0025 | value_loss 56.4332 | episodes 305
+  epoch  2750 | reward   +2.208 | policy_loss 0.0056 | value_loss 62.0697 | episodes 319
+  epoch  2760 | reward   +2.210 | policy_loss 0.0034 | value_loss 59.5004 | episodes 287
+  epoch  2770 | reward   +2.202 | policy_loss 0.0041 | value_loss 73.2440 | episodes 320
+  epoch  2780 | reward   +2.214 | policy_loss 0.0025 | value_loss 52.8344 | episodes 278
+  epoch  2790 | reward   +2.200 | policy_loss 0.0029 | value_loss 59.8989 | episodes 278
+  epoch  2800 | reward   +2.217 | policy_loss 0.0038 | value_loss 66.3553 | episodes 337
+[2026-02-08 16:53:59] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_2800.pth
+  epoch  2810 | reward   +2.216 | policy_loss 0.0030 | value_loss 67.8864 | episodes 319
+  epoch  2820 | reward   +2.200 | policy_loss 0.0066 | value_loss 64.2231 | episodes 295
+  epoch  2830 | reward   +2.209 | policy_loss 0.0033 | value_loss 61.1142 | episodes 299
+  epoch  2840 | reward   +2.202 | policy_loss 0.0026 | value_loss 57.5570 | episodes 274
+  epoch  2850 | reward   +2.212 | policy_loss 0.0035 | value_loss 81.2339 | episodes 316
+  epoch  2860 | reward   +2.218 | policy_loss 0.0062 | value_loss 62.3346 | episodes 314
+  epoch  2870 | reward   +2.224 | policy_loss 0.0041 | value_loss 58.7130 | episodes 299
+  epoch  2880 | reward   +2.204 | policy_loss 0.0039 | value_loss 61.3965 | episodes 301
+  epoch  2890 | reward   +2.219 | policy_loss 0.0036 | value_loss 64.0025 | episodes 309
+  epoch  2900 | reward   +2.218 | policy_loss 0.0042 | value_loss 64.5617 | episodes 287
+[2026-02-08 16:55:06] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_2900.pth
+  epoch  2910 | reward   +2.223 | policy_loss 0.0087 | value_loss 64.0201 | episodes 288
+  epoch  2920 | reward   +2.230 | policy_loss 0.0059 | value_loss 57.0016 | episodes 274
+  epoch  2930 | reward   +2.201 | policy_loss 0.0036 | value_loss 57.3860 | episodes 296
+  epoch  2940 | reward   +2.205 | policy_loss 0.0038 | value_loss 60.7750 | episodes 287
+  epoch  2950 | reward   +2.192 | policy_loss 0.0038 | value_loss 68.7680 | episodes 279
+  epoch  2960 | reward   +2.207 | policy_loss 0.0054 | value_loss 66.2158 | episodes 275
+  epoch  2970 | reward   +2.206 | policy_loss 0.0032 | value_loss 62.8321 | episodes 290
+  epoch  2980 | reward   +2.205 | policy_loss 0.0037 | value_loss 68.2969 | episodes 302
+  epoch  2990 | reward   +2.184 | policy_loss 0.0056 | value_loss 69.4275 | episodes 306
+  epoch  3000 | reward   +2.216 | policy_loss 0.0034 | value_loss 73.4984 | episodes 311
+[2026-02-08 16:56:14] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/epoch_3000.pth
+[2026-02-08 16:56:14] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher/checkpoints/final.pth
+
+[train] Done! Best reward: 3.1341
