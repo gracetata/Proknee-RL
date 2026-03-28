@@ -1,0 +1,46 @@
+# ProKnee Base Task Configuration
+# Base settings shared across all stages
+
+env:
+  num_envs: 4096
+  num_obs: 105
+  num_actions: 28  # Full body
+  episode_length: 1000
+  
+  # Simulation settings
+  dt: 0.0166667  # 60 Hz
+  control_freq_inv: 2  # Control at 30 Hz
+  
+  # Humanoid model
+  asset_file: mjcf/amp_humanoid.xml
+  
+  # Joint configuration
+  num_dofs: 28
+  
+  # Prosthesis configuration (LEFT leg)
+  prosthesis:
+    active_joints: [24]  # LEFT_KNEE
+    passive_joints: [25, 26, 27]  # LEFT_ANKLE_X/Y/Z
+    hip_joints: [21, 22, 23]  # LEFT_HIP_X/Z/Y
+    
+  # Physics settings
+  physics:
+    gravity: [0, 0, -9.81]
+    solver_type: 1  # TGS
+    num_position_iterations: 4
+    num_velocity_iterations: 1
+    contact_offset: 0.02
+    rest_offset: 0.0
+    
+  # Domain randomization
+  randomization:
+    enabled: true
+    friction_range: [0.5, 1.5]
+    mass_range: [0.8, 1.2]
+    
+  # Reward settings
+  reward:
+    velocity_tracking_scale: 1.0
+    stability_scale: 0.5
+    energy_penalty_scale: 0.01
+    action_smoothness_scale: 0.1

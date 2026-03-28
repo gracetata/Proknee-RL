@@ -1,0 +1,28 @@
+# ProKnee-Hora Global Configuration
+# Main config file for Hydra
+
+defaults:
+  - task: ProKneeHora
+  - train: Stage0_FullBody
+  - _self_
+
+# Device settings
+device: cuda:0
+seed: 42
+headless: true
+
+# Experiment settings
+experiment_name: proknee_hora
+output_dir: outputs/${experiment_name}
+
+# Logging
+wandb:
+  enabled: false
+  project: proknee-hora
+  entity: null
+  tags: []
+
+# Checkpointing
+checkpoint:
+  save_freq: 100  # Save every N epochs
+  keep_last: 5    # Keep last N checkpoints

@@ -1,0 +1,459 @@
+nohup: ignoring input
+Importing module 'gym_38' (/home/user/Workspace/isaacgym/python/isaacgym/_bindings/linux-x86_64/gym_38.so)
+Setting GYM_USD_PLUG_INFO_PATH to /home/user/Workspace/isaacgym/python/isaacgym/_bindings/linux-x86_64/usd/plugInfo.json
+PyTorch version 2.4.1+cu124
+Device count 1
+/home/user/Workspace/isaacgym/python/isaacgym/_bindings/src/gymtorch
+Using /home/user/.cache/torch_extensions/py38_cu124 as PyTorch extensions root...
+Emitting ninja build file /home/user/.cache/torch_extensions/py38_cu124/gymtorch/build.ninja...
+Building extension module gymtorch...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module gymtorch...
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+2026-03-06 12:46:54,881 - INFO - logger - logger initialized
+Not connected to PVD
++++ Using GPU PhysX
+Physics Engine: PhysX
+Physics Device: cuda:0
+GPU Pipeline: enabled
+Error: FBX library failed to load - importing FBX data will not succeed. Message: No module named 'fbx'
+FBX tools must be installed from https://help.autodesk.com/view/FBX/2020/ENU/?guid=FBX_Developer_Help_scripting_with_python_fbx_installing_python_fbx_html
+Error: FBX library failed to load - importing FBX data will not succeed. Message: No module named 'fbx'
+FBX tools must be installed from https://help.autodesk.com/view/FBX/2020/ENU/?guid=FBX_Developer_Help_scripting_with_python_fbx_installing_python_fbx_html
+============================================================
+  ProKnee Stage 1: Teacher Policy Training
+============================================================
+  Device:       cuda:0
+  Num envs:     4096
+  Max epochs:   3000
+  Body policy:  outputs/checkpoints/stage0/stage0_amp_walk_5050.pth
+  LR:           0.001
+  Horizon:      16
+  Minibatch:    8192
+============================================================
+  Output dir:   /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655
+
+[Stage 1] Creating ProKneeTeacher environment...
+Loading 1/1 motion files: /home/user/Workspace/ProKnee/ProKnee-HoraStyle/IsaacGymEnvs/assets/amp/motions/amp_humanoid_walk.npy
+Loaded 1 motions with a total length of 2.550s.
+[ProKneeBase] Loaded frozen body policy from outputs/checkpoints/stage0/stage0_amp_walk_5050.pth
+[Stage 1] Environment created in 0.8s
+  num_actions=1, num_obs=105
+[Stage 1] Creating ProKneePolicy (teacher mode)...
+  Parameters: 111,635
+[Stage 1] Resetting environment...
+[Stage 1] TensorBoard: tensorboard --logdir /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/tb
+
+============================================================
+  Training started!
+============================================================
+  Epoch     0/3000 | reward=  3.203 | p_loss=0.0217 | v_loss=76.0074 | ent=1.4154 | 1.1 ep/s
+[2026-03-06 12:46:57] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch    10/3000 | reward=  2.836 | p_loss=-0.0005 | v_loss=116.9150 | ent=1.4992 | 2.0 ep/s
+  Epoch    20/3000 | reward=  3.017 | p_loss=-0.0002 | v_loss=154.9745 | ent=1.4035 | 2.3 ep/s
+  Epoch    30/3000 | reward=  3.138 | p_loss=-0.0005 | v_loss=330.4937 | ent=1.3370 | 2.4 ep/s
+  Epoch    40/3000 | reward=  3.172 | p_loss=0.0016 | v_loss=414.2744 | ent=1.2914 | 2.5 ep/s
+[2026-03-06 12:47:13] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:14] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:14] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:15] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:15] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:16] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch    50/3000 | reward=  3.247 | p_loss=0.0007 | v_loss=437.6026 | ent=1.2413 | 2.5 ep/s
+[2026-03-06 12:47:16] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:17] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:18] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:19] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch    60/3000 | reward=  3.295 | p_loss=0.0281 | v_loss=496.6119 | ent=1.1884 | 2.6 ep/s
+[2026-03-06 12:47:20] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch    70/3000 | reward=  3.266 | p_loss=-0.0002 | v_loss=420.6077 | ent=1.1436 | 2.6 ep/s
+[2026-03-06 12:47:25] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:26] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:27] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch    80/3000 | reward=  3.326 | p_loss=0.0231 | v_loss=450.4349 | ent=1.0767 | 2.6 ep/s
+[2026-03-06 12:47:27] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch    90/3000 | reward=  3.314 | p_loss=0.0020 | v_loss=531.2869 | ent=1.0306 | 2.6 ep/s
+[2026-03-06 12:47:32] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:33] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:33] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:34] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:35] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch   100/3000 | reward=  3.369 | p_loss=0.0056 | v_loss=487.1364 | ent=0.9763 | 2.6 ep/s
+[2026-03-06 12:47:35] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:47:35] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_100.pth
+[2026-03-06 12:47:35] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch   110/3000 | reward=  3.147 | p_loss=0.0060 | v_loss=447.4505 | ent=0.9637 | 2.6 ep/s
+  Epoch   120/3000 | reward=  3.213 | p_loss=0.0003 | v_loss=347.4235 | ent=0.9616 | 2.6 ep/s
+  Epoch   130/3000 | reward=  3.218 | p_loss=0.0004 | v_loss=434.4913 | ent=0.9446 | 2.6 ep/s
+  Epoch   140/3000 | reward=  3.324 | p_loss=0.0009 | v_loss=412.2655 | ent=0.9481 | 2.6 ep/s
+  Epoch   150/3000 | reward=  3.267 | p_loss=0.0014 | v_loss=581.7724 | ent=0.9507 | 2.6 ep/s
+[2026-03-06 12:47:56] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch   160/3000 | reward=  3.399 | p_loss=0.0024 | v_loss=396.9554 | ent=0.8808 | 2.6 ep/s
+[2026-03-06 12:47:57] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch   170/3000 | reward=  3.363 | p_loss=0.0008 | v_loss=677.3513 | ent=0.8009 | 2.6 ep/s
+[2026-03-06 12:48:02] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch   180/3000 | reward=  3.380 | p_loss=0.0040 | v_loss=398.2997 | ent=0.7692 | 2.7 ep/s
+[2026-03-06 12:48:06] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:48:06] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:48:07] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch   190/3000 | reward=  3.445 | p_loss=0.0020 | v_loss=587.9066 | ent=0.7491 | 2.7 ep/s
+[2026-03-06 12:48:11] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch   200/3000 | reward=  3.494 | p_loss=0.0008 | v_loss=457.6258 | ent=0.7298 | 2.7 ep/s
+[2026-03-06 12:48:12] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:48:12] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_200.pth
+[2026-03-06 12:48:12] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:48:12] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch   210/3000 | reward=  3.470 | p_loss=0.0136 | v_loss=619.2218 | ent=0.6835 | 2.7 ep/s
+  Epoch   220/3000 | reward=  3.474 | p_loss=0.0071 | v_loss=517.5859 | ent=0.7054 | 2.7 ep/s
+[2026-03-06 12:48:21] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch   230/3000 | reward=  3.434 | p_loss=0.0001 | v_loss=571.6894 | ent=0.6871 | 2.7 ep/s
+  Epoch   240/3000 | reward=  3.389 | p_loss=0.0014 | v_loss=501.8125 | ent=0.6308 | 2.7 ep/s
+  Epoch   250/3000 | reward=  3.408 | p_loss=0.0021 | v_loss=505.9791 | ent=0.6527 | 2.7 ep/s
+  Epoch   260/3000 | reward=  3.501 | p_loss=0.0023 | v_loss=558.4132 | ent=0.6170 | 2.7 ep/s
+[2026-03-06 12:48:36] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:48:36] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch   270/3000 | reward=  3.495 | p_loss=0.0030 | v_loss=644.3740 | ent=0.6119 | 2.7 ep/s
+  Epoch   280/3000 | reward=  3.484 | p_loss=0.0077 | v_loss=538.3035 | ent=0.6007 | 2.7 ep/s
+  Epoch   290/3000 | reward=  3.491 | p_loss=0.0017 | v_loss=535.4672 | ent=0.6052 | 2.7 ep/s
+  Epoch   300/3000 | reward=  3.471 | p_loss=0.0029 | v_loss=629.0064 | ent=0.6216 | 2.7 ep/s
+[2026-03-06 12:48:48] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_300.pth
+  Epoch   310/3000 | reward=  3.482 | p_loss=0.0032 | v_loss=498.7417 | ent=0.6037 | 2.7 ep/s
+  Epoch   320/3000 | reward=  3.479 | p_loss=0.0058 | v_loss=506.4226 | ent=0.6016 | 2.7 ep/s
+  Epoch   330/3000 | reward=  3.468 | p_loss=0.0025 | v_loss=590.9884 | ent=0.5750 | 2.7 ep/s
+  Epoch   340/3000 | reward=  3.521 | p_loss=0.0032 | v_loss=424.7187 | ent=0.5573 | 2.7 ep/s
+  Epoch   350/3000 | reward=  3.485 | p_loss=0.0027 | v_loss=540.6408 | ent=0.5937 | 2.7 ep/s
+  Epoch   360/3000 | reward=  3.464 | p_loss=0.0034 | v_loss=401.4983 | ent=0.5756 | 2.7 ep/s
+  Epoch   370/3000 | reward=  3.496 | p_loss=0.0047 | v_loss=378.6692 | ent=0.5111 | 2.7 ep/s
+  Epoch   380/3000 | reward=  3.421 | p_loss=0.0042 | v_loss=679.8608 | ent=0.4555 | 2.7 ep/s
+  Epoch   390/3000 | reward=  3.426 | p_loss=0.0062 | v_loss=538.6294 | ent=0.5195 | 2.7 ep/s
+  Epoch   400/3000 | reward=  3.435 | p_loss=0.0033 | v_loss=603.3145 | ent=0.5302 | 2.7 ep/s
+[2026-03-06 12:49:24] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_400.pth
+  Epoch   410/3000 | reward=  3.494 | p_loss=0.0075 | v_loss=572.9670 | ent=0.5233 | 2.7 ep/s
+  Epoch   420/3000 | reward=  3.499 | p_loss=0.0055 | v_loss=634.6417 | ent=0.5555 | 2.7 ep/s
+  Epoch   430/3000 | reward=  3.479 | p_loss=0.0030 | v_loss=571.4243 | ent=0.5910 | 2.7 ep/s
+  Epoch   440/3000 | reward=  3.509 | p_loss=0.0029 | v_loss=500.7020 | ent=0.5560 | 2.7 ep/s
+  Epoch   450/3000 | reward=  3.504 | p_loss=0.0026 | v_loss=529.3161 | ent=0.5663 | 2.7 ep/s
+  Epoch   460/3000 | reward=  3.485 | p_loss=0.0043 | v_loss=580.4844 | ent=0.5602 | 2.7 ep/s
+  Epoch   470/3000 | reward=  3.480 | p_loss=0.0089 | v_loss=506.7832 | ent=0.5381 | 2.7 ep/s
+  Epoch   480/3000 | reward=  3.456 | p_loss=0.0055 | v_loss=475.5273 | ent=0.5351 | 2.7 ep/s
+  Epoch   490/3000 | reward=  3.507 | p_loss=0.0039 | v_loss=506.5134 | ent=0.5159 | 2.7 ep/s
+[2026-03-06 12:49:59] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:49:59] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:49:59] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:50:00] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch   500/3000 | reward=  3.543 | p_loss=0.0013 | v_loss=560.4230 | ent=0.4783 | 2.7 ep/s
+[2026-03-06 12:50:02] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_500.pth
+[2026-03-06 12:50:03] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:50:04] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch   510/3000 | reward=  3.531 | p_loss=0.0016 | v_loss=482.2663 | ent=0.4759 | 2.7 ep/s
+  Epoch   520/3000 | reward=  3.493 | p_loss=0.0055 | v_loss=436.8026 | ent=0.4447 | 2.7 ep/s
+  Epoch   530/3000 | reward=  3.517 | p_loss=0.0027 | v_loss=552.8223 | ent=0.4650 | 2.7 ep/s
+[2026-03-06 12:50:14] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:50:15] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch   540/3000 | reward=  3.433 | p_loss=0.0025 | v_loss=611.2656 | ent=0.4558 | 2.7 ep/s
+  Epoch   550/3000 | reward=  3.501 | p_loss=0.0020 | v_loss=613.0538 | ent=0.4949 | 2.7 ep/s
+  Epoch   560/3000 | reward=  3.563 | p_loss=0.0016 | v_loss=699.3947 | ent=0.4976 | 2.7 ep/s
+  Epoch   570/3000 | reward=  3.534 | p_loss=0.0019 | v_loss=587.0935 | ent=0.4846 | 2.7 ep/s
+  Epoch   580/3000 | reward=  3.544 | p_loss=0.0012 | v_loss=543.4687 | ent=0.5103 | 2.7 ep/s
+  Epoch   590/3000 | reward=  3.550 | p_loss=0.0017 | v_loss=561.6987 | ent=0.4700 | 2.7 ep/s
+  Epoch   600/3000 | reward=  3.545 | p_loss=0.0017 | v_loss=505.4396 | ent=0.4455 | 2.7 ep/s
+[2026-03-06 12:50:39] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_600.pth
+  Epoch   610/3000 | reward=  3.537 | p_loss=0.0040 | v_loss=533.2081 | ent=0.4206 | 2.7 ep/s
+  Epoch   620/3000 | reward=  3.534 | p_loss=0.0039 | v_loss=514.3131 | ent=0.4292 | 2.7 ep/s
+  Epoch   630/3000 | reward=  3.541 | p_loss=0.0078 | v_loss=490.0633 | ent=0.3802 | 2.7 ep/s
+  Epoch   640/3000 | reward=  3.503 | p_loss=0.0069 | v_loss=497.8666 | ent=0.4011 | 2.7 ep/s
+  Epoch   650/3000 | reward=  3.469 | p_loss=0.0082 | v_loss=639.4612 | ent=0.4204 | 2.7 ep/s
+  Epoch   660/3000 | reward=  3.433 | p_loss=0.0082 | v_loss=603.4811 | ent=0.4875 | 2.7 ep/s
+  Epoch   670/3000 | reward=  3.442 | p_loss=0.0093 | v_loss=528.5745 | ent=0.5387 | 2.7 ep/s
+  Epoch   680/3000 | reward=  3.454 | p_loss=0.0059 | v_loss=572.6846 | ent=0.5667 | 2.7 ep/s
+  Epoch   690/3000 | reward=  3.466 | p_loss=0.0055 | v_loss=560.6119 | ent=0.5821 | 2.7 ep/s
+  Epoch   700/3000 | reward=  3.471 | p_loss=0.0053 | v_loss=535.2401 | ent=0.6118 | 2.7 ep/s
+[2026-03-06 12:51:16] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_700.pth
+  Epoch   710/3000 | reward=  3.436 | p_loss=0.0087 | v_loss=544.7264 | ent=0.6709 | 2.7 ep/s
+  Epoch   720/3000 | reward=  3.383 | p_loss=0.0083 | v_loss=496.8693 | ent=0.7206 | 2.7 ep/s
+  Epoch   730/3000 | reward=  3.347 | p_loss=0.0130 | v_loss=474.9086 | ent=0.7699 | 2.7 ep/s
+  Epoch   740/3000 | reward=  3.343 | p_loss=0.0086 | v_loss=509.0286 | ent=0.8118 | 2.7 ep/s
+  Epoch   750/3000 | reward=  3.409 | p_loss=0.0065 | v_loss=512.4389 | ent=0.7867 | 2.7 ep/s
+  Epoch   760/3000 | reward=  3.448 | p_loss=0.0047 | v_loss=487.6287 | ent=0.6974 | 2.7 ep/s
+  Epoch   770/3000 | reward=  3.407 | p_loss=0.0074 | v_loss=544.0720 | ent=0.6890 | 2.7 ep/s
+  Epoch   780/3000 | reward=  3.406 | p_loss=0.0106 | v_loss=530.8237 | ent=0.6763 | 2.7 ep/s
+  Epoch   790/3000 | reward=  3.396 | p_loss=0.0114 | v_loss=478.6231 | ent=0.6748 | 2.7 ep/s
+  Epoch   800/3000 | reward=  3.346 | p_loss=0.0134 | v_loss=481.8815 | ent=0.7275 | 2.7 ep/s
+[2026-03-06 12:51:54] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_800.pth
+  Epoch   810/3000 | reward=  3.337 | p_loss=0.0128 | v_loss=426.0385 | ent=0.7143 | 2.7 ep/s
+  Epoch   820/3000 | reward=  3.308 | p_loss=0.0227 | v_loss=513.4143 | ent=0.7095 | 2.7 ep/s
+  Epoch   830/3000 | reward=  3.292 | p_loss=0.0198 | v_loss=472.4090 | ent=0.7174 | 2.7 ep/s
+  Epoch   840/3000 | reward=  3.264 | p_loss=0.0155 | v_loss=389.5748 | ent=0.7416 | 2.7 ep/s
+  Epoch   850/3000 | reward=  3.247 | p_loss=0.0305 | v_loss=453.9481 | ent=0.7815 | 2.7 ep/s
+  Epoch   860/3000 | reward=  3.096 | p_loss=0.0253 | v_loss=433.6735 | ent=0.8286 | 2.7 ep/s
+  Epoch   870/3000 | reward=  3.175 | p_loss=0.0195 | v_loss=386.7128 | ent=0.8599 | 2.7 ep/s
+  Epoch   880/3000 | reward=  3.212 | p_loss=0.0225 | v_loss=340.0620 | ent=0.8535 | 2.7 ep/s
+  Epoch   890/3000 | reward=  3.252 | p_loss=0.0128 | v_loss=403.1544 | ent=0.8703 | 2.7 ep/s
+  Epoch   900/3000 | reward=  3.285 | p_loss=0.0115 | v_loss=470.8056 | ent=0.8592 | 2.7 ep/s
+[2026-03-06 12:52:32] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_900.pth
+  Epoch   910/3000 | reward=  3.308 | p_loss=0.0084 | v_loss=450.7649 | ent=0.7857 | 2.7 ep/s
+  Epoch   920/3000 | reward=  3.361 | p_loss=0.0163 | v_loss=507.1056 | ent=0.7684 | 2.7 ep/s
+  Epoch   930/3000 | reward=  3.383 | p_loss=0.0064 | v_loss=507.4533 | ent=0.7464 | 2.7 ep/s
+  Epoch   940/3000 | reward=  3.354 | p_loss=0.0075 | v_loss=501.0003 | ent=0.7593 | 2.7 ep/s
+  Epoch   950/3000 | reward=  3.335 | p_loss=0.0102 | v_loss=467.0609 | ent=0.7712 | 2.7 ep/s
+  Epoch   960/3000 | reward=  3.311 | p_loss=0.0120 | v_loss=428.4529 | ent=0.7330 | 2.7 ep/s
+  Epoch   970/3000 | reward=  3.354 | p_loss=0.0087 | v_loss=470.6990 | ent=0.7139 | 2.7 ep/s
+  Epoch   980/3000 | reward=  3.355 | p_loss=0.0100 | v_loss=473.8952 | ent=0.6924 | 2.7 ep/s
+  Epoch   990/3000 | reward=  3.389 | p_loss=0.0084 | v_loss=460.3529 | ent=0.6625 | 2.7 ep/s
+  Epoch  1000/3000 | reward=  3.418 | p_loss=0.0089 | v_loss=506.3719 | ent=0.6172 | 2.7 ep/s
+[2026-03-06 12:53:09] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_1000.pth
+  Epoch  1010/3000 | reward=  3.403 | p_loss=0.0107 | v_loss=418.6244 | ent=0.6058 | 2.7 ep/s
+  Epoch  1020/3000 | reward=  3.335 | p_loss=0.0162 | v_loss=502.2860 | ent=0.6345 | 2.7 ep/s
+  Epoch  1030/3000 | reward=  3.347 | p_loss=0.0107 | v_loss=393.6827 | ent=0.6366 | 2.7 ep/s
+  Epoch  1040/3000 | reward=  3.408 | p_loss=0.0105 | v_loss=415.0558 | ent=0.6120 | 2.7 ep/s
+  Epoch  1050/3000 | reward=  3.404 | p_loss=0.0106 | v_loss=528.1273 | ent=0.5749 | 2.7 ep/s
+  Epoch  1060/3000 | reward=  3.467 | p_loss=0.0066 | v_loss=519.1582 | ent=0.5202 | 2.7 ep/s
+  Epoch  1070/3000 | reward=  3.476 | p_loss=0.0045 | v_loss=521.9210 | ent=0.5059 | 2.7 ep/s
+  Epoch  1080/3000 | reward=  3.472 | p_loss=0.0072 | v_loss=544.9944 | ent=0.5237 | 2.7 ep/s
+  Epoch  1090/3000 | reward=  3.471 | p_loss=0.0045 | v_loss=556.7420 | ent=0.5055 | 2.7 ep/s
+  Epoch  1100/3000 | reward=  3.477 | p_loss=0.0025 | v_loss=550.7729 | ent=0.5320 | 2.7 ep/s
+[2026-03-06 12:53:46] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_1100.pth
+  Epoch  1110/3000 | reward=  3.518 | p_loss=0.0023 | v_loss=568.6143 | ent=0.4729 | 2.7 ep/s
+  Epoch  1120/3000 | reward=  3.549 | p_loss=0.0039 | v_loss=626.8981 | ent=0.4419 | 2.7 ep/s
+[2026-03-06 12:53:55] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:53:55] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:53:56] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch  1130/3000 | reward=  3.554 | p_loss=0.0036 | v_loss=474.3543 | ent=0.4084 | 2.7 ep/s
+  Epoch  1140/3000 | reward=  3.533 | p_loss=0.0016 | v_loss=626.0514 | ent=0.4079 | 2.7 ep/s
+  Epoch  1150/3000 | reward=  3.504 | p_loss=0.0019 | v_loss=659.2277 | ent=0.4178 | 2.7 ep/s
+  Epoch  1160/3000 | reward=  3.573 | p_loss=0.0023 | v_loss=566.4486 | ent=0.4232 | 2.7 ep/s
+[2026-03-06 12:54:09] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:54:10] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch  1170/3000 | reward=  3.608 | p_loss=0.0003 | v_loss=676.8648 | ent=0.4044 | 2.7 ep/s
+[2026-03-06 12:54:12] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:54:12] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:54:13] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:54:13] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch  1180/3000 | reward=  3.602 | p_loss=0.0014 | v_loss=524.0377 | ent=0.3715 | 2.7 ep/s
+[2026-03-06 12:54:18] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:54:19] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch  1190/3000 | reward=  3.625 | p_loss=0.0017 | v_loss=564.7295 | ent=0.3634 | 2.7 ep/s
+[2026-03-06 12:54:19] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:54:20] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch  1200/3000 | reward=  3.607 | p_loss=0.0020 | v_loss=636.2817 | ent=0.3517 | 2.7 ep/s
+[2026-03-06 12:54:23] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_1200.pth
+  Epoch  1210/3000 | reward=  3.595 | p_loss=0.0028 | v_loss=559.9646 | ent=0.3372 | 2.7 ep/s
+  Epoch  1220/3000 | reward=  3.611 | p_loss=0.0018 | v_loss=543.9764 | ent=0.3166 | 2.7 ep/s
+  Epoch  1230/3000 | reward=  3.610 | p_loss=0.0035 | v_loss=606.6853 | ent=0.2942 | 2.7 ep/s
+  Epoch  1240/3000 | reward=  3.593 | p_loss=0.0026 | v_loss=615.4509 | ent=0.2961 | 2.7 ep/s
+  Epoch  1250/3000 | reward=  3.586 | p_loss=0.0026 | v_loss=583.0631 | ent=0.3138 | 2.7 ep/s
+  Epoch  1260/3000 | reward=  3.605 | p_loss=0.0024 | v_loss=549.9078 | ent=0.3049 | 2.7 ep/s
+  Epoch  1270/3000 | reward=  3.611 | p_loss=0.0032 | v_loss=628.9177 | ent=0.2776 | 2.7 ep/s
+  Epoch  1280/3000 | reward=  3.626 | p_loss=0.0036 | v_loss=646.1607 | ent=0.2578 | 2.7 ep/s
+[2026-03-06 12:54:52] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:54:53] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch  1290/3000 | reward=  3.626 | p_loss=0.0051 | v_loss=499.3808 | ent=0.2564 | 2.7 ep/s
+[2026-03-06 12:54:58] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:54:58] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+[2026-03-06 12:54:59] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+  Epoch  1300/3000 | reward=  3.639 | p_loss=0.0012 | v_loss=609.9295 | ent=0.2125 | 2.7 ep/s
+[2026-03-06 12:54:59] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_1300.pth
+  Epoch  1310/3000 | reward=  3.621 | p_loss=0.0043 | v_loss=552.3453 | ent=0.2333 | 2.7 ep/s
+  Epoch  1320/3000 | reward=  3.582 | p_loss=0.0072 | v_loss=513.1858 | ent=0.3021 | 2.7 ep/s
+  Epoch  1330/3000 | reward=  3.600 | p_loss=0.0050 | v_loss=535.2585 | ent=0.3207 | 2.7 ep/s
+  Epoch  1340/3000 | reward=  3.570 | p_loss=0.0034 | v_loss=531.4896 | ent=0.3630 | 2.7 ep/s
+  Epoch  1350/3000 | reward=  3.517 | p_loss=0.0061 | v_loss=531.7119 | ent=0.4012 | 2.7 ep/s
+  Epoch  1360/3000 | reward=  3.498 | p_loss=0.0063 | v_loss=484.7426 | ent=0.4281 | 2.7 ep/s
+  Epoch  1370/3000 | reward=  3.471 | p_loss=0.0089 | v_loss=641.3548 | ent=0.4105 | 2.7 ep/s
+  Epoch  1380/3000 | reward=  3.470 | p_loss=0.0097 | v_loss=633.0261 | ent=0.4368 | 2.7 ep/s
+  Epoch  1390/3000 | reward=  3.493 | p_loss=0.0147 | v_loss=564.7193 | ent=0.4495 | 2.7 ep/s
+  Epoch  1400/3000 | reward=  3.487 | p_loss=0.0081 | v_loss=503.2792 | ent=0.4804 | 2.7 ep/s
+[2026-03-06 12:55:35] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_1400.pth
+  Epoch  1410/3000 | reward=  3.511 | p_loss=0.0062 | v_loss=539.5084 | ent=0.4680 | 2.7 ep/s
+  Epoch  1420/3000 | reward=  3.492 | p_loss=0.0054 | v_loss=522.0075 | ent=0.4764 | 2.7 ep/s
+  Epoch  1430/3000 | reward=  3.478 | p_loss=0.0065 | v_loss=654.1437 | ent=0.5089 | 2.7 ep/s
+  Epoch  1440/3000 | reward=  3.497 | p_loss=0.0057 | v_loss=456.6866 | ent=0.4831 | 2.7 ep/s
+  Epoch  1450/3000 | reward=  3.521 | p_loss=0.0041 | v_loss=503.8732 | ent=0.4722 | 2.7 ep/s
+  Epoch  1460/3000 | reward=  3.493 | p_loss=0.0056 | v_loss=483.7078 | ent=0.4678 | 2.7 ep/s
+  Epoch  1470/3000 | reward=  3.535 | p_loss=0.0047 | v_loss=480.4005 | ent=0.4396 | 2.7 ep/s
+  Epoch  1480/3000 | reward=  3.524 | p_loss=0.0049 | v_loss=529.3355 | ent=0.3998 | 2.7 ep/s
+  Epoch  1490/3000 | reward=  3.537 | p_loss=0.0082 | v_loss=508.0118 | ent=0.4043 | 2.7 ep/s
+  Epoch  1500/3000 | reward=  3.521 | p_loss=0.0061 | v_loss=524.9888 | ent=0.3894 | 2.7 ep/s
+[2026-03-06 12:56:11] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_1500.pth
+  Epoch  1510/3000 | reward=  3.519 | p_loss=0.0053 | v_loss=482.3777 | ent=0.4323 | 2.7 ep/s
+  Epoch  1520/3000 | reward=  3.518 | p_loss=0.0048 | v_loss=465.8958 | ent=0.4259 | 2.7 ep/s
+  Epoch  1530/3000 | reward=  3.518 | p_loss=0.0042 | v_loss=560.7887 | ent=0.4390 | 2.7 ep/s
+  Epoch  1540/3000 | reward=  3.534 | p_loss=0.0031 | v_loss=552.9352 | ent=0.4220 | 2.7 ep/s
+  Epoch  1550/3000 | reward=  3.516 | p_loss=0.0049 | v_loss=609.2486 | ent=0.4188 | 2.7 ep/s
+  Epoch  1560/3000 | reward=  3.572 | p_loss=0.0047 | v_loss=496.9171 | ent=0.3893 | 2.7 ep/s
+  Epoch  1570/3000 | reward=  3.555 | p_loss=0.0042 | v_loss=643.3588 | ent=0.3863 | 2.7 ep/s
+  Epoch  1580/3000 | reward=  3.590 | p_loss=0.0024 | v_loss=620.1492 | ent=0.3703 | 2.7 ep/s
+  Epoch  1590/3000 | reward=  3.565 | p_loss=0.0026 | v_loss=578.9614 | ent=0.3909 | 2.7 ep/s
+  Epoch  1600/3000 | reward=  3.578 | p_loss=0.0021 | v_loss=489.3648 | ent=0.3860 | 2.7 ep/s
+[2026-03-06 12:56:47] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_1600.pth
+  Epoch  1610/3000 | reward=  3.557 | p_loss=0.0027 | v_loss=517.9168 | ent=0.3920 | 2.7 ep/s
+  Epoch  1620/3000 | reward=  3.537 | p_loss=0.0045 | v_loss=440.0868 | ent=0.4079 | 2.7 ep/s
+  Epoch  1630/3000 | reward=  3.532 | p_loss=0.0033 | v_loss=469.5786 | ent=0.4057 | 2.7 ep/s
+  Epoch  1640/3000 | reward=  3.557 | p_loss=0.0033 | v_loss=463.3690 | ent=0.3583 | 2.7 ep/s
+  Epoch  1650/3000 | reward=  3.596 | p_loss=0.0031 | v_loss=567.4904 | ent=0.3352 | 2.7 ep/s
+  Epoch  1660/3000 | reward=  3.605 | p_loss=0.0037 | v_loss=561.0863 | ent=0.3004 | 2.7 ep/s
+  Epoch  1670/3000 | reward=  3.619 | p_loss=0.0026 | v_loss=621.7221 | ent=0.2985 | 2.7 ep/s
+  Epoch  1680/3000 | reward=  3.611 | p_loss=0.0049 | v_loss=550.9404 | ent=0.2810 | 2.7 ep/s
+  Epoch  1690/3000 | reward=  3.584 | p_loss=0.0046 | v_loss=518.5811 | ent=0.3230 | 2.7 ep/s
+  Epoch  1700/3000 | reward=  3.527 | p_loss=0.0046 | v_loss=480.4402 | ent=0.3117 | 2.7 ep/s
+[2026-03-06 12:57:23] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_1700.pth
+  Epoch  1710/3000 | reward=  3.555 | p_loss=0.0055 | v_loss=406.7040 | ent=0.3128 | 2.7 ep/s
+  Epoch  1720/3000 | reward=  3.562 | p_loss=0.0037 | v_loss=579.2335 | ent=0.2716 | 2.7 ep/s
+  Epoch  1730/3000 | reward=  3.578 | p_loss=0.0037 | v_loss=634.4739 | ent=0.2744 | 2.7 ep/s
+  Epoch  1740/3000 | reward=  3.621 | p_loss=0.0034 | v_loss=579.1417 | ent=0.2807 | 2.7 ep/s
+  Epoch  1750/3000 | reward=  3.619 | p_loss=0.0023 | v_loss=676.8581 | ent=0.3483 | 2.7 ep/s
+  Epoch  1760/3000 | reward=  3.598 | p_loss=0.0021 | v_loss=587.8370 | ent=0.3432 | 2.7 ep/s
+  Epoch  1770/3000 | reward=  3.598 | p_loss=0.0021 | v_loss=602.5460 | ent=0.3325 | 2.7 ep/s
+  Epoch  1780/3000 | reward=  3.611 | p_loss=0.0012 | v_loss=555.7072 | ent=0.3234 | 2.7 ep/s
+  Epoch  1790/3000 | reward=  3.629 | p_loss=0.0015 | v_loss=467.2771 | ent=0.3021 | 2.7 ep/s
+  Epoch  1800/3000 | reward=  3.634 | p_loss=0.0015 | v_loss=582.5305 | ent=0.3074 | 2.7 ep/s
+[2026-03-06 12:57:59] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_1800.pth
+  Epoch  1810/3000 | reward=  3.625 | p_loss=0.0023 | v_loss=592.3921 | ent=0.3011 | 2.7 ep/s
+  Epoch  1820/3000 | reward=  3.629 | p_loss=0.0016 | v_loss=633.2322 | ent=0.2732 | 2.7 ep/s
+  Epoch  1830/3000 | reward=  3.574 | p_loss=0.0025 | v_loss=561.4745 | ent=0.2743 | 2.7 ep/s
+  Epoch  1840/3000 | reward=  3.599 | p_loss=0.0031 | v_loss=485.5750 | ent=0.2843 | 2.7 ep/s
+  Epoch  1850/3000 | reward=  3.586 | p_loss=0.0032 | v_loss=742.0006 | ent=0.2925 | 2.7 ep/s
+  Epoch  1860/3000 | reward=  3.583 | p_loss=0.0017 | v_loss=569.0130 | ent=0.2988 | 2.7 ep/s
+  Epoch  1870/3000 | reward=  3.600 | p_loss=0.0037 | v_loss=545.1187 | ent=0.3259 | 2.7 ep/s
+  Epoch  1880/3000 | reward=  3.578 | p_loss=0.0043 | v_loss=510.2054 | ent=0.3805 | 2.7 ep/s
+  Epoch  1890/3000 | reward=  3.545 | p_loss=0.0056 | v_loss=602.4104 | ent=0.4238 | 2.7 ep/s
+  Epoch  1900/3000 | reward=  3.542 | p_loss=0.0068 | v_loss=573.8925 | ent=0.4431 | 2.7 ep/s
+[2026-03-06 12:58:34] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_1900.pth
+  Epoch  1910/3000 | reward=  3.500 | p_loss=0.0099 | v_loss=491.4908 | ent=0.4171 | 2.7 ep/s
+  Epoch  1920/3000 | reward=  3.502 | p_loss=0.0073 | v_loss=576.4683 | ent=0.4397 | 2.7 ep/s
+  Epoch  1930/3000 | reward=  3.480 | p_loss=0.0058 | v_loss=608.1985 | ent=0.4885 | 2.7 ep/s
+  Epoch  1940/3000 | reward=  3.487 | p_loss=0.0051 | v_loss=469.0129 | ent=0.4942 | 2.7 ep/s
+  Epoch  1950/3000 | reward=  3.509 | p_loss=0.0063 | v_loss=494.6720 | ent=0.4474 | 2.7 ep/s
+  Epoch  1960/3000 | reward=  3.485 | p_loss=0.0085 | v_loss=460.2785 | ent=0.4660 | 2.7 ep/s
+  Epoch  1970/3000 | reward=  3.487 | p_loss=0.0071 | v_loss=461.7398 | ent=0.4646 | 2.7 ep/s
+  Epoch  1980/3000 | reward=  3.498 | p_loss=0.0173 | v_loss=545.9666 | ent=0.4179 | 2.7 ep/s
+  Epoch  1990/3000 | reward=  3.526 | p_loss=0.0073 | v_loss=605.4059 | ent=0.3840 | 2.7 ep/s
+  Epoch  2000/3000 | reward=  3.509 | p_loss=0.0054 | v_loss=668.7317 | ent=0.3999 | 2.7 ep/s
+[2026-03-06 12:59:10] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_2000.pth
+  Epoch  2010/3000 | reward=  3.503 | p_loss=0.0085 | v_loss=509.7387 | ent=0.3880 | 2.7 ep/s
+  Epoch  2020/3000 | reward=  3.554 | p_loss=0.0041 | v_loss=540.3125 | ent=0.3819 | 2.7 ep/s
+  Epoch  2030/3000 | reward=  3.574 | p_loss=0.0039 | v_loss=586.9068 | ent=0.3721 | 2.7 ep/s
+  Epoch  2040/3000 | reward=  3.589 | p_loss=0.0031 | v_loss=508.5939 | ent=0.3755 | 2.7 ep/s
+  Epoch  2050/3000 | reward=  3.596 | p_loss=0.0031 | v_loss=502.4794 | ent=0.3448 | 2.7 ep/s
+  Epoch  2060/3000 | reward=  3.577 | p_loss=0.0029 | v_loss=536.1799 | ent=0.3529 | 2.7 ep/s
+  Epoch  2070/3000 | reward=  3.578 | p_loss=0.0037 | v_loss=512.9441 | ent=0.3591 | 2.7 ep/s
+  Epoch  2080/3000 | reward=  3.549 | p_loss=0.0040 | v_loss=517.6370 | ent=0.3261 | 2.7 ep/s
+  Epoch  2090/3000 | reward=  3.540 | p_loss=0.0049 | v_loss=621.8420 | ent=0.3186 | 2.7 ep/s
+  Epoch  2100/3000 | reward=  3.583 | p_loss=0.0043 | v_loss=593.1419 | ent=0.3157 | 2.7 ep/s
+[2026-03-06 12:59:45] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_2100.pth
+  Epoch  2110/3000 | reward=  3.543 | p_loss=0.0040 | v_loss=438.1828 | ent=0.3504 | 2.7 ep/s
+  Epoch  2120/3000 | reward=  3.550 | p_loss=0.0043 | v_loss=399.1743 | ent=0.3797 | 2.7 ep/s
+  Epoch  2130/3000 | reward=  3.523 | p_loss=0.0061 | v_loss=511.8104 | ent=0.3736 | 2.7 ep/s
+  Epoch  2140/3000 | reward=  3.557 | p_loss=0.0030 | v_loss=625.1377 | ent=0.3188 | 2.7 ep/s
+  Epoch  2150/3000 | reward=  3.540 | p_loss=0.0072 | v_loss=578.0017 | ent=0.3187 | 2.7 ep/s
+  Epoch  2160/3000 | reward=  3.550 | p_loss=0.0056 | v_loss=528.2929 | ent=0.3345 | 2.7 ep/s
+  Epoch  2170/3000 | reward=  3.549 | p_loss=0.0030 | v_loss=534.2791 | ent=0.3833 | 2.7 ep/s
+  Epoch  2180/3000 | reward=  3.538 | p_loss=0.0053 | v_loss=603.0165 | ent=0.3956 | 2.7 ep/s
+  Epoch  2190/3000 | reward=  3.552 | p_loss=0.0054 | v_loss=506.5805 | ent=0.3900 | 2.7 ep/s
+  Epoch  2200/3000 | reward=  3.548 | p_loss=0.0059 | v_loss=582.8683 | ent=0.3672 | 2.7 ep/s
+[2026-03-06 13:00:22] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_2200.pth
+  Epoch  2210/3000 | reward=  3.503 | p_loss=0.0126 | v_loss=595.4404 | ent=0.3566 | 2.7 ep/s
+  Epoch  2220/3000 | reward=  3.552 | p_loss=0.0041 | v_loss=550.9028 | ent=0.3269 | 2.7 ep/s
+  Epoch  2230/3000 | reward=  3.533 | p_loss=0.0081 | v_loss=526.5848 | ent=0.3049 | 2.7 ep/s
+  Epoch  2240/3000 | reward=  3.543 | p_loss=0.0090 | v_loss=384.3386 | ent=0.2997 | 2.7 ep/s
+  Epoch  2250/3000 | reward=  3.575 | p_loss=0.0042 | v_loss=634.1476 | ent=0.2862 | 2.7 ep/s
+  Epoch  2260/3000 | reward=  3.567 | p_loss=0.0037 | v_loss=554.7175 | ent=0.2876 | 2.7 ep/s
+  Epoch  2270/3000 | reward=  3.561 | p_loss=0.0064 | v_loss=587.5995 | ent=0.2870 | 2.7 ep/s
+  Epoch  2280/3000 | reward=  3.553 | p_loss=0.0067 | v_loss=545.3912 | ent=0.3097 | 2.7 ep/s
+  Epoch  2290/3000 | reward=  3.547 | p_loss=0.0062 | v_loss=570.2846 | ent=0.3421 | 2.7 ep/s
+  Epoch  2300/3000 | reward=  3.487 | p_loss=0.0061 | v_loss=538.3179 | ent=0.3827 | 2.7 ep/s
+[2026-03-06 13:00:58] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_2300.pth
+  Epoch  2310/3000 | reward=  3.464 | p_loss=0.0107 | v_loss=429.9738 | ent=0.3822 | 2.7 ep/s
+  Epoch  2320/3000 | reward=  3.423 | p_loss=0.0111 | v_loss=451.4181 | ent=0.4147 | 2.7 ep/s
+  Epoch  2330/3000 | reward=  3.434 | p_loss=0.0114 | v_loss=486.6803 | ent=0.4190 | 2.7 ep/s
+  Epoch  2340/3000 | reward=  3.475 | p_loss=0.0073 | v_loss=553.7050 | ent=0.3643 | 2.7 ep/s
+  Epoch  2350/3000 | reward=  3.469 | p_loss=0.0085 | v_loss=563.4261 | ent=0.3719 | 2.7 ep/s
+  Epoch  2360/3000 | reward=  3.448 | p_loss=0.0082 | v_loss=507.2174 | ent=0.3542 | 2.7 ep/s
+  Epoch  2370/3000 | reward=  3.521 | p_loss=0.0065 | v_loss=450.3505 | ent=0.3466 | 2.7 ep/s
+  Epoch  2380/3000 | reward=  3.522 | p_loss=0.0072 | v_loss=527.0264 | ent=0.3153 | 2.7 ep/s
+  Epoch  2390/3000 | reward=  3.497 | p_loss=0.0121 | v_loss=509.1477 | ent=0.3201 | 2.7 ep/s
+  Epoch  2400/3000 | reward=  3.360 | p_loss=0.0127 | v_loss=533.3579 | ent=0.3151 | 2.7 ep/s
+[2026-03-06 13:01:35] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_2400.pth
+  Epoch  2410/3000 | reward=  3.376 | p_loss=0.0141 | v_loss=411.1914 | ent=0.3560 | 2.7 ep/s
+  Epoch  2420/3000 | reward=  3.338 | p_loss=0.0120 | v_loss=555.7750 | ent=0.3831 | 2.7 ep/s
+  Epoch  2430/3000 | reward=  3.381 | p_loss=0.0121 | v_loss=619.4127 | ent=0.4105 | 2.7 ep/s
+  Epoch  2440/3000 | reward=  3.422 | p_loss=0.0104 | v_loss=558.4157 | ent=0.4764 | 2.7 ep/s
+  Epoch  2450/3000 | reward=  3.421 | p_loss=0.0076 | v_loss=484.4049 | ent=0.4860 | 2.7 ep/s
+  Epoch  2460/3000 | reward=  3.399 | p_loss=0.0105 | v_loss=507.3175 | ent=0.5137 | 2.7 ep/s
+  Epoch  2470/3000 | reward=  3.360 | p_loss=0.0154 | v_loss=495.8782 | ent=0.5538 | 2.7 ep/s
+  Epoch  2480/3000 | reward=  3.317 | p_loss=0.0148 | v_loss=465.4857 | ent=0.6009 | 2.7 ep/s
+  Epoch  2490/3000 | reward=  3.287 | p_loss=0.0182 | v_loss=496.5697 | ent=0.6832 | 2.7 ep/s
+  Epoch  2500/3000 | reward=  3.266 | p_loss=0.0182 | v_loss=460.0293 | ent=0.7233 | 2.7 ep/s
+[2026-03-06 13:02:12] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_2500.pth
+  Epoch  2510/3000 | reward=  3.205 | p_loss=0.0248 | v_loss=437.6167 | ent=0.7133 | 2.7 ep/s
+  Epoch  2520/3000 | reward=  3.192 | p_loss=0.0194 | v_loss=431.5629 | ent=0.7283 | 2.7 ep/s
+  Epoch  2530/3000 | reward=  3.154 | p_loss=0.0243 | v_loss=512.3508 | ent=0.8025 | 2.7 ep/s
+  Epoch  2540/3000 | reward=  3.154 | p_loss=0.0270 | v_loss=403.5450 | ent=0.8562 | 2.7 ep/s
+  Epoch  2550/3000 | reward=  3.149 | p_loss=0.0244 | v_loss=444.7632 | ent=0.8698 | 2.7 ep/s
+  Epoch  2560/3000 | reward=  3.138 | p_loss=0.0207 | v_loss=460.5665 | ent=0.8810 | 2.7 ep/s
+  Epoch  2570/3000 | reward=  3.095 | p_loss=0.0232 | v_loss=468.8022 | ent=0.8867 | 2.7 ep/s
+  Epoch  2580/3000 | reward=  3.039 | p_loss=0.0307 | v_loss=394.8215 | ent=0.9172 | 2.7 ep/s
+  Epoch  2590/3000 | reward=  3.037 | p_loss=0.0334 | v_loss=439.8406 | ent=0.9621 | 2.7 ep/s
+  Epoch  2600/3000 | reward=  2.934 | p_loss=0.0343 | v_loss=429.0635 | ent=1.0163 | 2.7 ep/s
+[2026-03-06 13:02:48] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_2600.pth
+  Epoch  2610/3000 | reward=  2.858 | p_loss=0.0429 | v_loss=367.7076 | ent=1.0879 | 2.7 ep/s
+  Epoch  2620/3000 | reward=  2.832 | p_loss=0.0378 | v_loss=305.8984 | ent=1.1552 | 2.7 ep/s
+  Epoch  2630/3000 | reward=  2.770 | p_loss=0.0396 | v_loss=339.0904 | ent=1.2139 | 2.7 ep/s
+  Epoch  2640/3000 | reward=  2.688 | p_loss=0.0481 | v_loss=275.5963 | ent=1.3412 | 2.7 ep/s
+  Epoch  2650/3000 | reward=  2.594 | p_loss=0.0698 | v_loss=267.3172 | ent=1.3983 | 2.7 ep/s
+  Epoch  2660/3000 | reward=  2.556 | p_loss=0.0430 | v_loss=217.7281 | ent=1.4285 | 2.7 ep/s
+  Epoch  2670/3000 | reward=  2.692 | p_loss=0.0273 | v_loss=248.3670 | ent=1.3897 | 2.7 ep/s
+  Epoch  2680/3000 | reward=  2.807 | p_loss=0.0226 | v_loss=274.4703 | ent=1.3279 | 2.7 ep/s
+  Epoch  2690/3000 | reward=  2.843 | p_loss=0.0175 | v_loss=314.0384 | ent=1.3105 | 2.7 ep/s
+  Epoch  2700/3000 | reward=  2.886 | p_loss=0.0138 | v_loss=446.3077 | ent=1.2567 | 2.7 ep/s
+[2026-03-06 13:03:26] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_2700.pth
+  Epoch  2710/3000 | reward=  2.947 | p_loss=0.0176 | v_loss=359.0566 | ent=1.1993 | 2.7 ep/s
+  Epoch  2720/3000 | reward=  2.949 | p_loss=0.0147 | v_loss=356.5755 | ent=1.2107 | 2.7 ep/s
+  Epoch  2730/3000 | reward=  2.986 | p_loss=0.0237 | v_loss=289.9341 | ent=1.2016 | 2.7 ep/s
+  Epoch  2740/3000 | reward=  2.923 | p_loss=0.0194 | v_loss=355.6689 | ent=1.1633 | 2.7 ep/s
+  Epoch  2750/3000 | reward=  2.885 | p_loss=0.0159 | v_loss=359.1888 | ent=1.1334 | 2.7 ep/s
+  Epoch  2760/3000 | reward=  2.869 | p_loss=0.0180 | v_loss=332.0355 | ent=1.1554 | 2.7 ep/s
+  Epoch  2770/3000 | reward=  2.839 | p_loss=0.0162 | v_loss=394.0383 | ent=1.1616 | 2.7 ep/s
+  Epoch  2780/3000 | reward=  2.869 | p_loss=0.0208 | v_loss=313.6679 | ent=1.1997 | 2.7 ep/s
+  Epoch  2790/3000 | reward=  2.869 | p_loss=0.0172 | v_loss=295.3073 | ent=1.1907 | 2.7 ep/s
+  Epoch  2800/3000 | reward=  2.898 | p_loss=0.0161 | v_loss=339.3261 | ent=1.1878 | 2.7 ep/s
+[2026-03-06 13:04:03] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_2800.pth
+  Epoch  2810/3000 | reward=  2.863 | p_loss=0.0195 | v_loss=360.7456 | ent=1.1695 | 2.7 ep/s
+  Epoch  2820/3000 | reward=  2.897 | p_loss=0.0187 | v_loss=333.5037 | ent=1.1814 | 2.7 ep/s
+  Epoch  2830/3000 | reward=  2.913 | p_loss=0.0135 | v_loss=361.8648 | ent=1.1775 | 2.7 ep/s
+  Epoch  2840/3000 | reward=  2.893 | p_loss=0.0163 | v_loss=351.3041 | ent=1.1403 | 2.7 ep/s
+  Epoch  2850/3000 | reward=  2.902 | p_loss=0.0209 | v_loss=330.6642 | ent=1.1804 | 2.7 ep/s
+  Epoch  2860/3000 | reward=  2.883 | p_loss=0.0157 | v_loss=341.5480 | ent=1.1924 | 2.7 ep/s
+  Epoch  2870/3000 | reward=  2.893 | p_loss=0.0185 | v_loss=334.2583 | ent=1.1712 | 2.7 ep/s
+  Epoch  2880/3000 | reward=  2.903 | p_loss=0.0179 | v_loss=345.9165 | ent=1.1875 | 2.7 ep/s
+  Epoch  2890/3000 | reward=  2.912 | p_loss=0.0162 | v_loss=301.7312 | ent=1.1833 | 2.7 ep/s
+  Epoch  2900/3000 | reward=  2.880 | p_loss=0.0180 | v_loss=401.8206 | ent=1.1592 | 2.7 ep/s
+[2026-03-06 13:04:41] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/epoch_2900.pth
+  Epoch  2910/3000 | reward=  2.830 | p_loss=0.0154 | v_loss=362.0107 | ent=1.2327 | 2.7 ep/s
+  Epoch  2920/3000 | reward=  2.868 | p_loss=0.0168 | v_loss=327.4461 | ent=1.2424 | 2.7 ep/s
+  Epoch  2930/3000 | reward=  2.843 | p_loss=0.0166 | v_loss=354.1688 | ent=1.2497 | 2.7 ep/s
+  Epoch  2940/3000 | reward=  2.756 | p_loss=0.0362 | v_loss=302.9036 | ent=1.3027 | 2.7 ep/s
+  Epoch  2950/3000 | reward=  2.688 | p_loss=0.0190 | v_loss=243.5913 | ent=1.3191 | 2.7 ep/s
+  Epoch  2960/3000 | reward=  2.707 | p_loss=0.0201 | v_loss=267.0823 | ent=1.2857 | 2.7 ep/s
+  Epoch  2970/3000 | reward=  2.801 | p_loss=0.0178 | v_loss=271.2824 | ent=1.2757 | 2.7 ep/s
+  Epoch  2980/3000 | reward=  2.887 | p_loss=0.0146 | v_loss=357.3577 | ent=1.2827 | 2.7 ep/s
+  Epoch  2990/3000 | reward=  2.837 | p_loss=0.0178 | v_loss=311.1615 | ent=1.2764 | 2.7 ep/s
+[2026-03-06 13:05:18] [proknee_hora.algo.ppo] [INFO] Saved checkpoint to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/final.pth
+<unknown>:3: DeprecationWarning: invalid escape sequence \*
+<unknown>:3: DeprecationWarning: invalid escape sequence \*
+/home/user/Workspace/ProKnee/ProKnee-HoraStyle/proknee_hora/envs/proknee_base.py:293: DeprecationWarning: an integer is required (got type isaacgym._bindings.linux-x86_64.gym_38.DofDriveMode).  Implicit conversion to integers using __int__ is deprecated, and may be removed in a future version of Python.
+  asset_options.default_dof_drive_mode = gymapi.DOF_MODE_NONE
+/home/user/Workspace/ProKnee/ProKnee-HoraStyle/proknee_hora/envs/proknee_base.py:213: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  key_body_ids=torch.tensor(self._key_body_ids).cpu().long(),
+
+============================================================
+  Training complete!
+  Total time:   0.31 hours
+  Best reward:  3.6441
+  Final ckpt:   /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/final.pth
+  Best ckpt:    /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_teacher_20260306_124655/checkpoints/best.pth
+============================================================
+  Copied best → /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/checkpoints/stage1/best.pth

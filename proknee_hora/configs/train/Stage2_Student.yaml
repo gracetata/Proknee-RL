@@ -1,0 +1,90 @@
+# Stage 2: Student Policy Training (Distillation)
+# Train prosthetic knee with limited sensor input
+
+defaults:
+  - default_train
+
+# Algorithm
+algorithm: PPO_Distill
+
+# Network architecture
+network:
+  actor:
+    type: mlp
+    units: [256, 128, 64]
+    activation: elu
+    
+  critic:
+    type: mlp
+    units: [256, 128, 64]
+    activation: elu
+    
+  # Proprioceptive adaptation module (Student)
+  adapt_tconv:
+    proprio_dim: 10
+    history_len: 30
+    hidden_channels: 32
+    output_dim: 8  # Latent dimension
+    activation: elu
+    
+  # Privileged MLP (Teacher - frozen)
+  priv_mlp:
+    units: [128, 64]
+    output_dim: 8
+    activation: elu
+    
+  separate: false
+
+# PPO hyperparameters
+ppo:
+  learning_rate: 5.0e-4
+  lr_schedule: adaptive
+  kl_threshold: 0.01
+  
+  # Rollout
+  horizon_length: 16
+  minibatch_size: 8192
+  mini_epochs: 5
+  
+  # GAE
+  gamma: 0.99
+  tau: 0.95
+  
+  # Losses
+  e_clip: 0.2
+  entropy_coef: 0.005
+  value_loss_coef: 1.0
+  
+  # Action noise
+  init_noise_std: 0.5
+
+# Distillation settings
+distillation:
+  enabled: true
+  coef: 1.0  # lambda for distillation loss
+  loss_type: mse  # MSE between student and teacher latents
+  
+# Student-specific settings
+student:
+  use_priv_info: false  # Student doesn't use privileged info
+  proprio_dim: 10
+  history_len: 30
+  
+# Teacher settings (frozen)
+teacher:
+  freeze: true  # Freeze teacher weights
+  
+# Training
+train:
+  max_epochs: 2000
+  save_interval: 100
+  eval_interval: 50
+
+# Checkpoint loading  
+load:
+  body_policy: outputs/stage0_fullbody/checkpoints/best.pth
+  teacher: outputs/stage1_teacher/checkpoints/best.pth
+
+# Stage info
+stage: 2
+stage_name: student_distill

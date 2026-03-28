@@ -1,0 +1,2069 @@
+nohup: ignoring input
+bash: /home/user/anaconda3/envs/proknee_tc/lib/libtinfo.so.6: no version information available (required by bash)
+
+╔══════════════════════════════════════════════════════════╗
+║          Stage 0: Full Body AMP Walking                 ║
+║          Official IsaacGymEnvs HumanoidAMP              ║
+╠══════════════════════════════════════════════════════════╣
+║  开始时间:    2026-03-08 19:59:55
+║  最大迭代:    8000
+║  工作目录:    /home/user/Workspace/ProKnee/ProKnee-HoraStyle/IsaacGymEnvs/isaacgymenvs
+║  dt:          0.00556 (180Hz sim, 90Hz control)
+║  motion_file: amp_humanoid_run.npy
+║  num_envs:    4096
+║  额外参数:    
+╠══════════════════════════════════════════════════════════╣
+║  TensorBoard: tensorboard --logdir=/home/user/Workspace/ProKnee/ProKnee-HoraStyle/IsaacGymEnvs/isaacgymenvs/runs/ --port=6006
+║  中断训练:    kill $$ (PID: 635179) 或 Ctrl-C
+╚══════════════════════════════════════════════════════════╝
+
+[19:59:55] >>> 训练开始 <<<
+
+/home/user/anaconda3/envs/proknee_tc/lib/python3.8/site-packages/hydra/_internal/hydra.py:119: UserWarning: Future Hydra versions will no longer change working directory at job runtime by default.
+See https://hydra.cc/docs/1.2/upgrades/1.1_to_1.2/changes_to_job_working_dir/ for more information.
+  ret = run_job(
+Importing module 'gym_38' (/home/user/Workspace/isaacgym/python/isaacgym/_bindings/linux-x86_64/gym_38.so)
+Setting GYM_USD_PLUG_INFO_PATH to /home/user/Workspace/isaacgym/python/isaacgym/_bindings/linux-x86_64/usd/plugInfo.json
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+PyTorch version 2.4.1+cu124
+Device count 1
+/home/user/Workspace/isaacgym/python/isaacgym/_bindings/src/gymtorch
+Using /home/user/.cache/torch_extensions/py38_cu124 as PyTorch extensions root...
+Emitting ninja build file /home/user/.cache/torch_extensions/py38_cu124/gymtorch/build.ninja...
+Building extension module gymtorch...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module gymtorch...
+2026-03-08 19:59:56,550 - INFO - logger - logger initialized
+<unknown>:3: DeprecationWarning: invalid escape sequence \*
+Error: FBX library failed to load - importing FBX data will not succeed. Message: No module named 'fbx'
+FBX tools must be installed from https://help.autodesk.com/view/FBX/2020/ENU/?guid=FBX_Developer_Help_scripting_with_python_fbx_installing_python_fbx_html
+task: 
+    name: HumanoidAMP
+    physics_engine: physx
+    env: 
+        numEnvs: 4096
+        envSpacing: 5
+        episodeLength: 300
+        cameraFollow: True
+        enableDebugVis: False
+        pdControl: True
+        powerScale: 1.0
+        controlFrequencyInv: 2
+        stateInit: Random
+        hybridInitProb: 0.5
+        numAMPObsSteps: 2
+        localRootObs: False
+        contactBodies: ['right_foot', 'left_foot']
+        terminationHeight: 0.5
+        enableEarlyTermination: True
+        motion_file: amp_humanoid_run.npy
+        asset: 
+            assetFileName: mjcf/amp_humanoid.xml
+        plane: 
+            staticFriction: 1.0
+            dynamicFriction: 1.0
+            restitution: 0.0
+    sim: 
+        dt: 0.00556
+        substeps: 2
+        up_axis: z
+        use_gpu_pipeline: True
+        gravity: [0.0, 0.0, -9.81]
+        physx: 
+            num_threads: 4
+            solver_type: 1
+            use_gpu: True
+            num_position_iterations: 4
+            num_velocity_iterations: 0
+            contact_offset: 0.02
+            rest_offset: 0.0
+            bounce_threshold_velocity: 0.2
+            max_depenetration_velocity: 10.0
+            default_buffer_size_multiplier: 5.0
+            max_gpu_contact_pairs: 8388608
+            num_subscenes: 4
+            contact_collection: 2
+    task: 
+        randomize: False
+        randomization_params: 
+            frequency: 600
+            observations: 
+                range: [0, 0.002]
+                operation: additive
+                distribution: gaussian
+            actions: 
+                range: [0.0, 0.02]
+                operation: additive
+                distribution: gaussian
+            sim_params: 
+                gravity: 
+                    range: [0, 0.4]
+                    operation: additive
+                    distribution: gaussian
+                    schedule: linear
+                    schedule_steps: 3000
+            actor_params: 
+                humanoid: 
+                    color: True
+                    rigid_body_properties: 
+                        mass: 
+                            range: [0.5, 1.5]
+                            operation: scaling
+                            distribution: uniform
+                            setup_only: True
+                            schedule: linear
+                            schedule_steps: 3000
+                    rigid_shape_properties: 
+                        friction: 
+                            num_buckets: 500
+                            range: [0.7, 1.3]
+                            operation: scaling
+                            distribution: uniform
+                            schedule: linear
+                            schedule_steps: 3000
+                        restitution: 
+                            range: [0.0, 0.7]
+                            operation: scaling
+                            distribution: uniform
+                            schedule: linear
+                            schedule_steps: 3000
+                    dof_properties: 
+                        damping: 
+                            range: [0.5, 1.5]
+                            operation: scaling
+                            distribution: uniform
+                            schedule: linear
+                            schedule_steps: 3000
+                        stiffness: 
+                            range: [0.5, 1.5]
+                            operation: scaling
+                            distribution: uniform
+                            schedule: linear
+                            schedule_steps: 3000
+                        lower: 
+                            range: [0, 0.01]
+                            operation: additive
+                            distribution: gaussian
+                            schedule: linear
+                            schedule_steps: 3000
+                        upper: 
+                            range: [0, 0.01]
+                            operation: additive
+                            distribution: gaussian
+                            schedule: linear
+                            schedule_steps: 3000
+train: 
+    params: 
+        seed: 42
+        algo: 
+            name: amp_continuous
+        model: 
+            name: continuous_amp
+        network: 
+            name: amp
+            separate: True
+            space: 
+                continuous: 
+                    mu_activation: None
+                    sigma_activation: None
+                    mu_init: 
+                        name: default
+                    sigma_init: 
+                        name: const_initializer
+                        val: -2.9
+                    fixed_sigma: True
+                    learn_sigma: False
+            mlp: 
+                units: [1024, 512]
+                activation: relu
+                d2rl: False
+                initializer: 
+                    name: default
+                regularizer: 
+                    name: None
+            disc: 
+                units: [1024, 512]
+                activation: relu
+                initializer: 
+                    name: default
+        load_checkpoint: False
+        load_path: 
+        config: 
+            name: HumanoidAMP
+            full_experiment_name: HumanoidAMP
+            env_name: rlgpu
+            ppo: True
+            multi_gpu: False
+            mixed_precision: False
+            normalize_input: True
+            normalize_value: True
+            value_bootstrap: True
+            num_actors: 4096
+            reward_shaper: 
+                scale_value: 1
+            normalize_advantage: True
+            gamma: 0.99
+            tau: 0.95
+            learning_rate: 5e-05
+            lr_schedule: constant
+            kl_threshold: 0.008
+            score_to_win: 20000
+            max_epochs: 8000
+            save_best_after: 100
+            save_frequency: 50
+            print_stats: True
+            grad_norm: 1.0
+            entropy_coef: 0.0
+            truncate_grads: False
+            e_clip: 0.2
+            horizon_length: 16
+            minibatch_size: 32768
+            mini_epochs: 6
+            critic_coef: 5
+            clip_value: False
+            seq_len: 4
+            bounds_loss_coef: 10
+            amp_obs_demo_buffer_size: 200000
+            amp_replay_buffer_size: 1000000
+            amp_replay_keep_prob: 0.01
+            amp_batch_size: 512
+            amp_minibatch_size: 4096
+            disc_coef: 5
+            disc_logit_reg: 0.05
+            disc_grad_penalty: 5
+            disc_reward_scale: 2
+            disc_weight_decay: 0.0001
+            normalize_amp_input: True
+            task_reward_w: 0.0
+            disc_reward_w: 1.0
+pbt: 
+    enabled: False
+task_name: HumanoidAMP
+experiment: 
+num_envs: 4096
+seed: 42
+torch_deterministic: False
+max_iterations: 8000
+physics_engine: physx
+pipeline: gpu
+sim_device: cuda:0
+rl_device: cuda:0
+graphics_device_id: 0
+num_threads: 4
+solver_type: 1
+num_subscenes: 4
+test: False
+checkpoint: 
+sigma: 
+multi_gpu: False
+wandb_activate: False
+wandb_group: 
+wandb_name: HumanoidAMP
+wandb_entity: 
+wandb_project: isaacgymenvs
+wandb_tags: []
+wandb_logcode_dir: 
+capture_video: False
+capture_video_freq: 1464
+capture_video_len: 100
+force_render: True
+headless: True
+Setting seed: 42
+Using rl_device: cuda:0
+Using sim_device: cuda:0
+{'name': 'HumanoidAMP', 'full_experiment_name': None, 'env_name': 'rlgpu', 'ppo': True, 'multi_gpu': False, 'mixed_precision': False, 'normalize_input': True, 'normalize_value': True, 'value_bootstrap': True, 'num_actors': 4096, 'reward_shaper': {'scale_value': 1}, 'normalize_advantage': True, 'gamma': 0.99, 'tau': 0.95, 'learning_rate': 5e-05, 'lr_schedule': 'constant', 'kl_threshold': 0.008, 'score_to_win': 20000, 'max_epochs': 8000, 'save_best_after': 100, 'save_frequency': 50, 'print_stats': True, 'grad_norm': 1.0, 'entropy_coef': 0.0, 'truncate_grads': False, 'e_clip': 0.2, 'horizon_length': 16, 'minibatch_size': 32768, 'mini_epochs': 6, 'critic_coef': 5, 'clip_value': False, 'seq_len': 4, 'bounds_loss_coef': 10, 'amp_obs_demo_buffer_size': 200000, 'amp_replay_buffer_size': 1000000, 'amp_replay_keep_prob': 0.01, 'amp_batch_size': 512, 'amp_minibatch_size': 4096, 'disc_coef': 5, 'disc_logit_reg': 0.05, 'disc_grad_penalty': 5, 'disc_reward_scale': 2, 'disc_weight_decay': 0.0001, 'normalize_amp_input': True, 'task_reward_w': 0.0, 'disc_reward_w': 1.0, 'device': 'cuda:0', 'population_based_training': False, 'pbt_idx': None}
+self.seed = 42
+Started to train
+/home/user/anaconda3/envs/proknee_tc/lib/python3.8/site-packages/gym/spaces/box.py:84: UserWarning: [33mWARN: Box bound precision lowered by casting to float32[0m
+  logger.warn(f"Box bound precision lowered by casting to {self.dtype}")
+[Warning] [carb.gym.plugin] useGpu is set, forcing single scene (0 subscenes)
+Not connected to PVD
++++ Using GPU PhysX
+Physics Engine: PhysX
+Physics Device: cuda:0
+GPU Pipeline: enabled
+/home/user/Workspace/ProKnee/ProKnee-HoraStyle/IsaacGymEnvs/isaacgymenvs/tasks/amp/humanoid_amp_base.py:186: DeprecationWarning: an integer is required (got type isaacgym._bindings.linux-x86_64.gym_38.DofDriveMode).  Implicit conversion to integers using __int__ is deprecated, and may be removed in a future version of Python.
+  asset_options.default_dof_drive_mode = gymapi.DOF_MODE_NONE
+Loading 1/1 motion files: /home/user/Workspace/ProKnee/ProKnee-HoraStyle/IsaacGymEnvs/isaacgymenvs/tasks/../../assets/amp/motions/amp_humanoid_run.npy
+Loaded 1 motions with a total length of 1.350s.
+Box(-1.0, 1.0, (28,), float32) Box(-inf, inf, (105,), float32)
+WARNING: seq_len is deprecated, use seq_length instead
+seq_length: 4
+current training device: cuda:0
+/home/user/anaconda3/envs/proknee_tc/lib/python3.8/site-packages/rl_games/common/a2c_common.py:254: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  self.scaler = torch.cuda.amp.GradScaler(enabled=self.mixed_precision)
+build mlp: 105
+build mlp: 105
+build mlp: 210
+sigma
+actor_mlp.0.weight
+actor_mlp.0.bias
+actor_mlp.2.weight
+actor_mlp.2.bias
+critic_mlp.0.weight
+critic_mlp.0.bias
+critic_mlp.2.weight
+critic_mlp.2.bias
+value.weight
+value.bias
+mu.weight
+mu.bias
+_disc_mlp.0.weight
+_disc_mlp.0.bias
+_disc_mlp.2.weight
+_disc_mlp.2.bias
+_disc_logits.weight
+_disc_logits.bias
+RunningMeanStd:  (1,)
+RunningMeanStd:  (105,)
+RunningMeanStd:  (210,)
+/home/user/Workspace/ProKnee/ProKnee-HoraStyle/IsaacGymEnvs/isaacgymenvs/learning/amp_continuous.py:291: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=self.mixed_precision):
+/home/user/anaconda3/envs/proknee_tc/lib/python3.8/site-packages/torch/autograd/graph.py:769: UserWarning: Attempting to run cuBLAS, but there was no current CUDA context! Attempting to set the primary context... (Triggered internally at ../aten/src/ATen/cuda/CublasHandlePool.cpp:135.)
+  return Variable._execution_engine.run_backward(  # Calls into the C++ engine to run the backward pass
+fps step: 101411.2 fps total: 75410.3
+fps step: 120878.8 fps total: 90392.2
+fps step: 114136.6 fps total: 86530.5
+fps step: 112779.0 fps total: 84933.5
+fps step: 117408.6 fps total: 87929.6
+fps step: 124940.0 fps total: 94760.0
+fps step: 111538.2 fps total: 86175.6
+fps step: 128166.9 fps total: 96596.7
+fps step: 137422.7 fps total: 101882.5
+fps step: 123747.1 fps total: 94617.4
+fps step: 135224.4 fps total: 99774.5
+fps step: 134134.1 fps total: 99367.4
+fps step: 116984.3 fps total: 90390.1
+fps step: 129965.9 fps total: 97610.5
+fps step: 128177.8 fps total: 94482.3
+fps step: 114278.4 fps total: 86944.4
+fps step: 109377.7 fps total: 84574.3
+fps step: 110021.0 fps total: 84661.3
+fps step: 132797.2 fps total: 98567.4
+fps step: 132212.4 fps total: 98719.5
+fps step: 124780.4 fps total: 92547.4
+fps step: 124651.6 fps total: 93506.4
+fps step: 123046.1 fps total: 92443.3
+fps step: 116445.3 fps total: 89939.4
+fps step: 124075.5 fps total: 93766.1
+fps step: 122329.0 fps total: 91624.6
+fps step: 136555.6 fps total: 100523.9
+fps step: 118604.0 fps total: 90407.8
+fps step: 138098.3 fps total: 100856.5
+fps step: 139523.7 fps total: 102887.9
+fps step: 145231.0 fps total: 106283.0
+fps step: 137131.2 fps total: 101083.1
+fps step: 132527.9 fps total: 97623.8
+fps step: 119464.2 fps total: 91708.8
+fps step: 151911.1 fps total: 109040.7
+fps step: 151166.8 fps total: 109569.2
+fps step: 126103.2 fps total: 95970.4
+fps step: 130713.9 fps total: 97781.9
+fps step: 145709.9 fps total: 104614.6
+fps step: 104476.7 fps total: 82008.4
+fps step: 142307.0 fps total: 103847.4
+fps step: 127756.7 fps total: 95329.5
+fps step: 135410.1 fps total: 99320.4
+fps step: 141694.4 fps total: 103817.1
+fps step: 144965.3 fps total: 104070.5
+fps step: 123706.2 fps total: 92449.7
+fps step: 142696.0 fps total: 103138.7
+fps step: 136231.8 fps total: 99964.2
+fps step: 139798.5 fps total: 99458.6
+fps step: 120584.8 fps total: 90195.2
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_50.pth'
+fps step: 125213.4 fps total: 92714.2
+fps step: 132108.1 fps total: 98147.2
+fps step: 144996.8 fps total: 106136.4
+fps step: 130860.5 fps total: 93282.1
+fps step: 130194.0 fps total: 97074.6
+fps step: 111583.2 fps total: 86358.7
+fps step: 120687.5 fps total: 90276.8
+fps step: 126081.4 fps total: 93412.6
+fps step: 134924.6 fps total: 99222.0
+fps step: 126898.6 fps total: 95418.8
+fps step: 127138.0 fps total: 96430.2
+fps step: 124068.1 fps total: 94829.9
+fps step: 127714.2 fps total: 96190.5
+fps step: 114829.5 fps total: 87486.4
+fps step: 114660.8 fps total: 87925.3
+fps step: 115488.0 fps total: 88754.7
+fps step: 121100.0 fps total: 92042.3
+fps step: 118249.3 fps total: 88703.0
+fps step: 130818.2 fps total: 97954.2
+fps step: 123045.5 fps total: 92331.5
+fps step: 116531.4 fps total: 88543.4
+fps step: 145152.1 fps total: 105676.3
+fps step: 140229.7 fps total: 101752.3
+fps step: 123670.4 fps total: 94701.8
+fps step: 124205.8 fps total: 94409.6
+fps step: 135105.4 fps total: 98007.6
+fps step: 119703.1 fps total: 91296.7
+fps step: 132679.8 fps total: 98599.1
+fps step: 145430.7 fps total: 102952.0
+fps step: 145181.8 fps total: 105677.7
+fps step: 130156.7 fps total: 94464.8
+fps step: 115501.8 fps total: 88298.9
+fps step: 132593.7 fps total: 98040.4
+fps step: 128648.8 fps total: 94293.0
+fps step: 133769.5 fps total: 99812.6
+fps step: 119697.8 fps total: 89187.0
+fps step: 128485.3 fps total: 95207.1
+fps step: 145509.5 fps total: 104975.7
+fps step: 128985.9 fps total: 96043.0
+fps step: 121022.9 fps total: 92127.6
+fps step: 150928.3 fps total: 107666.4
+fps step: 117267.5 fps total: 88129.0
+fps step: 134776.6 fps total: 100171.9
+fps step: 125244.0 fps total: 95009.4
+fps step: 126683.1 fps total: 95114.4
+fps step: 131734.6 fps total: 98793.6
+fps step: 134582.2 fps total: 99588.6
+fps step: 117448.2 fps total: 89344.5
+fps step: 139171.9 fps total: 99667.7
+fps step: 125597.9 fps total: 92378.8
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_100.pth'
+fps step: 125485.6 fps total: 92427.1
+fps step: 135208.2 fps total: 100395.1
+fps step: 127098.5 fps total: 95498.3
+fps step: 117664.0 fps total: 90039.3
+fps step: 128393.1 fps total: 96198.0
+fps step: 121054.3 fps total: 91710.2
+fps step: 118903.3 fps total: 89220.7
+fps step: 141460.2 fps total: 102941.2
+fps step: 138948.3 fps total: 101411.3
+fps step: 112306.5 fps total: 87021.5
+fps step: 115169.6 fps total: 88194.1
+fps step: 144784.7 fps total: 105515.1
+fps step: 117782.4 fps total: 88305.7
+fps step: 119144.1 fps total: 89235.8
+fps step: 141975.6 fps total: 102291.3
+fps step: 118745.0 fps total: 91099.2
+fps step: 141645.3 fps total: 103864.6
+fps step: 130638.1 fps total: 96632.9
+fps step: 112657.7 fps total: 86932.4
+fps step: 120626.5 fps total: 90539.5
+fps step: 124715.1 fps total: 92500.9
+fps step: 142396.7 fps total: 103660.0
+fps step: 126323.2 fps total: 94493.6
+fps step: 110967.0 fps total: 85250.4
+fps step: 133779.8 fps total: 98620.4
+fps step: 132737.2 fps total: 98650.9
+fps step: 135556.7 fps total: 100027.7
+fps step: 130819.2 fps total: 98178.5
+fps step: 157168.5 fps total: 109046.4
+fps step: 141499.9 fps total: 103593.8
+fps step: 139148.9 fps total: 102827.3
+fps step: 137072.4 fps total: 101140.8
+fps step: 122796.3 fps total: 91818.5
+fps step: 121434.9 fps total: 91279.5
+fps step: 119395.3 fps total: 90985.1
+fps step: 124686.1 fps total: 92431.8
+fps step: 133658.2 fps total: 99170.2
+fps step: 112641.0 fps total: 85979.8
+fps step: 126952.2 fps total: 92839.4
+fps step: 146982.1 fps total: 105624.1
+fps step: 126748.5 fps total: 95657.5
+fps step: 151788.3 fps total: 109678.5
+fps step: 116719.0 fps total: 89753.4
+fps step: 134342.8 fps total: 99038.5
+fps step: 134648.4 fps total: 98470.7
+fps step: 140239.5 fps total: 102738.7
+fps step: 141432.5 fps total: 102949.9
+fps step: 139455.8 fps total: 102050.3
+fps step: 154527.4 fps total: 110922.1
+fps step: 133821.6 fps total: 98664.8
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_150.pth'
+fps step: 129223.7 fps total: 97340.1
+fps step: 115824.7 fps total: 86821.1
+fps step: 125080.8 fps total: 93305.5
+fps step: 121301.3 fps total: 90377.2
+fps step: 121008.0 fps total: 90986.2
+fps step: 129776.5 fps total: 96414.3
+fps step: 132833.4 fps total: 98523.0
+fps step: 125699.8 fps total: 90434.6
+fps step: 119200.5 fps total: 90665.0
+fps step: 141284.1 fps total: 102383.3
+fps step: 111250.6 fps total: 85763.0
+fps step: 117780.7 fps total: 89688.3
+fps step: 132858.0 fps total: 98774.5
+fps step: 149887.3 fps total: 108392.8
+fps step: 127373.0 fps total: 95724.8
+fps step: 133270.3 fps total: 97838.5
+fps step: 114335.2 fps total: 86537.8
+fps step: 123439.4 fps total: 91097.5
+fps step: 138045.4 fps total: 101588.3
+fps step: 138585.0 fps total: 101584.0
+fps step: 124669.2 fps total: 91623.0
+fps step: 132897.0 fps total: 98481.5
+fps step: 122960.6 fps total: 91874.5
+fps step: 125482.0 fps total: 93090.4
+fps step: 142700.9 fps total: 102665.7
+fps step: 128415.3 fps total: 95859.2
+fps step: 119505.6 fps total: 88968.3
+fps step: 127684.7 fps total: 95862.8
+fps step: 149268.9 fps total: 105325.6
+fps step: 129702.3 fps total: 93617.8
+fps step: 120137.3 fps total: 88835.6
+fps step: 116941.3 fps total: 88060.2
+fps step: 112384.4 fps total: 85452.1
+fps step: 104798.7 fps total: 79100.0
+fps step: 120077.5 fps total: 89602.8
+fps step: 107382.4 fps total: 81991.6
+fps step: 120687.5 fps total: 87850.1
+fps step: 101263.1 fps total: 78609.5
+fps step: 115979.8 fps total: 87158.2
+fps step: 121026.2 fps total: 90787.8
+fps step: 136284.6 fps total: 99057.7
+fps step: 137951.8 fps total: 99358.3
+fps step: 106502.8 fps total: 80932.3
+fps step: 133096.7 fps total: 98187.1
+fps step: 126948.9 fps total: 92886.1
+fps step: 122450.4 fps total: 90044.4
+fps step: 131282.2 fps total: 97353.8
+fps step: 133953.5 fps total: 98232.3
+fps step: 132747.7 fps total: 97205.2
+fps step: 134147.1 fps total: 99321.8
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_200.pth'
+fps step: 116752.6 fps total: 85454.6
+fps step: 100009.5 fps total: 76846.9
+fps step: 103751.9 fps total: 80027.4
+fps step: 124530.0 fps total: 93416.1
+fps step: 107694.4 fps total: 83563.1
+fps step: 113121.0 fps total: 85948.3
+fps step: 116321.3 fps total: 87822.8
+fps step: 127013.8 fps total: 93925.6
+fps step: 117098.8 fps total: 87065.4
+fps step: 105438.8 fps total: 81127.0
+fps step: 135087.7 fps total: 97156.9
+fps step: 123076.1 fps total: 93412.1
+fps step: 118386.8 fps total: 88409.2
+fps step: 109077.9 fps total: 81715.2
+fps step: 104686.0 fps total: 80149.2
+fps step: 106443.9 fps total: 81446.9
+fps step: 120644.3 fps total: 91670.8
+fps step: 116020.7 fps total: 87589.1
+fps step: 115366.3 fps total: 87884.3
+fps step: 132248.6 fps total: 94442.4
+fps step: 131750.2 fps total: 93561.5
+fps step: 136116.9 fps total: 99204.2
+fps step: 125215.5 fps total: 92513.7
+fps step: 112275.0 fps total: 86475.7
+fps step: 115256.1 fps total: 85774.7
+fps step: 112994.4 fps total: 86258.4
+fps step: 124795.1 fps total: 91863.5
+fps step: 129507.4 fps total: 95899.1
+fps step: 110309.4 fps total: 82285.1
+fps step: 122975.9 fps total: 90512.0
+fps step: 108198.1 fps total: 81584.1
+fps step: 126803.3 fps total: 94931.0
+fps step: 130661.0 fps total: 95273.7
+fps step: 108977.6 fps total: 83353.0
+fps step: 135210.0 fps total: 97459.0
+fps step: 112529.7 fps total: 85788.8
+fps step: 124291.2 fps total: 93631.4
+fps step: 137999.4 fps total: 99549.1
+fps step: 143265.9 fps total: 102186.2
+fps step: 125571.6 fps total: 92028.7
+fps step: 138832.5 fps total: 97784.4
+fps step: 111087.4 fps total: 84406.3
+fps step: 132229.2 fps total: 97352.2
+fps step: 141671.9 fps total: 100543.4
+fps step: 117900.8 fps total: 87346.0
+fps step: 117759.9 fps total: 89700.3
+fps step: 147222.6 fps total: 104076.8
+fps step: 115263.0 fps total: 87687.1
+fps step: 118118.1 fps total: 90538.1
+fps step: 127136.6 fps total: 93876.7
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_250.pth'
+fps step: 117312.1 fps total: 88666.7
+fps step: 127272.0 fps total: 93773.4
+fps step: 138433.5 fps total: 99286.6
+fps step: 103736.8 fps total: 79007.9
+fps step: 133911.6 fps total: 92309.2
+fps step: 115286.4 fps total: 86684.6
+fps step: 126471.0 fps total: 92353.7
+fps step: 147149.3 fps total: 101866.7
+fps step: 106421.7 fps total: 82381.3
+fps step: 124441.2 fps total: 93458.5
+fps step: 138995.4 fps total: 100901.9
+fps step: 122090.7 fps total: 89317.8
+fps step: 127355.8 fps total: 93699.1
+fps step: 122863.9 fps total: 92223.4
+fps step: 132140.4 fps total: 95748.9
+fps step: 126727.2 fps total: 94864.0
+fps step: 143380.0 fps total: 104095.9
+fps step: 153074.9 fps total: 108562.6
+fps step: 141770.4 fps total: 101428.6
+fps step: 136961.4 fps total: 97226.4
+fps step: 131069.1 fps total: 96406.2
+fps step: 117340.6 fps total: 88421.0
+fps step: 140765.7 fps total: 100146.9
+fps step: 119423.3 fps total: 88971.0
+fps step: 140713.0 fps total: 100397.6
+fps step: 127163.2 fps total: 95095.0
+fps step: 151810.4 fps total: 106804.8
+fps step: 139837.9 fps total: 100025.2
+fps step: 145248.8 fps total: 103686.7
+fps step: 128233.9 fps total: 93737.4
+fps step: 133848.0 fps total: 94903.2
+fps step: 132822.6 fps total: 98262.8
+fps step: 133013.6 fps total: 97007.9
+fps step: 148871.1 fps total: 106244.8
+fps step: 133703.9 fps total: 95354.7
+fps step: 119707.3 fps total: 90368.6
+fps step: 142721.4 fps total: 102478.1
+fps step: 113402.1 fps total: 86071.2
+fps step: 128941.8 fps total: 92861.9
+fps step: 121171.4 fps total: 89348.4
+fps step: 112790.0 fps total: 85388.9
+fps step: 128614.3 fps total: 92418.8
+fps step: 135466.9 fps total: 97819.1
+fps step: 139472.5 fps total: 99915.3
+fps step: 162581.4 fps total: 113112.8
+fps step: 167700.9 fps total: 115209.8
+fps step: 126441.8 fps total: 94736.8
+fps step: 120649.3 fps total: 89929.8
+fps step: 147794.5 fps total: 103977.1
+fps step: 144082.5 fps total: 102459.6
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_300.pth'
+fps step: 166775.6 fps total: 113375.0
+fps step: 157425.7 fps total: 109132.5
+fps step: 128463.4 fps total: 94169.0
+fps step: 145397.1 fps total: 102422.4
+fps step: 148366.8 fps total: 103610.5
+fps step: 123881.3 fps total: 92048.4
+fps step: 128328.8 fps total: 94222.2
+fps step: 146669.7 fps total: 101904.7
+fps step: 137498.9 fps total: 98810.5
+fps step: 144999.1 fps total: 102217.7
+fps step: 147814.8 fps total: 104061.0
+fps step: 133476.9 fps total: 97550.8
+fps step: 146280.0 fps total: 103407.1
+fps step: 157419.9 fps total: 106395.4
+fps step: 140928.1 fps total: 103464.0
+fps step: 148733.3 fps total: 103934.9
+fps step: 161001.1 fps total: 110545.5
+fps step: 149732.6 fps total: 106897.0
+fps step: 142894.8 fps total: 101709.7
+fps step: 158169.6 fps total: 110358.3
+fps step: 162532.9 fps total: 109590.9
+fps step: 177280.0 fps total: 118263.1
+fps step: 134226.4 fps total: 98197.7
+fps step: 151565.0 fps total: 106348.9
+fps step: 151060.0 fps total: 107488.9
+fps step: 165528.7 fps total: 112926.4
+fps step: 165642.6 fps total: 113356.0
+fps step: 137838.5 fps total: 99428.2
+fps step: 169777.3 fps total: 115084.6
+fps step: 144881.4 fps total: 100442.8
+fps step: 135395.7 fps total: 98595.5
+fps step: 150856.0 fps total: 104263.6
+fps step: 141659.6 fps total: 98926.8
+fps step: 147349.9 fps total: 102861.1
+fps step: 147223.6 fps total: 103923.9
+fps step: 160609.4 fps total: 110148.8
+fps step: 177324.1 fps total: 119681.1
+fps step: 178819.0 fps total: 121499.2
+fps step: 175774.3 fps total: 119026.0
+fps step: 180872.9 fps total: 120456.1
+fps step: 143935.8 fps total: 103275.1
+fps step: 153719.5 fps total: 106515.8
+fps step: 160330.3 fps total: 113578.4
+fps step: 156812.8 fps total: 108622.3
+fps step: 179276.1 fps total: 121799.3
+fps step: 164212.6 fps total: 113693.0
+fps step: 163688.7 fps total: 108788.3
+fps step: 151916.1 fps total: 107833.5
+fps step: 151508.5 fps total: 105765.3
+fps step: 162174.0 fps total: 109654.6
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_350.pth'
+fps step: 161152.0 fps total: 112895.8
+fps step: 165518.8 fps total: 113943.4
+fps step: 172437.5 fps total: 116719.5
+fps step: 147551.4 fps total: 104005.3
+fps step: 180905.6 fps total: 122124.9
+fps step: 170122.3 fps total: 117718.0
+fps step: 185571.2 fps total: 125060.6
+fps step: 176903.5 fps total: 120707.6
+fps step: 182891.9 fps total: 123154.0
+fps step: 174269.1 fps total: 120220.2
+fps step: 178997.2 fps total: 121536.2
+fps step: 178432.5 fps total: 121621.0
+fps step: 175125.1 fps total: 118776.9
+fps step: 177615.0 fps total: 119760.1
+fps step: 177078.9 fps total: 118141.8
+fps step: 181752.0 fps total: 120216.4
+fps step: 176209.9 fps total: 119426.9
+fps step: 182587.0 fps total: 123169.4
+fps step: 167758.6 fps total: 112544.6
+fps step: 156592.9 fps total: 108858.5
+fps step: 179425.9 fps total: 123602.2
+fps step: 176312.1 fps total: 120164.6
+fps step: 179708.1 fps total: 119507.5
+fps step: 177853.8 fps total: 119186.4
+fps step: 173691.4 fps total: 116401.8
+fps step: 150681.1 fps total: 105188.2
+fps step: 159988.8 fps total: 109928.3
+fps step: 175331.3 fps total: 121117.1
+fps step: 150635.2 fps total: 105740.4
+fps step: 167458.3 fps total: 112863.5
+fps step: 169735.1 fps total: 113903.7
+fps step: 171309.9 fps total: 113402.6
+fps step: 176028.2 fps total: 121186.4
+fps step: 168830.1 fps total: 115561.4
+fps step: 179542.9 fps total: 122174.6
+fps step: 176321.3 fps total: 118902.2
+fps step: 181103.0 fps total: 122944.1
+fps step: 179375.9 fps total: 119626.4
+fps step: 175522.4 fps total: 117772.6
+fps step: 155995.3 fps total: 107710.3
+fps step: 159365.1 fps total: 110924.7
+fps step: 167721.4 fps total: 117309.2
+fps step: 168371.3 fps total: 114549.2
+fps step: 168835.9 fps total: 113209.4
+fps step: 161990.9 fps total: 113164.3
+fps step: 162081.5 fps total: 112552.7
+fps step: 151812.8 fps total: 108333.0
+fps step: 169314.5 fps total: 116875.8
+fps step: 180929.5 fps total: 121606.6
+fps step: 151368.2 fps total: 103713.5
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_400.pth'
+fps step: 138244.6 fps total: 97590.1
+fps step: 156801.2 fps total: 111085.7
+fps step: 172100.2 fps total: 114104.8
+fps step: 147555.3 fps total: 103719.3
+fps step: 147029.7 fps total: 103620.8
+fps step: 175220.3 fps total: 119212.9
+fps step: 145554.2 fps total: 105186.7
+fps step: 159566.9 fps total: 110311.0
+fps step: 157135.0 fps total: 110703.8
+fps step: 155959.1 fps total: 107605.1
+fps step: 179778.9 fps total: 119944.4
+fps step: 175891.4 fps total: 119445.6
+fps step: 179152.1 fps total: 121752.6
+fps step: 179500.7 fps total: 124003.8
+fps step: 178914.1 fps total: 121186.6
+fps step: 179514.4 fps total: 121595.9
+fps step: 147308.7 fps total: 104167.3
+fps step: 184545.1 fps total: 123152.2
+fps step: 167995.6 fps total: 114242.9
+fps step: 170977.8 fps total: 115426.6
+fps step: 152670.0 fps total: 108107.7
+fps step: 173870.1 fps total: 119024.5
+fps step: 160991.4 fps total: 110768.9
+fps step: 169588.1 fps total: 115261.3
+fps step: 152821.0 fps total: 107481.6
+fps step: 179078.9 fps total: 122494.0
+fps step: 182015.7 fps total: 122913.8
+fps step: 174100.6 fps total: 117650.3
+fps step: 151495.0 fps total: 106253.4
+fps step: 158995.9 fps total: 108827.3
+fps step: 149278.1 fps total: 104417.7
+fps step: 163686.3 fps total: 111551.7
+fps step: 155525.4 fps total: 107697.5
+fps step: 170505.7 fps total: 113540.2
+fps step: 181500.7 fps total: 122784.3
+fps step: 179003.2 fps total: 121278.6
+fps step: 181904.6 fps total: 122442.8
+fps step: 178339.2 fps total: 121275.8
+fps step: 185740.4 fps total: 124616.8
+fps step: 179529.8 fps total: 122243.9
+fps step: 182629.4 fps total: 123259.2
+fps step: 151937.2 fps total: 106107.7
+fps step: 161027.6 fps total: 107506.4
+fps step: 174478.1 fps total: 117333.6
+fps step: 163747.0 fps total: 112742.8
+fps step: 176072.2 fps total: 119967.4
+fps step: 157573.5 fps total: 110657.4
+fps step: 179528.2 fps total: 122136.7
+fps step: 179218.7 fps total: 122771.3
+fps step: 178972.2 fps total: 121797.4
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_450.pth'
+fps step: 182094.5 fps total: 124375.3
+fps step: 174773.0 fps total: 118963.9
+fps step: 183718.5 fps total: 123872.8
+fps step: 176868.7 fps total: 120564.2
+fps step: 184652.1 fps total: 123657.0
+fps step: 176559.8 fps total: 120370.2
+fps step: 183880.7 fps total: 123625.8
+fps step: 177938.7 fps total: 121936.7
+fps step: 181659.8 fps total: 122529.3
+fps step: 177055.2 fps total: 122110.2
+fps step: 181027.6 fps total: 122144.4
+fps step: 177498.6 fps total: 122616.6
+fps step: 164737.5 fps total: 113081.2
+fps step: 180960.0 fps total: 120019.1
+fps step: 162375.8 fps total: 111257.7
+fps step: 180066.4 fps total: 120681.2
+fps step: 175593.5 fps total: 119996.4
+fps step: 184871.4 fps total: 121944.3
+fps step: 163911.0 fps total: 115160.3
+fps step: 152550.0 fps total: 107680.2
+fps step: 160742.0 fps total: 111504.5
+fps step: 177147.3 fps total: 120517.8
+fps step: 186360.1 fps total: 123628.1
+fps step: 164194.8 fps total: 113841.0
+fps step: 164140.6 fps total: 113780.9
+fps step: 162686.7 fps total: 112890.5
+fps step: 147591.5 fps total: 104762.2
+fps step: 163473.3 fps total: 111996.6
+fps step: 149059.2 fps total: 106539.1
+fps step: 182576.3 fps total: 122875.7
+fps step: 178749.2 fps total: 118177.5
+fps step: 139922.4 fps total: 102144.2
+fps step: 148401.4 fps total: 103839.0
+fps step: 175444.8 fps total: 115908.7
+fps step: 183408.0 fps total: 123711.9
+fps step: 181593.9 fps total: 122086.9
+fps step: 180020.9 fps total: 119478.4
+fps step: 153659.7 fps total: 108600.9
+fps step: 168468.0 fps total: 115743.0
+fps step: 145810.1 fps total: 103828.0
+fps step: 165097.4 fps total: 113176.9
+fps step: 179239.4 fps total: 118126.4
+fps step: 138241.7 fps total: 99896.5
+fps step: 161721.4 fps total: 113197.2
+fps step: 183210.3 fps total: 123256.2
+fps step: 178985.8 fps total: 121391.4
+fps step: 183767.5 fps total: 122246.0
+fps step: 179441.4 fps total: 121013.8
+fps step: 184614.5 fps total: 123495.0
+fps step: 175203.6 fps total: 118322.5
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_500.pth'
+fps step: 173374.8 fps total: 117713.8
+fps step: 176236.7 fps total: 120628.8
+fps step: 177377.5 fps total: 119265.6
+fps step: 182693.9 fps total: 124779.7
+fps step: 149304.2 fps total: 106175.4
+fps step: 141289.4 fps total: 102093.4
+fps step: 149666.2 fps total: 107784.6
+fps step: 174077.1 fps total: 117060.3
+fps step: 158945.1 fps total: 110965.0
+fps step: 170046.7 fps total: 117251.3
+fps step: 158546.4 fps total: 110435.8
+fps step: 173550.5 fps total: 116635.1
+fps step: 166113.9 fps total: 112200.5
+fps step: 172002.4 fps total: 118333.6
+fps step: 165793.4 fps total: 112117.5
+fps step: 180443.4 fps total: 119649.9
+fps step: 176694.9 fps total: 120554.6
+fps step: 185285.0 fps total: 124460.2
+fps step: 159502.2 fps total: 109888.9
+fps step: 166169.0 fps total: 114068.5
+fps step: 147765.9 fps total: 107644.3
+fps step: 175655.1 fps total: 120186.1
+fps step: 184177.2 fps total: 125023.5
+fps step: 178338.0 fps total: 121284.5
+fps step: 186685.6 fps total: 126172.9
+fps step: 172273.3 fps total: 115735.6
+fps step: 162309.1 fps total: 111315.9
+fps step: 180788.3 fps total: 122646.9
+fps step: 184165.0 fps total: 121908.9
+fps step: 149394.6 fps total: 107417.7
+fps step: 145822.3 fps total: 104563.0
+fps step: 151808.3 fps total: 105916.7
+fps step: 180144.6 fps total: 120605.0
+fps step: 166160.6 fps total: 110227.2
+fps step: 171944.1 fps total: 116964.9
+fps step: 181351.5 fps total: 120780.2
+fps step: 166411.5 fps total: 112058.5
+fps step: 152702.1 fps total: 106787.0
+fps step: 146860.7 fps total: 104075.4
+fps step: 161656.6 fps total: 109948.7
+fps step: 139631.0 fps total: 99176.7
+fps step: 142876.3 fps total: 98999.8
+fps step: 161702.3 fps total: 110949.8
+fps step: 144028.7 fps total: 101152.4
+fps step: 157981.9 fps total: 108848.6
+fps step: 147775.2 fps total: 102850.0
+fps step: 150741.4 fps total: 104220.4
+fps step: 140087.7 fps total: 99972.8
+fps step: 155984.3 fps total: 107574.3
+fps step: 165517.7 fps total: 115269.1
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_550.pth'
+fps step: 181121.9 fps total: 122458.8
+fps step: 184648.1 fps total: 120798.5
+fps step: 183477.6 fps total: 122832.7
+fps step: 172223.9 fps total: 115989.3
+fps step: 173127.2 fps total: 117070.0
+fps step: 148975.9 fps total: 103458.5
+fps step: 162269.2 fps total: 111492.0
+fps step: 162630.9 fps total: 113199.1
+fps step: 187818.3 fps total: 125981.0
+fps step: 180138.4 fps total: 122735.9
+fps step: 182631.0 fps total: 117329.8
+fps step: 177200.1 fps total: 121752.0
+fps step: 167987.4 fps total: 116138.3
+fps step: 167152.0 fps total: 113840.2
+fps step: 172705.9 fps total: 118516.6
+fps step: 175183.8 fps total: 115920.7
+fps step: 153600.4 fps total: 108123.0
+fps step: 151087.8 fps total: 104886.8
+fps step: 159462.2 fps total: 110376.6
+fps step: 171740.3 fps total: 114696.0
+fps step: 168325.8 fps total: 113568.0
+fps step: 155694.3 fps total: 108220.6
+fps step: 168760.2 fps total: 116531.3
+fps step: 179271.9 fps total: 123354.9
+fps step: 173122.9 fps total: 114985.9
+fps step: 137797.6 fps total: 99283.9
+fps step: 150062.3 fps total: 106515.6
+fps step: 177041.4 fps total: 120487.7
+fps step: 181349.2 fps total: 124041.5
+fps step: 166085.5 fps total: 112009.2
+fps step: 161390.8 fps total: 111334.2
+fps step: 178098.9 fps total: 119669.2
+fps step: 188048.4 fps total: 125070.6
+fps step: 176974.4 fps total: 118652.3
+fps step: 185859.3 fps total: 122112.4
+fps step: 159994.1 fps total: 110185.5
+fps step: 163746.5 fps total: 112334.9
+fps step: 174950.3 fps total: 116451.9
+fps step: 172286.9 fps total: 117814.3
+fps step: 180036.7 fps total: 118922.5
+fps step: 180614.7 fps total: 120067.9
+fps step: 173352.9 fps total: 117385.7
+fps step: 180718.0 fps total: 121069.1
+fps step: 187582.5 fps total: 124952.4
+fps step: 178809.5 fps total: 118921.7
+fps step: 170069.6 fps total: 115066.7
+fps step: 163756.4 fps total: 113332.6
+fps step: 179368.0 fps total: 120131.0
+fps step: 177395.9 fps total: 118672.9
+fps step: 169985.4 fps total: 116779.9
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_600.pth'
+fps step: 187124.3 fps total: 122760.5
+fps step: 174980.6 fps total: 119848.5
+fps step: 187451.7 fps total: 125319.3
+fps step: 180878.2 fps total: 122921.2
+fps step: 161690.8 fps total: 110806.7
+fps step: 159946.2 fps total: 113762.0
+fps step: 179349.5 fps total: 121414.9
+fps step: 186265.0 fps total: 125943.3
+fps step: 164861.9 fps total: 111726.0
+fps step: 186673.0 fps total: 123704.9
+fps step: 181591.8 fps total: 122087.2
+fps step: 182878.5 fps total: 121183.4
+fps step: 150699.5 fps total: 107238.2
+fps step: 176329.8 fps total: 118080.0
+fps step: 145937.6 fps total: 104238.5
+fps step: 177759.5 fps total: 120538.7
+fps step: 189376.4 fps total: 125643.4
+fps step: 181915.6 fps total: 122829.9
+fps step: 186409.5 fps total: 123224.8
+fps step: 180992.1 fps total: 122362.2
+fps step: 188688.4 fps total: 125942.4
+fps step: 182243.6 fps total: 123963.1
+fps step: 154911.4 fps total: 106871.8
+fps step: 175992.9 fps total: 119395.5
+fps step: 163761.4 fps total: 111122.0
+fps step: 150792.8 fps total: 106386.5
+fps step: 161155.2 fps total: 112120.3
+fps step: 177584.5 fps total: 118400.6
+fps step: 171496.4 fps total: 117394.1
+fps step: 164617.7 fps total: 113218.7
+fps step: 178920.6 fps total: 119747.3
+fps step: 169455.9 fps total: 114758.2
+fps step: 142028.8 fps total: 100731.2
+fps step: 169752.4 fps total: 116340.4
+fps step: 169625.4 fps total: 114131.2
+fps step: 153797.6 fps total: 109787.4
+fps step: 144189.3 fps total: 102361.0
+fps step: 187294.5 fps total: 124121.1
+fps step: 180191.7 fps total: 121991.2
+fps step: 187428.3 fps total: 124866.3
+fps step: 182791.8 fps total: 122542.3
+fps step: 176262.7 fps total: 116207.9
+fps step: 152678.0 fps total: 106845.1
+fps step: 172802.1 fps total: 116318.3
+fps step: 162914.7 fps total: 110199.1
+fps step: 159527.3 fps total: 111749.5
+fps step: 147166.3 fps total: 103194.6
+fps step: 157948.1 fps total: 110445.9
+fps step: 162977.3 fps total: 111453.1
+fps step: 174809.5 fps total: 117819.8
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_650.pth'
+fps step: 157342.5 fps total: 109125.6
+fps step: 178164.0 fps total: 117847.0
+fps step: 154125.8 fps total: 109483.5
+fps step: 165562.0 fps total: 113715.6
+fps step: 153952.3 fps total: 106124.6
+fps step: 164351.5 fps total: 112387.8
+fps step: 165940.0 fps total: 111432.8
+fps step: 171383.2 fps total: 115643.5
+fps step: 167513.1 fps total: 112668.1
+fps step: 153217.9 fps total: 106859.4
+fps step: 164043.9 fps total: 112901.6
+fps step: 172407.0 fps total: 115266.0
+fps step: 159862.8 fps total: 110438.9
+fps step: 153754.6 fps total: 107821.3
+fps step: 157744.6 fps total: 109696.4
+fps step: 157940.3 fps total: 110170.9
+fps step: 140749.5 fps total: 101498.6
+fps step: 157716.9 fps total: 111223.2
+fps step: 158795.0 fps total: 109947.8
+fps step: 170156.9 fps total: 117540.2
+fps step: 167493.5 fps total: 113638.1
+fps step: 177210.2 fps total: 114854.9
+fps step: 175130.1 fps total: 115589.3
+fps step: 171526.4 fps total: 113333.6
+fps step: 165319.3 fps total: 111756.1
+fps step: 168099.9 fps total: 115006.7
+fps step: 182439.6 fps total: 121276.0
+fps step: 166093.7 fps total: 112196.3
+fps step: 178914.9 fps total: 118816.1
+fps step: 155962.2 fps total: 109988.5
+fps step: 147618.6 fps total: 104709.7
+fps step: 155401.9 fps total: 106058.8
+fps step: 169022.3 fps total: 115437.8
+fps step: 165406.6 fps total: 113080.2
+fps step: 177390.1 fps total: 119801.3
+fps step: 184502.0 fps total: 123579.5
+fps step: 181693.5 fps total: 124431.3
+fps step: 183864.3 fps total: 123645.7
+fps step: 181460.4 fps total: 124087.5
+fps step: 183192.9 fps total: 123875.8
+fps step: 183879.0 fps total: 125849.8
+fps step: 183801.8 fps total: 123954.8
+fps step: 186411.6 fps total: 126204.9
+fps step: 181696.1 fps total: 122755.1
+fps step: 185771.6 fps total: 124767.2
+fps step: 182297.1 fps total: 123020.1
+fps step: 185437.4 fps total: 124513.9
+fps step: 179638.9 fps total: 120741.8
+fps step: 189900.2 fps total: 124871.1
+fps step: 162375.2 fps total: 112648.2
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_700.pth'
+fps step: 173549.0 fps total: 116849.9
+fps step: 153105.1 fps total: 108500.8
+fps step: 152334.0 fps total: 108063.1
+fps step: 157881.9 fps total: 107865.6
+fps step: 134715.5 fps total: 99059.9
+fps step: 177430.9 fps total: 119005.2
+fps step: 184900.5 fps total: 126052.6
+fps step: 181054.8 fps total: 121847.9
+fps step: 181072.7 fps total: 123529.4
+fps step: 173413.9 fps total: 116995.3
+fps step: 168197.5 fps total: 115206.0
+fps step: 152845.7 fps total: 108850.4
+fps step: 182769.9 fps total: 123406.8
+fps step: 180205.0 fps total: 123999.3
+fps step: 171398.6 fps total: 115839.0
+fps step: 174735.8 fps total: 119069.2
+fps step: 166137.0 fps total: 113382.9
+fps step: 174219.3 fps total: 118956.3
+fps step: 175974.8 fps total: 117678.1
+fps step: 187456.6 fps total: 123427.8
+fps step: 182429.2 fps total: 121343.7
+fps step: 186238.0 fps total: 124729.5
+fps step: 180219.0 fps total: 123505.4
+fps step: 184570.5 fps total: 123721.1
+fps step: 180431.6 fps total: 123558.3
+fps step: 139121.0 fps total: 99904.1
+fps step: 158881.8 fps total: 109329.3
+fps step: 161818.6 fps total: 112302.0
+fps step: 166603.1 fps total: 113763.6
+fps step: 169750.7 fps total: 116123.5
+fps step: 168144.5 fps total: 115638.8
+fps step: 178196.8 fps total: 120846.6
+fps step: 176151.5 fps total: 118640.4
+fps step: 183764.6 fps total: 118048.9
+fps step: 176128.5 fps total: 117213.6
+fps step: 184364.6 fps total: 121971.6
+fps step: 144592.1 fps total: 104545.3
+fps step: 160197.6 fps total: 110228.8
+fps step: 164815.9 fps total: 114561.9
+fps step: 135974.3 fps total: 99400.9
+fps step: 183952.9 fps total: 120897.2
+fps step: 165225.7 fps total: 113393.9
+fps step: 156304.4 fps total: 108846.9
+fps step: 179625.1 fps total: 120110.5
+fps step: 169755.8 fps total: 115025.5
+fps step: 183789.1 fps total: 123679.3
+fps step: 181124.0 fps total: 122929.7
+fps step: 185173.5 fps total: 121158.4
+fps step: 175845.9 fps total: 118624.1
+fps step: 186409.8 fps total: 124722.0
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_750.pth'
+fps step: 177658.9 fps total: 121675.4
+fps step: 156730.4 fps total: 108959.7
+fps step: 165112.2 fps total: 113505.7
+fps step: 167425.0 fps total: 115025.7
+fps step: 166314.8 fps total: 114586.1
+fps step: 167740.9 fps total: 114860.1
+fps step: 185415.5 fps total: 124737.2
+fps step: 159403.1 fps total: 113112.3
+fps step: 177152.1 fps total: 119757.4
+fps step: 171749.7 fps total: 117806.6
+fps step: 164451.9 fps total: 114641.7
+fps step: 161061.0 fps total: 111381.7
+fps step: 139678.2 fps total: 101368.9
+fps step: 153834.1 fps total: 107526.4
+fps step: 151588.0 fps total: 107510.1
+fps step: 139034.3 fps total: 100135.2
+fps step: 151777.3 fps total: 106226.1
+fps step: 148396.2 fps total: 103998.6
+fps step: 148269.1 fps total: 103680.4
+fps step: 125549.9 fps total: 92178.7
+fps step: 152440.8 fps total: 107653.0
+fps step: 160070.7 fps total: 108736.0
+fps step: 169710.4 fps total: 113361.3
+fps step: 153756.9 fps total: 106762.4
+fps step: 168055.8 fps total: 112309.8
+fps step: 161108.2 fps total: 111954.2
+fps step: 147299.1 fps total: 104093.0
+fps step: 168821.3 fps total: 113306.0
+fps step: 161929.6 fps total: 110475.4
+fps step: 176976.2 fps total: 115745.8
+fps step: 158777.3 fps total: 110132.4
+fps step: 168987.9 fps total: 112462.3
+fps step: 170811.1 fps total: 116763.4
+fps step: 164690.4 fps total: 112773.3
+fps step: 167461.8 fps total: 112750.5
+fps step: 180384.4 fps total: 119089.3
+fps step: 169528.7 fps total: 116721.6
+fps step: 179207.7 fps total: 120811.3
+fps step: 179598.2 fps total: 121580.4
+fps step: 160438.4 fps total: 112417.2
+fps step: 159307.3 fps total: 110574.9
+fps step: 181480.3 fps total: 121529.4
+fps step: 158286.4 fps total: 108807.3
+fps step: 161366.6 fps total: 112310.0
+fps step: 177649.1 fps total: 121631.8
+fps step: 167685.5 fps total: 113836.7
+fps step: 178921.6 fps total: 122284.2
+fps step: 174497.4 fps total: 119393.7
+fps step: 185352.4 fps total: 125034.0
+fps step: 168680.2 fps total: 116072.2
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_800.pth'
+fps step: 189319.9 fps total: 125671.6
+fps step: 179870.8 fps total: 123129.1
+fps step: 188057.8 fps total: 126724.5
+fps step: 177378.7 fps total: 121238.0
+fps step: 186743.4 fps total: 126928.5
+fps step: 168987.2 fps total: 117408.5
+fps step: 174310.1 fps total: 121228.5
+fps step: 184848.4 fps total: 122756.3
+fps step: 189610.9 fps total: 128318.0
+fps step: 191742.0 fps total: 128012.3
+fps step: 158753.3 fps total: 112946.6
+fps step: 191640.7 fps total: 127589.4
+fps step: 165449.8 fps total: 113627.3
+fps step: 176395.4 fps total: 121117.9
+fps step: 163602.9 fps total: 114749.8
+fps step: 160460.4 fps total: 113444.2
+fps step: 156016.7 fps total: 110577.4
+fps step: 191781.1 fps total: 129895.6
+fps step: 188601.7 fps total: 127825.1
+fps step: 190962.9 fps total: 126713.8
+fps step: 150137.8 fps total: 105637.8
+fps step: 189403.9 fps total: 124757.9
+fps step: 174458.9 fps total: 119150.3
+fps step: 189538.3 fps total: 128116.1
+fps step: 189836.2 fps total: 129050.0
+fps step: 189443.5 fps total: 128492.4
+fps step: 191021.7 fps total: 129056.7
+fps step: 189200.5 fps total: 127634.0
+fps step: 191238.4 fps total: 128742.7
+fps step: 188984.5 fps total: 126283.3
+fps step: 173969.5 fps total: 118870.2
+fps step: 187883.1 fps total: 127926.3
+fps step: 191217.7 fps total: 128266.2
+fps step: 191628.0 fps total: 129986.8
+fps step: 189319.5 fps total: 128542.9
+fps step: 190082.2 fps total: 128580.6
+fps step: 178456.1 fps total: 121170.9
+fps step: 179593.6 fps total: 120679.2
+fps step: 156432.2 fps total: 111334.9
+fps step: 156853.7 fps total: 108280.9
+fps step: 177432.5 fps total: 122761.8
+fps step: 179232.5 fps total: 120289.3
+fps step: 156509.7 fps total: 108079.1
+fps step: 166877.4 fps total: 115044.6
+fps step: 171594.1 fps total: 120218.9
+fps step: 167382.3 fps total: 117022.1
+fps step: 172807.3 fps total: 118268.4
+fps step: 161410.5 fps total: 114043.9
+fps step: 152278.0 fps total: 108587.7
+fps step: 168288.0 fps total: 116516.7
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_850.pth'
+fps step: 168731.3 fps total: 116472.9
+fps step: 144516.2 fps total: 104954.2
+fps step: 162471.2 fps total: 113320.8
+fps step: 151004.1 fps total: 105701.1
+fps step: 189325.5 fps total: 128204.4
+fps step: 192014.7 fps total: 129876.5
+fps step: 183794.7 fps total: 124546.1
+fps step: 184415.0 fps total: 124884.5
+fps step: 190384.8 fps total: 126675.0
+fps step: 186820.7 fps total: 124797.2
+fps step: 189797.8 fps total: 126553.6
+fps step: 168360.4 fps total: 116427.5
+fps step: 181039.8 fps total: 124659.3
+fps step: 193017.9 fps total: 129390.4
+fps step: 190973.5 fps total: 124370.9
+fps step: 171760.7 fps total: 116714.6
+fps step: 184507.1 fps total: 121038.3
+fps step: 163097.9 fps total: 112725.6
+fps step: 158008.1 fps total: 108605.8
+fps step: 159629.3 fps total: 109738.8
+fps step: 171511.1 fps total: 115959.2
+fps step: 159537.2 fps total: 111897.0
+fps step: 159179.1 fps total: 108429.6
+fps step: 181979.2 fps total: 120271.2
+fps step: 166647.8 fps total: 114701.3
+fps step: 185655.9 fps total: 122399.5
+fps step: 183294.6 fps total: 123729.7
+fps step: 177340.0 fps total: 119305.4
+fps step: 169689.1 fps total: 111614.8
+fps step: 173006.5 fps total: 116539.1
+fps step: 156568.4 fps total: 109013.2
+fps step: 180547.3 fps total: 123774.2
+fps step: 183254.3 fps total: 121209.0
+fps step: 191093.0 fps total: 125936.8
+fps step: 191202.5 fps total: 127857.5
+fps step: 188485.4 fps total: 127152.5
+fps step: 189366.7 fps total: 127807.7
+fps step: 190189.9 fps total: 125431.3
+fps step: 189662.0 fps total: 125082.4
+fps step: 190509.9 fps total: 126872.3
+fps step: 189651.4 fps total: 124859.5
+fps step: 192100.5 fps total: 128486.2
+fps step: 193384.9 fps total: 130132.3
+fps step: 191126.2 fps total: 128125.9
+fps step: 177308.6 fps total: 121073.8
+fps step: 179015.2 fps total: 123032.8
+fps step: 163235.7 fps total: 112584.7
+fps step: 167370.9 fps total: 115471.5
+fps step: 189364.8 fps total: 127425.2
+fps step: 166515.3 fps total: 116383.6
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_900.pth'
+fps step: 177565.7 fps total: 120805.5
+fps step: 176123.9 fps total: 118196.6
+fps step: 170174.1 fps total: 118390.8
+fps step: 181072.0 fps total: 123467.9
+fps step: 189833.9 fps total: 126370.3
+fps step: 160047.4 fps total: 112452.5
+fps step: 170797.6 fps total: 117325.4
+fps step: 173756.3 fps total: 118946.9
+fps step: 168783.7 fps total: 115383.3
+fps step: 187611.5 fps total: 122538.8
+fps step: 179175.6 fps total: 119537.3
+fps step: 173313.5 fps total: 118391.7
+fps step: 158290.8 fps total: 111023.7
+fps step: 179179.0 fps total: 120047.5
+fps step: 178730.2 fps total: 122154.6
+fps step: 178278.9 fps total: 121906.2
+fps step: 161443.8 fps total: 114246.8
+fps step: 190497.8 fps total: 129177.8
+fps step: 189238.0 fps total: 128293.5
+fps step: 163320.2 fps total: 115030.7
+fps step: 177733.8 fps total: 123050.0
+fps step: 166545.9 fps total: 117275.6
+fps step: 167748.0 fps total: 117011.2
+fps step: 186580.7 fps total: 126830.9
+fps step: 190601.3 fps total: 128648.0
+fps step: 191277.4 fps total: 129507.5
+fps step: 175271.8 fps total: 121497.8
+fps step: 192496.7 fps total: 129047.1
+fps step: 192727.6 fps total: 128276.3
+fps step: 192940.1 fps total: 130429.8
+fps step: 175526.2 fps total: 121833.9
+fps step: 185870.4 fps total: 123909.1
+fps step: 183380.2 fps total: 125925.5
+fps step: 178271.9 fps total: 121779.8
+fps step: 159697.6 fps total: 112376.7
+fps step: 191124.9 fps total: 128116.3
+fps step: 189689.6 fps total: 124952.1
+fps step: 191837.4 fps total: 127888.6
+fps step: 190072.5 fps total: 128734.0
+fps step: 157644.3 fps total: 110019.2
+fps step: 154226.9 fps total: 110371.6
+fps step: 190201.3 fps total: 127161.7
+fps step: 189976.7 fps total: 129017.7
+fps step: 170517.0 fps total: 115660.7
+fps step: 180465.2 fps total: 121324.2
+fps step: 174977.9 fps total: 119694.5
+fps step: 188575.3 fps total: 126825.8
+fps step: 187674.0 fps total: 125563.9
+fps step: 191134.6 fps total: 128689.5
+fps step: 153353.3 fps total: 109944.8
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_950.pth'
+fps step: 168533.3 fps total: 115721.0
+fps step: 169540.2 fps total: 117308.2
+fps step: 188170.7 fps total: 127430.7
+fps step: 191421.0 fps total: 129070.5
+fps step: 185428.2 fps total: 126414.8
+fps step: 160276.5 fps total: 112327.3
+fps step: 162456.0 fps total: 112399.3
+fps step: 190556.1 fps total: 129480.7
+fps step: 177790.2 fps total: 120423.5
+fps step: 168497.6 fps total: 117567.9
+fps step: 188127.4 fps total: 126495.9
+fps step: 181106.7 fps total: 124640.8
+fps step: 179794.8 fps total: 122797.6
+fps step: 190854.4 fps total: 125187.0
+fps step: 164032.4 fps total: 115511.0
+fps step: 165169.7 fps total: 114661.4
+fps step: 173739.1 fps total: 119756.0
+fps step: 175340.9 fps total: 118280.5
+fps step: 187126.5 fps total: 126380.2
+fps step: 188982.8 fps total: 128521.4
+fps step: 191085.7 fps total: 127926.2
+fps step: 159937.3 fps total: 112255.0
+fps step: 152684.6 fps total: 109429.4
+fps step: 158035.6 fps total: 111292.1
+fps step: 158378.8 fps total: 109273.9
+fps step: 142286.7 fps total: 101258.0
+fps step: 171851.1 fps total: 118623.3
+fps step: 166502.7 fps total: 113624.7
+fps step: 155639.3 fps total: 110494.4
+fps step: 182986.2 fps total: 124308.5
+fps step: 191430.8 fps total: 128944.6
+fps step: 166924.0 fps total: 114843.7
+fps step: 158898.7 fps total: 110934.7
+fps step: 181555.7 fps total: 123913.4
+fps step: 193002.4 fps total: 130244.9
+fps step: 193188.4 fps total: 128955.4
+fps step: 182079.5 fps total: 120200.4
+fps step: 181468.8 fps total: 120635.0
+fps step: 177638.9 fps total: 121159.2
+fps step: 167572.5 fps total: 114896.0
+fps step: 181380.8 fps total: 122381.3
+fps step: 178850.0 fps total: 121479.7
+fps step: 184513.1 fps total: 122789.9
+fps step: 161735.4 fps total: 114239.8
+fps step: 170782.5 fps total: 118048.7
+fps step: 157236.5 fps total: 109554.1
+fps step: 182397.0 fps total: 122759.9
+fps step: 167115.6 fps total: 115596.2
+fps step: 178804.5 fps total: 122693.8
+fps step: 174886.2 fps total: 119004.3
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1000.pth'
+fps step: 184907.8 fps total: 123703.4
+fps step: 174350.5 fps total: 117078.2
+fps step: 166358.4 fps total: 115403.7
+fps step: 167698.1 fps total: 115328.7
+fps step: 171567.1 fps total: 117210.3
+fps step: 174244.0 fps total: 120550.6
+fps step: 170903.5 fps total: 116317.1
+fps step: 161729.2 fps total: 110433.9
+fps step: 153642.8 fps total: 107808.4
+fps step: 189556.1 fps total: 125859.3
+fps step: 187794.7 fps total: 125762.8
+fps step: 187712.2 fps total: 123767.5
+fps step: 168430.9 fps total: 117423.6
+fps step: 179826.8 fps total: 123523.5
+fps step: 173350.0 fps total: 118205.2
+fps step: 176752.4 fps total: 120635.8
+fps step: 187952.4 fps total: 127123.1
+fps step: 169628.2 fps total: 119011.6
+fps step: 176340.8 fps total: 119211.6
+fps step: 189638.5 fps total: 125972.1
+fps step: 173977.0 fps total: 119515.9
+fps step: 185646.2 fps total: 126571.8
+fps step: 187701.0 fps total: 127665.2
+fps step: 190120.1 fps total: 128370.8
+fps step: 191437.6 fps total: 128644.2
+fps step: 190813.8 fps total: 127790.9
+fps step: 193009.9 fps total: 129158.2
+fps step: 169804.0 fps total: 114335.9
+fps step: 190530.7 fps total: 128545.8
+fps step: 193686.6 fps total: 130235.4
+fps step: 191844.4 fps total: 127748.6
+fps step: 192040.9 fps total: 126437.6
+fps step: 190771.0 fps total: 126967.7
+fps step: 165839.0 fps total: 112967.4
+fps step: 155927.6 fps total: 111013.5
+fps step: 151837.1 fps total: 108445.5
+fps step: 166358.8 fps total: 110651.7
+fps step: 152524.9 fps total: 108293.6
+fps step: 165168.7 fps total: 114082.9
+fps step: 164257.1 fps total: 114668.3
+fps step: 170015.5 fps total: 115650.9
+fps step: 188980.0 fps total: 127445.9
+fps step: 190783.2 fps total: 128729.9
+fps step: 171581.9 fps total: 117304.8
+fps step: 165203.3 fps total: 113444.6
+fps step: 189266.4 fps total: 126104.7
+fps step: 140470.0 fps total: 102247.2
+fps step: 146414.5 fps total: 104933.9
+fps step: 161953.2 fps total: 112946.7
+fps step: 162177.2 fps total: 114024.9
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1050.pth'
+fps step: 170428.4 fps total: 115713.8
+fps step: 161957.7 fps total: 112090.3
+fps step: 152021.5 fps total: 104915.8
+fps step: 151229.7 fps total: 107019.7
+fps step: 148307.7 fps total: 103964.0
+fps step: 148429.9 fps total: 104350.1
+fps step: 157097.5 fps total: 108010.6
+fps step: 158803.8 fps total: 112354.1
+fps step: 173958.9 fps total: 116140.6
+fps step: 159626.8 fps total: 113459.8
+fps step: 139220.8 fps total: 101255.5
+fps step: 158345.5 fps total: 112176.7
+fps step: 147987.8 fps total: 105556.5
+fps step: 136146.6 fps total: 99977.1
+fps step: 158503.2 fps total: 113237.4
+fps step: 183979.0 fps total: 125914.8
+fps step: 182262.7 fps total: 124331.5
+fps step: 189324.6 fps total: 127518.2
+fps step: 189668.2 fps total: 127855.8
+fps step: 189831.2 fps total: 128329.1
+fps step: 189265.3 fps total: 128535.2
+fps step: 192607.4 fps total: 129444.9
+fps step: 189926.3 fps total: 127644.5
+fps step: 193414.3 fps total: 130416.7
+fps step: 188511.8 fps total: 127799.9
+fps step: 191456.4 fps total: 129303.4
+fps step: 187503.6 fps total: 127263.7
+fps step: 185027.8 fps total: 124370.4
+fps step: 190895.9 fps total: 128674.4
+fps step: 189577.6 fps total: 128355.6
+fps step: 192697.5 fps total: 128987.5
+fps step: 170426.5 fps total: 118169.1
+fps step: 187158.7 fps total: 127171.4
+fps step: 144456.9 fps total: 104501.5
+fps step: 192394.0 fps total: 129361.1
+fps step: 189933.2 fps total: 128826.9
+fps step: 187538.7 fps total: 127935.0
+fps step: 160287.7 fps total: 113348.1
+fps step: 190004.2 fps total: 126652.1
+fps step: 188866.6 fps total: 128441.1
+fps step: 193061.4 fps total: 130090.8
+fps step: 189230.7 fps total: 127407.9
+fps step: 189418.9 fps total: 128341.5
+fps step: 191640.6 fps total: 128048.8
+fps step: 164474.5 fps total: 113646.5
+fps step: 160248.6 fps total: 112022.4
+fps step: 156504.8 fps total: 108184.7
+fps step: 147566.0 fps total: 106001.1
+fps step: 173486.5 fps total: 119322.2
+fps step: 182239.9 fps total: 124208.0
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1100.pth'
+fps step: 174635.2 fps total: 117769.4
+fps step: 171811.1 fps total: 119371.4
+fps step: 180790.8 fps total: 123735.1
+fps step: 158496.7 fps total: 112172.7
+fps step: 188598.7 fps total: 124091.0
+fps step: 191677.8 fps total: 127854.9
+fps step: 190812.4 fps total: 129176.9
+fps step: 190981.5 fps total: 128734.1
+fps step: 191501.0 fps total: 129631.8
+fps step: 186507.2 fps total: 126860.3
+fps step: 189289.5 fps total: 127711.1
+fps step: 190007.6 fps total: 124635.7
+fps step: 189171.2 fps total: 126948.4
+fps step: 183710.2 fps total: 124380.0
+fps step: 187760.8 fps total: 127957.6
+fps step: 177103.5 fps total: 120448.5
+fps step: 180674.1 fps total: 123143.5
+fps step: 179015.6 fps total: 123106.6
+fps step: 189338.4 fps total: 127248.0
+fps step: 150483.4 fps total: 108596.7
+fps step: 187633.6 fps total: 121930.7
+fps step: 148305.8 fps total: 106529.6
+fps step: 160205.3 fps total: 111439.3
+fps step: 171997.8 fps total: 117757.6
+fps step: 186202.0 fps total: 125176.0
+fps step: 177069.5 fps total: 122155.7
+fps step: 145743.9 fps total: 105914.2
+fps step: 175080.7 fps total: 120059.5
+fps step: 166124.4 fps total: 115355.7
+fps step: 179087.0 fps total: 118650.3
+fps step: 144449.7 fps total: 103486.4
+fps step: 185864.6 fps total: 125703.5
+fps step: 189093.3 fps total: 128206.1
+fps step: 187875.0 fps total: 124795.4
+fps step: 189943.7 fps total: 126656.3
+fps step: 191585.0 fps total: 128343.0
+fps step: 190524.0 fps total: 127497.6
+fps step: 186652.6 fps total: 126611.7
+fps step: 190713.7 fps total: 128761.0
+fps step: 181044.9 fps total: 123795.5
+fps step: 189822.6 fps total: 127960.8
+fps step: 188776.9 fps total: 125836.6
+fps step: 188041.1 fps total: 127546.7
+fps step: 189810.0 fps total: 126766.8
+fps step: 176416.8 fps total: 119100.3
+fps step: 143699.1 fps total: 104566.8
+fps step: 167110.6 fps total: 115141.1
+fps step: 163686.0 fps total: 114694.3
+fps step: 188519.0 fps total: 126696.1
+fps step: 190717.5 fps total: 128176.2
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1150.pth'
+fps step: 184836.6 fps total: 124496.9
+fps step: 174746.3 fps total: 120071.9
+fps step: 159255.1 fps total: 109345.1
+fps step: 181555.0 fps total: 124738.6
+fps step: 170289.6 fps total: 118120.8
+fps step: 144170.3 fps total: 105245.6
+fps step: 164022.7 fps total: 113961.7
+fps step: 180022.3 fps total: 124192.7
+fps step: 163617.8 fps total: 113617.2
+fps step: 186195.4 fps total: 125529.4
+fps step: 177670.7 fps total: 118702.5
+fps step: 165738.8 fps total: 115723.6
+fps step: 186446.0 fps total: 125702.6
+fps step: 188600.9 fps total: 127288.3
+fps step: 171054.0 fps total: 119259.4
+fps step: 189706.0 fps total: 126714.6
+fps step: 189826.0 fps total: 127935.9
+fps step: 180904.0 fps total: 123123.2
+fps step: 177652.5 fps total: 121501.9
+fps step: 183210.3 fps total: 122625.8
+fps step: 186443.0 fps total: 125456.1
+fps step: 186609.0 fps total: 123597.7
+fps step: 171571.3 fps total: 118470.7
+fps step: 165161.8 fps total: 114697.4
+fps step: 169067.2 fps total: 116801.9
+fps step: 154696.5 fps total: 108242.7
+fps step: 168913.4 fps total: 117220.3
+fps step: 182562.5 fps total: 124091.3
+fps step: 184622.3 fps total: 125548.2
+fps step: 154588.4 fps total: 109092.1
+fps step: 168533.9 fps total: 115985.9
+fps step: 149109.9 fps total: 107267.5
+fps step: 155724.6 fps total: 110911.5
+fps step: 188436.1 fps total: 125818.8
+fps step: 188807.9 fps total: 126505.5
+fps step: 188852.0 fps total: 128132.0
+fps step: 187907.3 fps total: 127214.9
+fps step: 186522.0 fps total: 126430.1
+fps step: 189092.1 fps total: 128384.7
+fps step: 178336.9 fps total: 123127.4
+fps step: 156591.2 fps total: 110392.3
+fps step: 162463.0 fps total: 114201.0
+fps step: 162703.3 fps total: 113849.3
+fps step: 153450.8 fps total: 109317.4
+fps step: 153989.9 fps total: 109558.3
+fps step: 174017.3 fps total: 118629.9
+fps step: 158676.3 fps total: 111557.1
+fps step: 158170.3 fps total: 111563.7
+fps step: 181124.5 fps total: 121634.8
+fps step: 181684.5 fps total: 124420.5
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1200.pth'
+fps step: 182546.7 fps total: 123790.1
+fps step: 186458.4 fps total: 127532.5
+fps step: 189178.8 fps total: 128487.2
+fps step: 187223.4 fps total: 126201.8
+fps step: 173852.2 fps total: 119925.8
+fps step: 160331.6 fps total: 110398.3
+fps step: 175945.6 fps total: 120791.5
+fps step: 153933.7 fps total: 109555.5
+fps step: 163621.8 fps total: 113289.9
+fps step: 178755.2 fps total: 121372.9
+fps step: 148253.6 fps total: 106894.6
+fps step: 186030.7 fps total: 126810.3
+fps step: 184155.9 fps total: 126348.5
+fps step: 175758.5 fps total: 120817.8
+fps step: 185817.0 fps total: 125732.6
+fps step: 188238.5 fps total: 127993.7
+fps step: 189207.4 fps total: 127640.8
+fps step: 188973.6 fps total: 127112.8
+fps step: 187680.4 fps total: 127842.7
+fps step: 190513.0 fps total: 128661.7
+fps step: 189082.9 fps total: 125595.5
+fps step: 151499.1 fps total: 107827.3
+fps step: 186124.1 fps total: 126543.3
+fps step: 169604.2 fps total: 116491.3
+fps step: 185770.6 fps total: 123616.5
+fps step: 187437.0 fps total: 126882.9
+fps step: 163541.5 fps total: 113038.3
+fps step: 150278.1 fps total: 108577.6
+fps step: 187333.2 fps total: 127291.6
+fps step: 187300.0 fps total: 124858.7
+fps step: 186400.0 fps total: 125926.1
+fps step: 182267.8 fps total: 122866.4
+fps step: 177514.3 fps total: 121515.1
+fps step: 164904.0 fps total: 116988.4
+fps step: 178088.3 fps total: 123298.2
+fps step: 175523.1 fps total: 121912.4
+fps step: 183972.7 fps total: 124690.2
+fps step: 182247.6 fps total: 125188.2
+fps step: 183645.8 fps total: 122484.3
+fps step: 154948.6 fps total: 109600.8
+fps step: 165117.8 fps total: 115848.4
+fps step: 170531.7 fps total: 118494.3
+fps step: 178653.2 fps total: 121181.2
+fps step: 161980.0 fps total: 113694.0
+fps step: 189939.5 fps total: 129139.1
+fps step: 189868.9 fps total: 128733.8
+fps step: 180032.4 fps total: 122532.2
+fps step: 189354.3 fps total: 128607.8
+fps step: 186517.6 fps total: 123299.8
+fps step: 183431.2 fps total: 125548.4
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1250.pth'
+fps step: 189652.5 fps total: 128935.1
+fps step: 187959.6 fps total: 127666.4
+fps step: 153948.5 fps total: 108926.6
+fps step: 187955.3 fps total: 127300.7
+fps step: 188853.2 fps total: 32550.1
+fps step: 194000.1 fps total: 131005.3
+fps step: 193126.1 fps total: 129401.8
+fps step: 192608.2 fps total: 127565.9
+fps step: 193348.9 fps total: 130072.2
+fps step: 195235.9 fps total: 130774.3
+fps step: 194070.6 fps total: 131237.6
+fps step: 196823.7 fps total: 132777.4
+fps step: 188388.8 fps total: 126715.1
+fps step: 190651.8 fps total: 128247.0
+fps step: 191270.5 fps total: 124301.3
+fps step: 192714.9 fps total: 129416.2
+fps step: 175440.7 fps total: 120592.6
+fps step: 191327.8 fps total: 126581.2
+fps step: 192939.7 fps total: 127637.2
+fps step: 197162.5 fps total: 129875.1
+fps step: 195690.7 fps total: 131805.9
+fps step: 177260.8 fps total: 121397.2
+fps step: 193413.5 fps total: 127282.7
+fps step: 192762.5 fps total: 128521.5
+fps step: 193069.8 fps total: 128286.0
+fps step: 196004.5 fps total: 130618.3
+fps step: 191868.9 fps total: 127426.1
+fps step: 190778.1 fps total: 127878.6
+fps step: 191381.2 fps total: 127831.2
+fps step: 194803.9 fps total: 131162.7
+fps step: 180184.5 fps total: 122969.1
+fps step: 195612.0 fps total: 130395.7
+fps step: 195668.5 fps total: 132194.0
+fps step: 196414.5 fps total: 132158.0
+fps step: 189820.4 fps total: 125987.7
+fps step: 184919.5 fps total: 127006.0
+fps step: 178796.9 fps total: 124065.9
+fps step: 174745.4 fps total: 120776.3
+fps step: 177163.3 fps total: 121664.4
+fps step: 156127.1 fps total: 111948.5
+fps step: 196098.6 fps total: 131059.1
+fps step: 192742.4 fps total: 129479.8
+fps step: 192556.4 fps total: 130247.8
+fps step: 193513.2 fps total: 131179.2
+fps step: 195313.0 fps total: 131727.3
+fps step: 194795.9 fps total: 130984.7
+fps step: 191616.1 fps total: 128691.7
+fps step: 174736.4 fps total: 121500.9
+fps step: 152966.4 fps total: 108955.5
+fps step: 186261.4 fps total: 126842.2
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1300.pth'
+fps step: 194857.4 fps total: 131248.3
+fps step: 183863.7 fps total: 125222.5
+fps step: 140814.1 fps total: 103633.0
+fps step: 172532.1 fps total: 119352.1
+fps step: 177321.6 fps total: 118081.9
+fps step: 169136.6 fps total: 115849.9
+fps step: 154071.1 fps total: 110566.6
+fps step: 161015.9 fps total: 110410.1
+fps step: 158275.4 fps total: 112805.7
+fps step: 153237.6 fps total: 108130.0
+fps step: 171152.6 fps total: 120016.6
+fps step: 153746.9 fps total: 110817.3
+fps step: 161108.3 fps total: 110675.6
+fps step: 154537.9 fps total: 111644.5
+fps step: 148945.4 fps total: 106117.8
+fps step: 168937.9 fps total: 115699.1
+fps step: 176436.9 fps total: 121611.9
+fps step: 171787.2 fps total: 118081.9
+fps step: 163515.4 fps total: 112937.6
+fps step: 155924.2 fps total: 109947.7
+fps step: 192345.5 fps total: 130479.2
+fps step: 149038.4 fps total: 106953.8
+fps step: 147414.1 fps total: 107632.5
+fps step: 189109.3 fps total: 124500.9
+fps step: 171633.5 fps total: 119100.4
+fps step: 173673.6 fps total: 117629.4
+fps step: 160137.1 fps total: 111840.4
+fps step: 169675.1 fps total: 118209.0
+fps step: 184918.3 fps total: 123451.4
+fps step: 173214.0 fps total: 118769.1
+fps step: 165940.9 fps total: 112485.6
+fps step: 155726.7 fps total: 107932.8
+fps step: 177271.0 fps total: 119334.1
+fps step: 173482.1 fps total: 118864.8
+fps step: 189340.0 fps total: 128203.6
+fps step: 191567.5 fps total: 124302.9
+fps step: 136885.9 fps total: 100721.5
+fps step: 193767.8 fps total: 130379.2
+fps step: 195131.3 fps total: 131700.1
+fps step: 194522.4 fps total: 131298.8
+fps step: 194517.2 fps total: 131742.0
+fps step: 183971.4 fps total: 124677.7
+fps step: 192563.8 fps total: 130684.7
+fps step: 158017.5 fps total: 111030.9
+fps step: 183917.6 fps total: 119275.6
+fps step: 169338.5 fps total: 116438.3
+fps step: 169194.3 fps total: 117741.6
+fps step: 175781.7 fps total: 118272.5
+fps step: 187035.0 fps total: 124642.7
+fps step: 190857.1 fps total: 126997.8
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1350.pth'
+fps step: 193779.5 fps total: 128455.5
+fps step: 189738.5 fps total: 128348.4
+fps step: 193321.0 fps total: 128022.2
+fps step: 189370.8 fps total: 128409.6
+fps step: 189867.9 fps total: 125795.9
+fps step: 166337.7 fps total: 115791.0
+fps step: 160641.3 fps total: 113627.4
+fps step: 184077.5 fps total: 125579.1
+fps step: 172664.7 fps total: 120103.8
+fps step: 166367.4 fps total: 117832.6
+fps step: 167123.9 fps total: 117536.7
+fps step: 182314.4 fps total: 123307.5
+fps step: 178609.2 fps total: 123780.4
+fps step: 174786.3 fps total: 120606.3
+fps step: 172444.5 fps total: 120117.4
+fps step: 171679.6 fps total: 118617.1
+fps step: 180229.1 fps total: 123066.9
+fps step: 172229.0 fps total: 119663.1
+fps step: 180868.3 fps total: 124441.9
+fps step: 186852.3 fps total: 127614.0
+fps step: 192948.0 fps total: 126091.4
+fps step: 152509.7 fps total: 108269.8
+fps step: 189518.8 fps total: 127602.3
+fps step: 188503.9 fps total: 125426.9
+fps step: 190831.6 fps total: 129375.8
+fps step: 190232.3 fps total: 129033.5
+fps step: 190345.5 fps total: 127618.8
+fps step: 164529.7 fps total: 113667.2
+fps step: 161935.5 fps total: 115424.5
+fps step: 170773.9 fps total: 118110.2
+fps step: 167645.3 fps total: 118590.0
+fps step: 192377.8 fps total: 130178.6
+fps step: 191427.6 fps total: 129394.2
+fps step: 193028.6 fps total: 130409.4
+fps step: 188809.9 fps total: 127915.6
+fps step: 187230.8 fps total: 126105.4
+fps step: 165593.0 fps total: 116775.5
+fps step: 166680.2 fps total: 117144.0
+fps step: 157512.2 fps total: 112378.1
+fps step: 163733.7 fps total: 114424.5
+fps step: 154220.8 fps total: 111384.4
+fps step: 177629.5 fps total: 123112.2
+fps step: 187792.4 fps total: 125393.8
+fps step: 187812.3 fps total: 127534.2
+fps step: 190540.2 fps total: 129533.1
+fps step: 190759.2 fps total: 127775.3
+fps step: 181311.9 fps total: 122848.5
+fps step: 139210.4 fps total: 101610.3
+fps step: 165095.9 fps total: 115351.9
+fps step: 183536.9 fps total: 125975.4
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1400.pth'
+fps step: 185412.4 fps total: 126567.4
+fps step: 187846.4 fps total: 126346.3
+fps step: 167815.4 fps total: 118241.8
+fps step: 192134.3 fps total: 126716.1
+fps step: 179414.5 fps total: 122608.3
+fps step: 190165.5 fps total: 129607.0
+fps step: 187184.6 fps total: 127918.6
+fps step: 187151.0 fps total: 127842.2
+fps step: 188078.1 fps total: 127146.9
+fps step: 187657.1 fps total: 126763.7
+fps step: 190775.6 fps total: 129714.4
+fps step: 192300.8 fps total: 130318.1
+fps step: 185619.0 fps total: 127125.6
+fps step: 187170.7 fps total: 127996.8
+fps step: 192675.8 fps total: 130917.7
+fps step: 169535.9 fps total: 117329.1
+fps step: 174029.9 fps total: 120607.8
+fps step: 185075.3 fps total: 126785.5
+fps step: 182766.0 fps total: 125637.9
+fps step: 185843.6 fps total: 126860.6
+fps step: 188794.2 fps total: 128952.6
+fps step: 188034.7 fps total: 128540.2
+fps step: 193316.8 fps total: 131009.3
+fps step: 189568.1 fps total: 128018.0
+fps step: 139139.0 fps total: 102940.3
+fps step: 139638.4 fps total: 103360.8
+fps step: 156902.6 fps total: 112155.3
+fps step: 143625.1 fps total: 105347.5
+fps step: 147216.3 fps total: 106963.8
+fps step: 149472.1 fps total: 106670.0
+fps step: 153351.9 fps total: 109603.1
+fps step: 167928.1 fps total: 115608.5
+fps step: 163213.8 fps total: 114739.2
+fps step: 190293.8 fps total: 128641.2
+fps step: 189245.6 fps total: 128771.9
+fps step: 190959.8 fps total: 129576.3
+fps step: 192323.5 fps total: 130594.7
+fps step: 190739.2 fps total: 129715.2
+fps step: 191145.2 fps total: 129903.7
+fps step: 164523.9 fps total: 113133.0
+fps step: 191458.5 fps total: 126340.2
+fps step: 163687.9 fps total: 115478.7
+fps step: 182618.6 fps total: 123882.0
+fps step: 184332.1 fps total: 123303.5
+fps step: 170619.4 fps total: 117288.8
+fps step: 178919.5 fps total: 122785.8
+fps step: 183877.0 fps total: 125474.9
+fps step: 179455.7 fps total: 123009.9
+fps step: 149584.6 fps total: 108584.6
+fps step: 190891.7 fps total: 127346.7
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1450.pth'
+fps step: 191392.8 fps total: 129871.0
+fps step: 188213.9 fps total: 127912.8
+fps step: 188338.5 fps total: 126180.3
+fps step: 176207.6 fps total: 119499.9
+fps step: 166781.5 fps total: 116545.3
+fps step: 180407.4 fps total: 124252.5
+fps step: 191505.6 fps total: 127450.1
+fps step: 191602.8 fps total: 128089.2
+fps step: 154516.2 fps total: 110084.5
+fps step: 161145.7 fps total: 114053.7
+fps step: 158609.9 fps total: 113327.5
+fps step: 170217.4 fps total: 118642.2
+fps step: 158734.7 fps total: 112010.2
+fps step: 187387.6 fps total: 127567.8
+fps step: 189784.2 fps total: 129199.3
+fps step: 157710.7 fps total: 113144.7
+fps step: 150175.5 fps total: 108490.2
+fps step: 168904.4 fps total: 118895.4
+fps step: 191878.8 fps total: 130510.3
+fps step: 193617.9 fps total: 131125.6
+fps step: 191620.9 fps total: 130307.5
+fps step: 192901.9 fps total: 130558.4
+fps step: 190101.0 fps total: 127681.5
+fps step: 188713.3 fps total: 128862.4
+fps step: 190064.4 fps total: 126951.0
+fps step: 174258.5 fps total: 120101.9
+fps step: 149822.0 fps total: 106742.6
+fps step: 175532.2 fps total: 120959.5
+fps step: 173482.3 fps total: 120275.7
+fps step: 184683.9 fps total: 119777.0
+fps step: 172071.1 fps total: 116251.5
+fps step: 182118.1 fps total: 123866.7
+fps step: 178949.5 fps total: 121649.2
+fps step: 178174.8 fps total: 121350.6
+fps step: 167209.3 fps total: 114603.3
+fps step: 175958.2 fps total: 119262.3
+fps step: 179765.6 fps total: 120690.4
+fps step: 159479.6 fps total: 113369.0
+fps step: 177120.6 fps total: 121396.6
+fps step: 177634.1 fps total: 120489.2
+fps step: 184768.1 fps total: 125050.9
+fps step: 165168.1 fps total: 116317.7
+fps step: 131516.0 fps total: 98917.9
+fps step: 161539.0 fps total: 115148.1
+fps step: 187000.8 fps total: 128119.7
+fps step: 192154.6 fps total: 130379.9
+fps step: 192876.1 fps total: 130915.4
+fps step: 174901.3 fps total: 121941.0
+fps step: 172662.5 fps total: 120404.9
+fps step: 177360.0 fps total: 123351.4
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1500.pth'
+fps step: 183625.1 fps total: 126347.2
+fps step: 169008.6 fps total: 118902.2
+fps step: 164891.0 fps total: 116386.9
+fps step: 189963.5 fps total: 129099.6
+fps step: 192206.6 fps total: 129264.9
+fps step: 187905.5 fps total: 127148.3
+fps step: 187413.9 fps total: 126552.9
+fps step: 187947.7 fps total: 126702.1
+fps step: 175556.9 fps total: 119709.7
+fps step: 166307.3 fps total: 113683.3
+fps step: 171068.7 fps total: 117456.5
+fps step: 190712.0 fps total: 127357.3
+fps step: 193541.4 fps total: 130065.5
+fps step: 153665.3 fps total: 110652.0
+fps step: 155732.9 fps total: 109513.2
+fps step: 145439.8 fps total: 104471.9
+fps step: 145480.5 fps total: 106397.9
+fps step: 160911.5 fps total: 111265.4
+fps step: 159676.9 fps total: 111004.2
+fps step: 162181.1 fps total: 113865.3
+fps step: 161487.6 fps total: 111007.6
+fps step: 187955.3 fps total: 125898.4
+fps step: 190994.5 fps total: 129280.6
+fps step: 192341.5 fps total: 130208.7
+fps step: 191341.2 fps total: 129740.2
+fps step: 191310.6 fps total: 130258.1
+fps step: 188838.8 fps total: 126643.9
+fps step: 185292.5 fps total: 122067.5
+fps step: 182828.5 fps total: 123300.2
+fps step: 172258.1 fps total: 119097.5
+fps step: 181425.9 fps total: 125182.0
+fps step: 190018.9 fps total: 128342.8
+fps step: 189465.7 fps total: 127658.0
+fps step: 193277.4 fps total: 131139.2
+fps step: 191542.8 fps total: 130336.4
+fps step: 186045.2 fps total: 126951.0
+fps step: 189609.8 fps total: 128036.9
+fps step: 193004.2 fps total: 130838.2
+fps step: 193408.7 fps total: 131081.9
+fps step: 194437.1 fps total: 131143.1
+fps step: 190370.8 fps total: 128868.1
+fps step: 190615.7 fps total: 129751.0
+fps step: 166411.3 fps total: 116600.3
+fps step: 193459.2 fps total: 129018.6
+fps step: 191228.3 fps total: 128625.5
+fps step: 156422.5 fps total: 112315.9
+fps step: 152049.9 fps total: 107873.9
+fps step: 165304.9 fps total: 113706.1
+fps step: 150158.4 fps total: 109169.2
+fps step: 155199.8 fps total: 111027.8
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1550.pth'
+fps step: 147959.1 fps total: 108129.1
+fps step: 152288.7 fps total: 108518.6
+fps step: 162603.0 fps total: 111018.9
+fps step: 149992.4 fps total: 107942.3
+fps step: 156599.2 fps total: 110732.1
+fps step: 187728.0 fps total: 125499.6
+fps step: 188851.9 fps total: 128530.3
+fps step: 192426.0 fps total: 130779.5
+fps step: 191081.2 fps total: 129748.7
+fps step: 188266.2 fps total: 128337.9
+fps step: 186764.0 fps total: 122348.3
+fps step: 158101.5 fps total: 113261.4
+fps step: 151225.0 fps total: 108909.4
+fps step: 164114.9 fps total: 113854.3
+fps step: 180341.3 fps total: 115355.4
+fps step: 151983.7 fps total: 104736.8
+fps step: 152258.1 fps total: 106181.5
+fps step: 177757.5 fps total: 121535.5
+fps step: 186830.2 fps total: 125501.3
+fps step: 193009.6 fps total: 130750.4
+fps step: 190081.6 fps total: 129110.8
+fps step: 189942.6 fps total: 129171.3
+fps step: 188589.1 fps total: 128238.9
+fps step: 191876.1 fps total: 129487.9
+fps step: 192821.8 fps total: 130533.7
+fps step: 192489.6 fps total: 129712.0
+fps step: 191136.8 fps total: 129713.5
+fps step: 192598.9 fps total: 130013.1
+fps step: 191821.5 fps total: 129240.7
+fps step: 191751.5 fps total: 129418.7
+fps step: 191150.7 fps total: 129717.9
+fps step: 187709.8 fps total: 128034.9
+fps step: 187252.1 fps total: 126004.0
+fps step: 190496.1 fps total: 128536.1
+fps step: 192107.5 fps total: 126738.0
+fps step: 190765.3 fps total: 129184.7
+fps step: 191210.9 fps total: 129951.4
+fps step: 193007.8 fps total: 130548.0
+fps step: 189898.1 fps total: 129204.5
+fps step: 192397.5 fps total: 130760.5
+fps step: 191262.1 fps total: 130069.0
+fps step: 191445.8 fps total: 129878.2
+fps step: 188588.5 fps total: 128516.6
+fps step: 193011.0 fps total: 130977.7
+fps step: 192137.4 fps total: 130463.3
+fps step: 189828.4 fps total: 129054.7
+fps step: 191787.5 fps total: 130210.0
+fps step: 193146.9 fps total: 130948.7
+fps step: 192546.8 fps total: 130573.5
+fps step: 192152.2 fps total: 130255.2
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1600.pth'
+fps step: 193027.8 fps total: 129839.1
+fps step: 190935.4 fps total: 129683.9
+fps step: 192043.8 fps total: 130165.0
+fps step: 192944.8 fps total: 130711.8
+fps step: 187959.8 fps total: 121861.6
+fps step: 163337.9 fps total: 115879.1
+fps step: 173505.2 fps total: 119588.9
+fps step: 191258.3 fps total: 129179.0
+fps step: 187389.1 fps total: 126774.0
+fps step: 163402.4 fps total: 113427.6
+fps step: 153621.3 fps total: 108473.4
+fps step: 190418.7 fps total: 128419.8
+fps step: 134341.2 fps total: 96430.9
+fps step: 160720.0 fps total: 113337.6
+fps step: 171001.4 fps total: 116514.8
+fps step: 192031.1 fps total: 130241.8
+fps step: 178712.9 fps total: 122904.2
+fps step: 181022.5 fps total: 122855.6
+fps step: 192073.0 fps total: 130010.2
+fps step: 183760.8 fps total: 125957.7
+fps step: 186730.2 fps total: 122448.8
+fps step: 176626.3 fps total: 120554.7
+fps step: 147429.7 fps total: 105334.2
+fps step: 187114.1 fps total: 126581.3
+fps step: 189005.9 fps total: 127226.5
+fps step: 188873.8 fps total: 128088.8
+fps step: 189066.5 fps total: 128753.5
+fps step: 184601.7 fps total: 126774.8
+fps step: 186007.1 fps total: 127334.1
+fps step: 193094.2 fps total: 129291.6
+fps step: 171441.8 fps total: 119873.8
+fps step: 177966.1 fps total: 121053.5
+fps step: 151112.1 fps total: 105668.1
+fps step: 191724.2 fps total: 127979.0
+fps step: 192983.0 fps total: 130633.6
+fps step: 189784.8 fps total: 122833.5
+fps step: 171514.7 fps total: 117010.7
+fps step: 173372.8 fps total: 119063.3
+fps step: 183048.1 fps total: 125282.7
+fps step: 160754.4 fps total: 113262.3
+fps step: 176933.2 fps total: 120887.7
+fps step: 171198.9 fps total: 118947.1
+fps step: 162522.0 fps total: 110998.2
+fps step: 186200.7 fps total: 124901.9
+fps step: 190726.0 fps total: 129508.6
+fps step: 193795.6 fps total: 130924.0
+fps step: 192073.0 fps total: 129816.8
+fps step: 189959.7 fps total: 128368.6
+fps step: 191688.1 fps total: 128730.7
+fps step: 193183.4 fps total: 127635.9
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1650.pth'
+fps step: 185901.8 fps total: 125504.0
+fps step: 188530.4 fps total: 126011.9
+fps step: 174019.8 fps total: 117458.1
+fps step: 178005.9 fps total: 121019.5
+fps step: 160032.6 fps total: 112855.8
+fps step: 160384.2 fps total: 112645.1
+fps step: 190588.6 fps total: 129206.9
+fps step: 193050.5 fps total: 128606.9
+fps step: 193916.4 fps total: 129520.3
+fps step: 186571.5 fps total: 124694.1
+fps step: 176153.7 fps total: 120771.6
+fps step: 152879.2 fps total: 107243.6
+fps step: 154689.9 fps total: 110221.0
+fps step: 171306.4 fps total: 117632.0
+fps step: 188204.7 fps total: 127065.0
+fps step: 193741.8 fps total: 131270.2
+fps step: 191585.4 fps total: 130304.6
+fps step: 193582.3 fps total: 131072.3
+fps step: 184467.5 fps total: 125928.9
+fps step: 158399.9 fps total: 113746.6
+fps step: 147934.9 fps total: 107339.7
+fps step: 191930.7 fps total: 130355.3
+fps step: 171145.1 fps total: 117451.7
+fps step: 159911.8 fps total: 113519.4
+fps step: 168791.4 fps total: 119222.6
+fps step: 167079.0 fps total: 118260.6
+fps step: 164256.7 fps total: 116924.7
+fps step: 175997.4 fps total: 122928.9
+fps step: 175664.6 fps total: 122843.7
+fps step: 180627.3 fps total: 124691.8
+fps step: 172637.1 fps total: 119347.0
+fps step: 186386.0 fps total: 127914.6
+fps step: 193104.7 fps total: 130818.4
+fps step: 173035.0 fps total: 119379.1
+fps step: 146606.6 fps total: 107205.9
+fps step: 191689.2 fps total: 129915.6
+fps step: 193452.8 fps total: 130048.2
+fps step: 194116.1 fps total: 131198.2
+fps step: 192840.2 fps total: 130307.5
+fps step: 190987.6 fps total: 129499.4
+fps step: 192201.2 fps total: 130180.2
+fps step: 190538.1 fps total: 129704.4
+fps step: 191518.9 fps total: 130306.8
+fps step: 193588.3 fps total: 131423.8
+fps step: 193371.6 fps total: 130917.6
+fps step: 188339.5 fps total: 128083.5
+fps step: 186156.6 fps total: 122314.4
+fps step: 150842.2 fps total: 109297.0
+fps step: 179560.5 fps total: 124015.6
+fps step: 189799.1 fps total: 126778.2
+=> saving checkpoint 'runs/HumanoidAMP_08-19-59-56/nn/HumanoidAMP_08-19-59-57_1700.pth'
+fps step: 191693.5 fps total: 129846.9
+fps step: 191940.4 fps total: 130063.9
+fps step: 185217.3 fps total: 125776.9
+fps step: 192303.0 fps total: 129391.5
+fps step: 184044.6 fps total: 125243.1
+fps step: 169191.5 fps total: 118112.8
+fps step: 178618.8 fps total: 122623.4
+fps step: 181292.5 fps total: 123703.9
+Terminated

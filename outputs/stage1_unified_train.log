@@ -1,0 +1,338 @@
+nohup: ignoring input
+Importing module 'gym_38' (/home/user/Workspace/isaacgym/python/isaacgym/_bindings/linux-x86_64/gym_38.so)
+Setting GYM_USD_PLUG_INFO_PATH to /home/user/Workspace/isaacgym/python/isaacgym/_bindings/linux-x86_64/usd/plugInfo.json
+PyTorch version 2.4.1+cu124
+Device count 1
+/home/user/Workspace/isaacgym/python/isaacgym/_bindings/src/gymtorch
+Using /home/user/.cache/torch_extensions/py38_cu124 as PyTorch extensions root...
+Emitting ninja build file /home/user/.cache/torch_extensions/py38_cu124/gymtorch/build.ninja...
+Building extension module gymtorch...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module gymtorch...
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+2026-03-21 14:56:22,085 - INFO - logger - logger initialized
+<unknown>:3: DeprecationWarning: invalid escape sequence \*
+Error: FBX library failed to load - importing FBX data will not succeed. Message: No module named 'fbx'
+FBX tools must be installed from https://help.autodesk.com/view/FBX/2020/ENU/?guid=FBX_Developer_Help_scripting_with_python_fbx_installing_python_fbx_html
+<unknown>:3: DeprecationWarning: invalid escape sequence \*
+Error: FBX library failed to load - importing FBX data will not succeed. Message: No module named 'fbx'
+FBX tools must be installed from https://help.autodesk.com/view/FBX/2020/ENU/?guid=FBX_Developer_Help_scripting_with_python_fbx_installing_python_fbx_html
+
+╔══════════════════════════════════════════════════════════════╗
+║  ProKnee Stage 1 Unified: Velocity-Conditioned DAgger        ║
+║  Single body policy → unified velocity control (0~2.5 m/s)   ║
+║  obs=16D, priv=114D (113D base + 1D velocity_cmd)            ║
+╚══════════════════════════════════════════════════════════════╝
+
+  Device:       cuda:0
+  Num envs:     4096
+  Max epochs:   8000
+  Steps/epoch:  32
+  Body policy:  outputs/checkpoints/stage0/stage0_unified_1800.pth
+  LR:           0.001
+  Noise std:    0.3
+  Vel switch:   prob=0.005, interval=100
+============================================================
+  Output dir:   /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_unified_20260321_145622
+
+[Stage 1 Unified] Creating ProKneeUnifiedEnv...
+Not connected to PVD
++++ Using GPU PhysX
+Physics Engine: PhysX
+Physics Device: cuda:0
+GPU Pipeline: enabled
+/home/user/Workspace/ProKnee/ProKnee-HoraStyle/proknee_hora/envs/proknee_base.py:295: DeprecationWarning: an integer is required (got type isaacgym._bindings.linux-x86_64.gym_38.DofDriveMode).  Implicit conversion to integers using __int__ is deprecated, and may be removed in a future version of Python.
+  asset_options.default_dof_drive_mode = gymapi.DOF_MODE_NONE
+/home/user/Workspace/ProKnee/ProKnee-HoraStyle/proknee_hora/envs/proknee_base.py:215: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  key_body_ids=torch.tensor(self._key_body_ids).cpu().long(),
+Loading 1/1 motion files: /home/user/Workspace/ProKnee/ProKnee-HoraStyle/IsaacGymEnvs/assets/amp/motions/amp_humanoid_walk.npy
+Loaded 1 motions with a total length of 2.550s.
+[ProKneeUnifiedEnv] Loaded unified body policy from outputs/checkpoints/stage0/stage0_unified_1800.pth
+[Stage 1 Unified] Environment created in 0.9s
+[Stage 1 Unified] Creating ProKneePolicy (teacher mode)
+  obs_dim:      16
+  priv_dim:     114
+  proprio_dim:  16
+  Parameters: 162,185
+[Stage 1 Unified] Resetting environment...
+[Stage 1 Unified] TensorBoard: tensorboard --logdir /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_unified_20260321_145622/tb
+
+============================================================
+  Training started!
+============================================================
+Epoch     0 | Loss 0.070406 | Avg ep_len    0.0 | Noise 0.300 | FPS 113845
+Epoch    10 | Loss 0.012050 | Avg ep_len  185.8 | Noise 0.299 | FPS 139661
+Epoch    20 | Loss 0.006059 | Avg ep_len  222.7 | Noise 0.298 | FPS 149277
+Epoch    30 | Loss 0.004764 | Avg ep_len  234.8 | Noise 0.297 | FPS 153523
+Epoch    40 | Loss 0.003880 | Avg ep_len  235.6 | Noise 0.296 | FPS 153707
+Epoch    50 | Loss 0.003733 | Avg ep_len  228.1 | Noise 0.295 | FPS 158022
+Epoch    60 | Loss 0.003067 | Avg ep_len  230.4 | Noise 0.294 | FPS 157896
+Epoch    70 | Loss 0.002601 | Avg ep_len  233.1 | Noise 0.293 | FPS 159818
+Epoch    80 | Loss 0.002612 | Avg ep_len  235.3 | Noise 0.292 | FPS 160592
+Epoch    90 | Loss 0.002280 | Avg ep_len  237.8 | Noise 0.291 | FPS 163158
+Epoch   100 | Loss 0.002232 | Avg ep_len  239.4 | Noise 0.290 | FPS 163467
+  [Best] New best ep_len: 237.9 at epoch 101
+  [Best] New best ep_len: 240.7 at epoch 105
+Epoch   110 | Loss 0.002197 | Avg ep_len  233.9 | Noise 0.289 | FPS 163079
+  [Best] New best ep_len: 240.9 at epoch 117
+Epoch   120 | Loss 0.001948 | Avg ep_len  229.9 | Noise 0.288 | FPS 162763
+  [Best] New best ep_len: 241.3 at epoch 128
+Epoch   130 | Loss 0.002028 | Avg ep_len  235.3 | Noise 0.287 | FPS 162281
+  [Best] New best ep_len: 243.2 at epoch 133
+  [Best] New best ep_len: 245.0 at epoch 139
+Epoch   140 | Loss 0.002146 | Avg ep_len  233.8 | Noise 0.286 | FPS 162342
+Epoch   150 | Loss 0.001951 | Avg ep_len  241.3 | Noise 0.285 | FPS 162486
+  [Best] New best ep_len: 246.7 at epoch 154
+Epoch   160 | Loss 0.002273 | Avg ep_len  239.3 | Noise 0.284 | FPS 162557
+  [Best] New best ep_len: 250.7 at epoch 164
+Epoch   170 | Loss 0.001836 | Avg ep_len  238.3 | Noise 0.283 | FPS 161773
+Epoch   180 | Loss 0.002017 | Avg ep_len  230.7 | Noise 0.282 | FPS 161293
+Epoch   190 | Loss 0.002111 | Avg ep_len  242.3 | Noise 0.281 | FPS 161248
+Epoch   200 | Loss 0.001963 | Avg ep_len  236.3 | Noise 0.280 | FPS 161414
+  [Checkpoint] Saved to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_unified_20260321_145622/checkpoints/epoch_200.pth
+Epoch   210 | Loss 0.001836 | Avg ep_len  241.8 | Noise 0.279 | FPS 161165
+Epoch   220 | Loss 0.001477 | Avg ep_len  236.7 | Noise 0.278 | FPS 161021
+Epoch   230 | Loss 0.001628 | Avg ep_len  242.4 | Noise 0.277 | FPS 160637
+Epoch   240 | Loss 0.001691 | Avg ep_len  237.5 | Noise 0.276 | FPS 160939
+Epoch   250 | Loss 0.001936 | Avg ep_len  246.0 | Noise 0.275 | FPS 160787
+Epoch   260 | Loss 0.001679 | Avg ep_len  242.8 | Noise 0.274 | FPS 160614
+Epoch   270 | Loss 0.001567 | Avg ep_len  246.8 | Noise 0.273 | FPS 161065
+  [Best] New best ep_len: 251.1 at epoch 276
+Epoch   280 | Loss 0.001663 | Avg ep_len  252.3 | Noise 0.272 | FPS 160872
+  [Best] New best ep_len: 252.3 at epoch 280
+Epoch   290 | Loss 0.001357 | Avg ep_len  243.6 | Noise 0.271 | FPS 161020
+Epoch   300 | Loss 0.001422 | Avg ep_len  246.2 | Noise 0.270 | FPS 160736
+Epoch   310 | Loss 0.001318 | Avg ep_len  245.1 | Noise 0.269 | FPS 160655
+  [Best] New best ep_len: 255.0 at epoch 311
+Epoch   320 | Loss 0.001360 | Avg ep_len  247.9 | Noise 0.268 | FPS 160841
+Epoch   330 | Loss 0.001257 | Avg ep_len  243.3 | Noise 0.267 | FPS 161037
+Epoch   340 | Loss 0.001244 | Avg ep_len  241.9 | Noise 0.266 | FPS 161214
+  [Best] New best ep_len: 255.8 at epoch 348
+Epoch   350 | Loss 0.001531 | Avg ep_len  244.5 | Noise 0.265 | FPS 161044
+Epoch   360 | Loss 0.001285 | Avg ep_len  247.9 | Noise 0.264 | FPS 161089
+Epoch   370 | Loss 0.002450 | Avg ep_len  245.7 | Noise 0.263 | FPS 161269
+  [Best] New best ep_len: 256.3 at epoch 371
+Epoch   380 | Loss 0.001288 | Avg ep_len  249.0 | Noise 0.262 | FPS 161478
+Epoch   390 | Loss 0.001651 | Avg ep_len  247.4 | Noise 0.261 | FPS 161711
+Epoch   400 | Loss 0.001742 | Avg ep_len  250.5 | Noise 0.260 | FPS 161631
+  [Checkpoint] Saved to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_unified_20260321_145622/checkpoints/epoch_400.pth
+  [Best] New best ep_len: 258.2 at epoch 409
+Epoch   410 | Loss 0.001267 | Avg ep_len  248.0 | Noise 0.259 | FPS 161524
+Epoch   420 | Loss 0.001396 | Avg ep_len  246.0 | Noise 0.258 | FPS 161774
+Epoch   430 | Loss 0.001448 | Avg ep_len  250.2 | Noise 0.257 | FPS 161706
+Epoch   440 | Loss 0.001076 | Avg ep_len  250.7 | Noise 0.256 | FPS 161691
+Epoch   450 | Loss 0.001375 | Avg ep_len  248.6 | Noise 0.255 | FPS 161579
+  [Best] New best ep_len: 261.5 at epoch 451
+Epoch   460 | Loss 0.001642 | Avg ep_len  253.6 | Noise 0.254 | FPS 161828
+Epoch   470 | Loss 0.001400 | Avg ep_len  252.8 | Noise 0.253 | FPS 162108
+Epoch   480 | Loss 0.001231 | Avg ep_len  250.2 | Noise 0.252 | FPS 162024
+Epoch   490 | Loss 0.001259 | Avg ep_len  249.3 | Noise 0.251 | FPS 161798
+Epoch   500 | Loss 0.001189 | Avg ep_len  253.9 | Noise 0.250 | FPS 161785
+Epoch   510 | Loss 0.001270 | Avg ep_len  251.7 | Noise 0.249 | FPS 161723
+Epoch   520 | Loss 0.001241 | Avg ep_len  244.7 | Noise 0.248 | FPS 161760
+Epoch   530 | Loss 0.001363 | Avg ep_len  253.5 | Noise 0.247 | FPS 161920
+Epoch   540 | Loss 0.001466 | Avg ep_len  251.7 | Noise 0.246 | FPS 161986
+Epoch   550 | Loss 0.001521 | Avg ep_len  257.9 | Noise 0.245 | FPS 161750
+  [Best] New best ep_len: 265.1 at epoch 552
+Epoch   560 | Loss 0.001252 | Avg ep_len  250.0 | Noise 0.244 | FPS 161936
+Epoch   570 | Loss 0.001031 | Avg ep_len  251.8 | Noise 0.243 | FPS 161950
+Epoch   580 | Loss 0.001288 | Avg ep_len  249.5 | Noise 0.242 | FPS 162089
+Epoch   590 | Loss 0.001288 | Avg ep_len  247.6 | Noise 0.241 | FPS 162022
+Epoch   600 | Loss 0.000994 | Avg ep_len  250.6 | Noise 0.240 | FPS 162055
+  [Checkpoint] Saved to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_unified_20260321_145622/checkpoints/epoch_600.pth
+Epoch   610 | Loss 0.001133 | Avg ep_len  251.0 | Noise 0.239 | FPS 162078
+Epoch   620 | Loss 0.001207 | Avg ep_len  256.3 | Noise 0.238 | FPS 162337
+Epoch   630 | Loss 0.001213 | Avg ep_len  252.5 | Noise 0.237 | FPS 162277
+Epoch   640 | Loss 0.001278 | Avg ep_len  256.6 | Noise 0.236 | FPS 162256
+Epoch   650 | Loss 0.001303 | Avg ep_len  259.2 | Noise 0.235 | FPS 162489
+Epoch   660 | Loss 0.001067 | Avg ep_len  249.8 | Noise 0.234 | FPS 162626
+Epoch   670 | Loss 0.001333 | Avg ep_len  255.1 | Noise 0.233 | FPS 162559
+Epoch   680 | Loss 0.001322 | Avg ep_len  255.8 | Noise 0.232 | FPS 162583
+Epoch   690 | Loss 0.001431 | Avg ep_len  256.0 | Noise 0.231 | FPS 162886
+Epoch   700 | Loss 0.001099 | Avg ep_len  255.2 | Noise 0.230 | FPS 162953
+Epoch   710 | Loss 0.000870 | Avg ep_len  258.5 | Noise 0.229 | FPS 163073
+Epoch   720 | Loss 0.001348 | Avg ep_len  257.1 | Noise 0.228 | FPS 162884
+Epoch   730 | Loss 0.001460 | Avg ep_len  250.5 | Noise 0.227 | FPS 162912
+Epoch   740 | Loss 0.001269 | Avg ep_len  255.0 | Noise 0.226 | FPS 162797
+Epoch   750 | Loss 0.001090 | Avg ep_len  257.4 | Noise 0.225 | FPS 162862
+Epoch   760 | Loss 0.001036 | Avg ep_len  255.3 | Noise 0.224 | FPS 162873
+Epoch   770 | Loss 0.001035 | Avg ep_len  251.0 | Noise 0.223 | FPS 162796
+Epoch   780 | Loss 0.001274 | Avg ep_len  254.5 | Noise 0.222 | FPS 162860
+Epoch   790 | Loss 0.001176 | Avg ep_len  258.0 | Noise 0.221 | FPS 162824
+Epoch   800 | Loss 0.000975 | Avg ep_len  254.8 | Noise 0.220 | FPS 162724
+  [Checkpoint] Saved to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_unified_20260321_145622/checkpoints/epoch_800.pth
+Epoch   810 | Loss 0.000842 | Avg ep_len  254.0 | Noise 0.219 | FPS 162666
+Epoch   820 | Loss 0.000791 | Avg ep_len  254.3 | Noise 0.218 | FPS 162748
+Epoch   830 | Loss 0.001152 | Avg ep_len  252.3 | Noise 0.217 | FPS 162768
+Epoch   840 | Loss 0.001180 | Avg ep_len  250.2 | Noise 0.216 | FPS 162865
+Epoch   850 | Loss 0.001017 | Avg ep_len  247.5 | Noise 0.215 | FPS 162859
+Epoch   860 | Loss 0.000868 | Avg ep_len  252.6 | Noise 0.214 | FPS 162843
+Epoch   870 | Loss 0.000925 | Avg ep_len  255.3 | Noise 0.213 | FPS 163017
+Epoch   880 | Loss 0.000888 | Avg ep_len  254.9 | Noise 0.212 | FPS 163018
+Epoch   890 | Loss 0.000801 | Avg ep_len  258.2 | Noise 0.211 | FPS 163083
+Epoch   900 | Loss 0.001068 | Avg ep_len  259.6 | Noise 0.210 | FPS 163022
+Epoch   910 | Loss 0.001080 | Avg ep_len  253.2 | Noise 0.209 | FPS 163112
+Epoch   920 | Loss 0.000860 | Avg ep_len  256.4 | Noise 0.208 | FPS 163079
+Epoch   930 | Loss 0.000738 | Avg ep_len  256.8 | Noise 0.207 | FPS 163130
+Epoch   940 | Loss 0.000784 | Avg ep_len  260.0 | Noise 0.206 | FPS 163226
+Epoch   950 | Loss 0.000900 | Avg ep_len  253.7 | Noise 0.205 | FPS 163228
+Epoch   960 | Loss 0.000905 | Avg ep_len  257.6 | Noise 0.204 | FPS 163458
+Epoch   970 | Loss 0.001049 | Avg ep_len  252.3 | Noise 0.203 | FPS 163645
+  [Best] New best ep_len: 267.7 at epoch 975
+Epoch   980 | Loss 0.000851 | Avg ep_len  260.2 | Noise 0.202 | FPS 163724
+Epoch   990 | Loss 0.001095 | Avg ep_len  256.8 | Noise 0.201 | FPS 163664
+Epoch  1000 | Loss 0.001013 | Avg ep_len  259.3 | Noise 0.200 | FPS 163613
+  [Checkpoint] Saved to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_unified_20260321_145622/checkpoints/epoch_1000.pth
+Epoch  1010 | Loss 0.000825 | Avg ep_len  254.7 | Noise 0.199 | FPS 163601
+Epoch  1020 | Loss 0.001128 | Avg ep_len  253.3 | Noise 0.198 | FPS 163533
+Epoch  1030 | Loss 0.000802 | Avg ep_len  257.2 | Noise 0.197 | FPS 163584
+Epoch  1040 | Loss 0.000791 | Avg ep_len  257.4 | Noise 0.196 | FPS 163495
+Epoch  1050 | Loss 0.000795 | Avg ep_len  259.0 | Noise 0.195 | FPS 163571
+Epoch  1060 | Loss 0.000949 | Avg ep_len  257.0 | Noise 0.194 | FPS 163605
+Epoch  1070 | Loss 0.000854 | Avg ep_len  255.7 | Noise 0.193 | FPS 163563
+Epoch  1080 | Loss 0.001292 | Avg ep_len  261.9 | Noise 0.192 | FPS 163565
+Epoch  1090 | Loss 0.000810 | Avg ep_len  259.6 | Noise 0.191 | FPS 163648
+Epoch  1100 | Loss 0.000731 | Avg ep_len  255.3 | Noise 0.190 | FPS 163633
+Epoch  1110 | Loss 0.000843 | Avg ep_len  264.7 | Noise 0.189 | FPS 163572
+Epoch  1120 | Loss 0.000729 | Avg ep_len  256.1 | Noise 0.188 | FPS 163510
+Epoch  1130 | Loss 0.001038 | Avg ep_len  263.3 | Noise 0.187 | FPS 163690
+Epoch  1140 | Loss 0.001136 | Avg ep_len  258.3 | Noise 0.186 | FPS 163767
+Epoch  1150 | Loss 0.001011 | Avg ep_len  255.2 | Noise 0.185 | FPS 163749
+Epoch  1160 | Loss 0.001059 | Avg ep_len  253.7 | Noise 0.184 | FPS 163713
+Epoch  1170 | Loss 0.000750 | Avg ep_len  259.1 | Noise 0.183 | FPS 163808
+Epoch  1180 | Loss 0.000886 | Avg ep_len  253.5 | Noise 0.182 | FPS 163819
+Epoch  1190 | Loss 0.001227 | Avg ep_len  253.5 | Noise 0.181 | FPS 163997
+Epoch  1200 | Loss 0.000982 | Avg ep_len  260.4 | Noise 0.180 | FPS 163978
+  [Checkpoint] Saved to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_unified_20260321_145622/checkpoints/epoch_1200.pth
+Epoch  1210 | Loss 0.001097 | Avg ep_len  262.7 | Noise 0.179 | FPS 163955
+Epoch  1220 | Loss 0.000932 | Avg ep_len  254.1 | Noise 0.178 | FPS 164088
+Epoch  1230 | Loss 0.000756 | Avg ep_len  259.6 | Noise 0.177 | FPS 164103
+Epoch  1240 | Loss 0.000992 | Avg ep_len  261.9 | Noise 0.176 | FPS 164106
+Epoch  1250 | Loss 0.000908 | Avg ep_len  263.2 | Noise 0.175 | FPS 164057
+Epoch  1260 | Loss 0.000994 | Avg ep_len  259.7 | Noise 0.174 | FPS 164069
+Epoch  1270 | Loss 0.000804 | Avg ep_len  266.4 | Noise 0.173 | FPS 164149
+Epoch  1280 | Loss 0.000752 | Avg ep_len  252.8 | Noise 0.172 | FPS 164201
+Epoch  1290 | Loss 0.000674 | Avg ep_len  259.1 | Noise 0.171 | FPS 164085
+Epoch  1300 | Loss 0.000915 | Avg ep_len  253.4 | Noise 0.170 | FPS 164126
+Epoch  1310 | Loss 0.001019 | Avg ep_len  258.8 | Noise 0.169 | FPS 164177
+Epoch  1320 | Loss 0.000760 | Avg ep_len  254.4 | Noise 0.168 | FPS 164250
+Epoch  1330 | Loss 0.001262 | Avg ep_len  254.0 | Noise 0.167 | FPS 164293
+Epoch  1340 | Loss 0.001248 | Avg ep_len  258.2 | Noise 0.166 | FPS 164368
+Epoch  1350 | Loss 0.000854 | Avg ep_len  260.6 | Noise 0.165 | FPS 164305
+Epoch  1360 | Loss 0.000703 | Avg ep_len  255.4 | Noise 0.164 | FPS 164315
+Epoch  1370 | Loss 0.000874 | Avg ep_len  263.2 | Noise 0.163 | FPS 164359
+Epoch  1380 | Loss 0.000797 | Avg ep_len  253.1 | Noise 0.162 | FPS 164292
+Epoch  1390 | Loss 0.000967 | Avg ep_len  258.7 | Noise 0.161 | FPS 164251
+Epoch  1400 | Loss 0.000889 | Avg ep_len  263.9 | Noise 0.160 | FPS 164222
+  [Checkpoint] Saved to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_unified_20260321_145622/checkpoints/epoch_1400.pth
+Epoch  1410 | Loss 0.000833 | Avg ep_len  259.0 | Noise 0.159 | FPS 164241
+Epoch  1420 | Loss 0.000623 | Avg ep_len  259.2 | Noise 0.158 | FPS 164291
+Epoch  1430 | Loss 0.000811 | Avg ep_len  262.7 | Noise 0.157 | FPS 164262
+Epoch  1440 | Loss 0.000758 | Avg ep_len  263.0 | Noise 0.156 | FPS 164190
+Epoch  1450 | Loss 0.000948 | Avg ep_len  256.7 | Noise 0.155 | FPS 164221
+Epoch  1460 | Loss 0.000685 | Avg ep_len  260.8 | Noise 0.154 | FPS 164277
+Epoch  1470 | Loss 0.001596 | Avg ep_len  251.9 | Noise 0.153 | FPS 164427
+Epoch  1480 | Loss 0.000914 | Avg ep_len  260.4 | Noise 0.152 | FPS 164384
+Epoch  1490 | Loss 0.000887 | Avg ep_len  255.0 | Noise 0.151 | FPS 164452
+Epoch  1500 | Loss 0.000956 | Avg ep_len  252.4 | Noise 0.150 | FPS 164491
+Epoch  1510 | Loss 0.000926 | Avg ep_len  257.6 | Noise 0.149 | FPS 164615
+Epoch  1520 | Loss 0.000894 | Avg ep_len  262.8 | Noise 0.148 | FPS 164658
+Epoch  1530 | Loss 0.000792 | Avg ep_len  257.7 | Noise 0.147 | FPS 164682
+Epoch  1540 | Loss 0.000824 | Avg ep_len  251.6 | Noise 0.146 | FPS 164652
+Epoch  1550 | Loss 0.000744 | Avg ep_len  259.9 | Noise 0.145 | FPS 164675
+Epoch  1560 | Loss 0.000732 | Avg ep_len  261.8 | Noise 0.144 | FPS 164669
+Epoch  1570 | Loss 0.001050 | Avg ep_len  262.9 | Noise 0.143 | FPS 164628
+Epoch  1580 | Loss 0.000735 | Avg ep_len  260.9 | Noise 0.142 | FPS 164588
+Epoch  1590 | Loss 0.000641 | Avg ep_len  253.2 | Noise 0.141 | FPS 164537
+Epoch  1600 | Loss 0.000989 | Avg ep_len  258.3 | Noise 0.140 | FPS 164497
+  [Checkpoint] Saved to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_unified_20260321_145622/checkpoints/epoch_1600.pth
+Epoch  1610 | Loss 0.000841 | Avg ep_len  263.3 | Noise 0.139 | FPS 164457
+Epoch  1620 | Loss 0.000487 | Avg ep_len  259.8 | Noise 0.138 | FPS 164448
+Epoch  1630 | Loss 0.001164 | Avg ep_len  259.2 | Noise 0.137 | FPS 164474
+Epoch  1640 | Loss 0.000690 | Avg ep_len  258.0 | Noise 0.136 | FPS 164459
+Epoch  1650 | Loss 0.000647 | Avg ep_len  252.9 | Noise 0.135 | FPS 164420
+Epoch  1660 | Loss 0.000876 | Avg ep_len  255.3 | Noise 0.134 | FPS 164422
+Epoch  1670 | Loss 0.000758 | Avg ep_len  252.1 | Noise 0.133 | FPS 164492
+Epoch  1680 | Loss 0.000758 | Avg ep_len  259.8 | Noise 0.132 | FPS 164552
+Epoch  1690 | Loss 0.000831 | Avg ep_len  254.6 | Noise 0.131 | FPS 164654
+Epoch  1700 | Loss 0.000614 | Avg ep_len  255.0 | Noise 0.130 | FPS 164680
+Epoch  1710 | Loss 0.000725 | Avg ep_len  257.7 | Noise 0.129 | FPS 164634
+Epoch  1720 | Loss 0.000904 | Avg ep_len  253.3 | Noise 0.128 | FPS 164582
+Epoch  1730 | Loss 0.000709 | Avg ep_len  258.4 | Noise 0.127 | FPS 164641
+Epoch  1740 | Loss 0.000674 | Avg ep_len  254.6 | Noise 0.126 | FPS 164676
+Epoch  1750 | Loss 0.000973 | Avg ep_len  259.7 | Noise 0.125 | FPS 164665
+Epoch  1760 | Loss 0.000683 | Avg ep_len  257.1 | Noise 0.124 | FPS 164678
+Epoch  1770 | Loss 0.000687 | Avg ep_len  260.3 | Noise 0.123 | FPS 164626
+Epoch  1780 | Loss 0.001064 | Avg ep_len  260.0 | Noise 0.122 | FPS 164647
+Epoch  1790 | Loss 0.000870 | Avg ep_len  258.5 | Noise 0.121 | FPS 164765
+Epoch  1800 | Loss 0.000907 | Avg ep_len  262.4 | Noise 0.120 | FPS 164744
+  [Checkpoint] Saved to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_unified_20260321_145622/checkpoints/epoch_1800.pth
+Epoch  1810 | Loss 0.000672 | Avg ep_len  257.5 | Noise 0.119 | FPS 164730
+Epoch  1820 | Loss 0.000868 | Avg ep_len  255.2 | Noise 0.118 | FPS 164756
+Epoch  1830 | Loss 0.000660 | Avg ep_len  253.5 | Noise 0.117 | FPS 164791
+Epoch  1840 | Loss 0.000748 | Avg ep_len  259.4 | Noise 0.116 | FPS 164828
+Epoch  1850 | Loss 0.000807 | Avg ep_len  254.7 | Noise 0.115 | FPS 164833
+Epoch  1860 | Loss 0.001026 | Avg ep_len  260.9 | Noise 0.114 | FPS 164768
+Epoch  1870 | Loss 0.000619 | Avg ep_len  266.4 | Noise 0.113 | FPS 164806
+Epoch  1880 | Loss 0.000684 | Avg ep_len  252.6 | Noise 0.112 | FPS 164822
+Epoch  1890 | Loss 0.000640 | Avg ep_len  260.9 | Noise 0.111 | FPS 164818
+Epoch  1900 | Loss 0.000914 | Avg ep_len  251.9 | Noise 0.110 | FPS 164864
+Epoch  1910 | Loss 0.000575 | Avg ep_len  256.6 | Noise 0.109 | FPS 164805
+Epoch  1920 | Loss 0.000903 | Avg ep_len  257.7 | Noise 0.108 | FPS 164829
+Epoch  1930 | Loss 0.000714 | Avg ep_len  261.5 | Noise 0.107 | FPS 164865
+Epoch  1940 | Loss 0.000662 | Avg ep_len  258.2 | Noise 0.106 | FPS 164897
+Epoch  1950 | Loss 0.000719 | Avg ep_len  262.2 | Noise 0.105 | FPS 164871
+Epoch  1960 | Loss 0.000730 | Avg ep_len  258.9 | Noise 0.104 | FPS 164847
+Epoch  1970 | Loss 0.000701 | Avg ep_len  245.8 | Noise 0.103 | FPS 164926
+Epoch  1980 | Loss 0.000595 | Avg ep_len  264.4 | Noise 0.102 | FPS 164912
+Epoch  1990 | Loss 0.000593 | Avg ep_len  266.0 | Noise 0.101 | FPS 164898
+Epoch  2000 | Loss 0.000714 | Avg ep_len  260.5 | Noise 0.100 | FPS 164894
+  [Checkpoint] Saved to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_unified_20260321_145622/checkpoints/epoch_2000.pth
+Epoch  2010 | Loss 0.000892 | Avg ep_len  253.6 | Noise 0.099 | FPS 164922
+Epoch  2020 | Loss 0.000659 | Avg ep_len  258.4 | Noise 0.098 | FPS 164945
+Epoch  2030 | Loss 0.000615 | Avg ep_len  261.3 | Noise 0.097 | FPS 164910
+Epoch  2040 | Loss 0.000648 | Avg ep_len  259.3 | Noise 0.096 | FPS 164990
+Epoch  2050 | Loss 0.000681 | Avg ep_len  261.0 | Noise 0.095 | FPS 165026
+Epoch  2060 | Loss 0.000833 | Avg ep_len  257.0 | Noise 0.094 | FPS 165125
+Epoch  2070 | Loss 0.000722 | Avg ep_len  258.7 | Noise 0.093 | FPS 165127
+Epoch  2080 | Loss 0.000564 | Avg ep_len  258.9 | Noise 0.092 | FPS 165109
+Epoch  2090 | Loss 0.001040 | Avg ep_len  260.6 | Noise 0.091 | FPS 165097
+Epoch  2100 | Loss 0.000691 | Avg ep_len  251.3 | Noise 0.090 | FPS 165034
+Epoch  2110 | Loss 0.000581 | Avg ep_len  263.9 | Noise 0.089 | FPS 165025
+Epoch  2120 | Loss 0.000597 | Avg ep_len  255.8 | Noise 0.088 | FPS 165063
+Epoch  2130 | Loss 0.000926 | Avg ep_len  256.5 | Noise 0.087 | FPS 165058
+Epoch  2140 | Loss 0.000882 | Avg ep_len  253.1 | Noise 0.086 | FPS 165040
+Epoch  2150 | Loss 0.000669 | Avg ep_len  249.1 | Noise 0.085 | FPS 165020
+Epoch  2160 | Loss 0.000917 | Avg ep_len  256.8 | Noise 0.084 | FPS 165023
+Epoch  2170 | Loss 0.000557 | Avg ep_len  253.3 | Noise 0.083 | FPS 165080
+Epoch  2180 | Loss 0.000814 | Avg ep_len  259.2 | Noise 0.082 | FPS 165090
+Epoch  2190 | Loss 0.000619 | Avg ep_len  258.7 | Noise 0.081 | FPS 165143
+Epoch  2200 | Loss 0.000742 | Avg ep_len  260.6 | Noise 0.080 | FPS 165195
+  [Checkpoint] Saved to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_unified_20260321_145622/checkpoints/epoch_2200.pth
+Epoch  2210 | Loss 0.000603 | Avg ep_len  254.8 | Noise 0.079 | FPS 165249
+Epoch  2220 | Loss 0.000790 | Avg ep_len  261.7 | Noise 0.078 | FPS 165220
+Epoch  2230 | Loss 0.000785 | Avg ep_len  256.0 | Noise 0.077 | FPS 165250
+Epoch  2240 | Loss 0.000771 | Avg ep_len  258.9 | Noise 0.076 | FPS 165276
+Epoch  2250 | Loss 0.000681 | Avg ep_len  266.1 | Noise 0.075 | FPS 165243
+Epoch  2260 | Loss 0.000667 | Avg ep_len  259.1 | Noise 0.074 | FPS 165201
+  [Best] New best ep_len: 268.4 at epoch 2267
+Epoch  2270 | Loss 0.000584 | Avg ep_len  258.5 | Noise 0.073 | FPS 165228
+Epoch  2280 | Loss 0.000723 | Avg ep_len  259.3 | Noise 0.072 | FPS 165267
+Epoch  2290 | Loss 0.000664 | Avg ep_len  263.2 | Noise 0.071 | FPS 165268
+Epoch  2300 | Loss 0.000647 | Avg ep_len  253.4 | Noise 0.070 | FPS 165288
+Epoch  2310 | Loss 0.000550 | Avg ep_len  261.2 | Noise 0.069 | FPS 165290
+Epoch  2320 | Loss 0.000686 | Avg ep_len  263.2 | Noise 0.068 | FPS 165341
+Epoch  2330 | Loss 0.000493 | Avg ep_len  259.5 | Noise 0.067 | FPS 165332
+Epoch  2340 | Loss 0.000637 | Avg ep_len  251.7 | Noise 0.066 | FPS 165307
+Epoch  2350 | Loss 0.000589 | Avg ep_len  262.4 | Noise 0.065 | FPS 165293
+Epoch  2360 | Loss 0.000531 | Avg ep_len  260.9 | Noise 0.064 | FPS 165287
+Epoch  2370 | Loss 0.000779 | Avg ep_len  259.3 | Noise 0.063 | FPS 165330
+Epoch  2380 | Loss 0.000691 | Avg ep_len  262.1 | Noise 0.062 | FPS 165387
+Epoch  2390 | Loss 0.000583 | Avg ep_len  256.8 | Noise 0.061 | FPS 165418
+Epoch  2400 | Loss 0.000691 | Avg ep_len  256.5 | Noise 0.060 | FPS 165393
+  [Checkpoint] Saved to /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_unified_20260321_145622/checkpoints/epoch_2400.pth
+Epoch  2410 | Loss 0.000550 | Avg ep_len  264.2 | Noise 0.059 | FPS 165445
+Epoch  2420 | Loss 0.000530 | Avg ep_len  258.3 | Noise 0.058 | FPS 165488

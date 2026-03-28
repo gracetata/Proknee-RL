@@ -1,0 +1,47 @@
+# ProKnee Hora Task Configuration  
+# Teacher-Student architecture settings
+
+defaults:
+  - ProKneeBase
+
+env:
+  # Override for prosthesis-only control
+  num_actions: 1  # Only knee joint
+  
+  # Teacher-Student settings
+  hora:
+    # Proprioceptive history (Student)
+    proprio_dim: 10
+    proprio_hist_len: 30
+    
+    # Privileged information (Teacher)
+    priv_info_dim: 18
+    
+    # Latent dimension
+    latent_dim: 8
+    
+    # Student proprio components
+    student_proprio:
+      knee_pos_dim: 1
+      knee_vel_dim: 1
+      hip_pos_dim: 3
+      hip_vel_dim: 3
+      foot_force_dim: 1
+      command_dim: 1
+    
+    # Teacher priv_info components  
+    teacher_priv_info:
+      grf_dim: 6           # Ground reaction force (both feet)
+      contact_dim: 2       # Foot contacts
+      terrain_dim: 4       # Terrain heights
+      orient_error_dim: 3  # Orientation error
+      vel_error_dim: 3     # Velocity error
+      
+  # Mode: teacher or student
+  mode: teacher
+  
+  # Body policy (Stage 0 checkpoint)
+  body_policy_checkpoint: null
+  
+  # Teacher checkpoint (for Stage 2)
+  teacher_checkpoint: null

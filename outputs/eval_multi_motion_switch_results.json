@@ -1,0 +1,505 @@
+{
+  "timestamp": "2026-03-10T17:40:21.438709",
+  "checkpoint": "outputs/checkpoints/stage2_multi_switch/best.pth",
+  "per_motion": {
+    "walk": {
+      "motion": "walk",
+      "num_episodes": 258,
+      "avg_ep_len": 282.015503875969,
+      "std_ep_len": 55.93725506150506,
+      "avg_reward": 917.8422488131264,
+      "survival_rate": 0.8992248062015504
+    },
+    "run": {
+      "motion": "run",
+      "num_episodes": 260,
+      "avg_ep_len": 283.10769230769233,
+      "std_ep_len": 54.75213324314001,
+      "avg_reward": 926.090224808913,
+      "survival_rate": 0.9076923076923077
+    },
+    "dance": {
+      "motion": "dance",
+      "num_episodes": 258,
+      "avg_ep_len": 276.531007751938,
+      "std_ep_len": 65.39540592456551,
+      "avg_reward": 890.5978789218636,
+      "survival_rate": 0.8798449612403101
+    },
+    "stand": {
+      "motion": "stand",
+      "num_episodes": 262,
+      "avg_ep_len": 268.2328244274809,
+      "std_ep_len": 74.31018129902772,
+      "avg_reward": 839.8531723022461,
+      "survival_rate": 0.8396946564885496
+    }
+  },
+  "sequences": {
+    "walk-stop-walk": {
+      "trials": [
+        {
+          "trial": 0,
+          "survival_rate": 0.26953125,
+          "avg_reward": 413.02886962890625
+        },
+        {
+          "trial": 1,
+          "survival_rate": 0.17578125,
+          "avg_reward": 372.78839111328125
+        },
+        {
+          "trial": 2,
+          "survival_rate": 0.2265625,
+          "avg_reward": 369.6422424316406
+        },
+        {
+          "trial": 3,
+          "survival_rate": 0.23828125,
+          "avg_reward": 392.0047607421875
+        },
+        {
+          "trial": 4,
+          "survival_rate": 0.23046875,
+          "avg_reward": 387.64306640625
+        }
+      ],
+      "sequence": "walk-stop-walk",
+      "total_steps": 250,
+      "avg_survival_rate": 0.228125,
+      "avg_reward": 387.02146606445314,
+      "transitions": [
+        {
+          "from": "walk",
+          "to": "stand",
+          "action_diff": 0.017010191455483437
+        },
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.016357742249965668
+        },
+        {
+          "from": "walk",
+          "to": "stand",
+          "action_diff": 0.017915792763233185
+        },
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.016055991873145103
+        },
+        {
+          "from": "walk",
+          "to": "stand",
+          "action_diff": 0.01638864353299141
+        },
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.019840959459543228
+        },
+        {
+          "from": "walk",
+          "to": "stand",
+          "action_diff": 0.017106231302022934
+        },
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.019370343536138535
+        },
+        {
+          "from": "walk",
+          "to": "stand",
+          "action_diff": 0.018592704087495804
+        },
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.01911737024784088
+        }
+      ]
+    },
+    "walk-run-walk-stop-run": {
+      "trials": [
+        {
+          "trial": 0,
+          "survival_rate": 0.0,
+          "avg_reward": 360.04290771484375
+        },
+        {
+          "trial": 1,
+          "survival_rate": 0.0,
+          "avg_reward": 318.640625
+        },
+        {
+          "trial": 2,
+          "survival_rate": 0.0,
+          "avg_reward": 287.409912109375
+        },
+        {
+          "trial": 3,
+          "survival_rate": 0.0,
+          "avg_reward": 341.86737060546875
+        },
+        {
+          "trial": 4,
+          "survival_rate": 0.0,
+          "avg_reward": 360.465576171875
+        }
+      ],
+      "sequence": "walk-run-walk-stop-run",
+      "total_steps": 300,
+      "avg_survival_rate": 0.0,
+      "avg_reward": 333.6852783203125,
+      "transitions": [
+        {
+          "from": "walk",
+          "to": "run",
+          "action_diff": 0.01748870685696602
+        },
+        {
+          "from": "run",
+          "to": "walk",
+          "action_diff": 0.017449280247092247
+        },
+        {
+          "from": "walk",
+          "to": "stand",
+          "action_diff": 0.016985898837447166
+        },
+        {
+          "from": "stand",
+          "to": "run",
+          "action_diff": 0.020028086379170418
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "action_diff": 0.01791049912571907
+        },
+        {
+          "from": "run",
+          "to": "walk",
+          "action_diff": 0.020166030153632164
+        },
+        {
+          "from": "walk",
+          "to": "stand",
+          "action_diff": 0.018328974023461342
+        },
+        {
+          "from": "stand",
+          "to": "run",
+          "action_diff": 0.01919589191675186
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "action_diff": 0.01838657259941101
+        },
+        {
+          "from": "run",
+          "to": "walk",
+          "action_diff": 0.01805238425731659
+        },
+        {
+          "from": "walk",
+          "to": "stand",
+          "action_diff": 0.019108077511191368
+        },
+        {
+          "from": "stand",
+          "to": "run",
+          "action_diff": 0.02014252543449402
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "action_diff": 0.016961365938186646
+        },
+        {
+          "from": "run",
+          "to": "walk",
+          "action_diff": 0.015491628088057041
+        },
+        {
+          "from": "walk",
+          "to": "stand",
+          "action_diff": 0.019993312656879425
+        },
+        {
+          "from": "stand",
+          "to": "run",
+          "action_diff": 0.020322304219007492
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "action_diff": 0.015137311071157455
+        },
+        {
+          "from": "run",
+          "to": "walk",
+          "action_diff": 0.017220161855220795
+        },
+        {
+          "from": "walk",
+          "to": "stand",
+          "action_diff": 0.018609311431646347
+        },
+        {
+          "from": "stand",
+          "to": "run",
+          "action_diff": 0.016361193731427193
+        }
+      ]
+    },
+    "dance-stand-dance": {
+      "trials": [
+        {
+          "trial": 0,
+          "survival_rate": 0.140625,
+          "avg_reward": 304.69549560546875
+        },
+        {
+          "trial": 1,
+          "survival_rate": 0.12890625,
+          "avg_reward": 310.9588928222656
+        },
+        {
+          "trial": 2,
+          "survival_rate": 0.11328125,
+          "avg_reward": 310.25689697265625
+        },
+        {
+          "trial": 3,
+          "survival_rate": 0.1328125,
+          "avg_reward": 314.21734619140625
+        },
+        {
+          "trial": 4,
+          "survival_rate": 0.13671875,
+          "avg_reward": 308.5604248046875
+        }
+      ],
+      "sequence": "dance-stand-dance",
+      "total_steps": 200,
+      "avg_survival_rate": 0.13046875,
+      "avg_reward": 309.73781127929686,
+      "transitions": [
+        {
+          "from": "dance",
+          "to": "stand",
+          "action_diff": 0.02131037786602974
+        },
+        {
+          "from": "stand",
+          "to": "dance",
+          "action_diff": 0.02353486604988575
+        },
+        {
+          "from": "dance",
+          "to": "stand",
+          "action_diff": 0.02278338558971882
+        },
+        {
+          "from": "stand",
+          "to": "dance",
+          "action_diff": 0.021836090832948685
+        },
+        {
+          "from": "dance",
+          "to": "stand",
+          "action_diff": 0.022301778197288513
+        },
+        {
+          "from": "stand",
+          "to": "dance",
+          "action_diff": 0.02555597387254238
+        },
+        {
+          "from": "dance",
+          "to": "stand",
+          "action_diff": 0.026027681306004524
+        },
+        {
+          "from": "stand",
+          "to": "dance",
+          "action_diff": 0.024843595921993256
+        },
+        {
+          "from": "dance",
+          "to": "stand",
+          "action_diff": 0.022653723135590553
+        },
+        {
+          "from": "stand",
+          "to": "dance",
+          "action_diff": 0.02929910458624363
+        }
+      ]
+    },
+    "full-cycle": {
+      "trials": [
+        {
+          "trial": 0,
+          "survival_rate": 0.0,
+          "avg_reward": 193.7335205078125
+        },
+        {
+          "trial": 1,
+          "survival_rate": 0.0,
+          "avg_reward": 201.39956665039062
+        },
+        {
+          "trial": 2,
+          "survival_rate": 0.0,
+          "avg_reward": 250.4549560546875
+        },
+        {
+          "trial": 3,
+          "survival_rate": 0.0,
+          "avg_reward": 213.5360870361328
+        },
+        {
+          "trial": 4,
+          "survival_rate": 0.0,
+          "avg_reward": 238.6840057373047
+        }
+      ],
+      "sequence": "full-cycle",
+      "total_steps": 300,
+      "avg_survival_rate": 0.0,
+      "avg_reward": 219.56162719726564,
+      "transitions": [
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.01894167810678482
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "action_diff": 0.02255462482571602
+        },
+        {
+          "from": "run",
+          "to": "dance",
+          "action_diff": 0.014766593463718891
+        },
+        {
+          "from": "dance",
+          "to": "stand",
+          "action_diff": 0.034367211163043976
+        },
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.02739049308001995
+        },
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.019912313669919968
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "action_diff": 0.0193650983273983
+        },
+        {
+          "from": "run",
+          "to": "dance",
+          "action_diff": 0.016131289303302765
+        },
+        {
+          "from": "dance",
+          "to": "stand",
+          "action_diff": 0.0349116288125515
+        },
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.022061558440327644
+        },
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.018791168928146362
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "action_diff": 0.017565082758665085
+        },
+        {
+          "from": "run",
+          "to": "dance",
+          "action_diff": 0.015766140073537827
+        },
+        {
+          "from": "dance",
+          "to": "stand",
+          "action_diff": 0.03828106075525284
+        },
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.022089967504143715
+        },
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.01822894811630249
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "action_diff": 0.01709241047501564
+        },
+        {
+          "from": "run",
+          "to": "dance",
+          "action_diff": 0.01573990471661091
+        },
+        {
+          "from": "dance",
+          "to": "stand",
+          "action_diff": 0.03326951712369919
+        },
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.020483538508415222
+        },
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.017888762056827545
+        },
+        {
+          "from": "walk",
+          "to": "run",
+          "action_diff": 0.02197742834687233
+        },
+        {
+          "from": "run",
+          "to": "dance",
+          "action_diff": 0.017909755930304527
+        },
+        {
+          "from": "dance",
+          "to": "stand",
+          "action_diff": 0.03691650927066803
+        },
+        {
+          "from": "stand",
+          "to": "walk",
+          "action_diff": 0.02524643763899803
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,153 @@
+nohup: ignoring input
+Importing module 'gym_38' (/home/user/Workspace/isaacgym/python/isaacgym/_bindings/linux-x86_64/gym_38.so)
+Setting GYM_USD_PLUG_INFO_PATH to /home/user/Workspace/isaacgym/python/isaacgym/_bindings/linux-x86_64/usd/plugInfo.json
+PyTorch version 2.4.1+cu124
+Device count 1
+/home/user/Workspace/isaacgym/python/isaacgym/_bindings/src/gymtorch
+Using /home/user/.cache/torch_extensions/py38_cu124 as PyTorch extensions root...
+Emitting ninja build file /home/user/.cache/torch_extensions/py38_cu124/gymtorch/build.ninja...
+Building extension module gymtorch...
+Allowing ninja to set a default number of workers... (overridable by setting the environment variable MAX_JOBS=N)
+ninja: no work to do.
+Loading extension module gymtorch...
+Gym has been unmaintained since 2022 and does not support NumPy 2.0 amongst other critical functionality.
+Please upgrade to Gymnasium, the maintained drop-in replacement of Gym, or contact the authors of your software and request that they upgrade.
+See the migration guide at https://gymnasium.farama.org/introduction/migration_guide/ for additional information.
+2026-03-06 17:39:29,103 - INFO - logger - logger initialized
+<unknown>:3: DeprecationWarning: invalid escape sequence \*
+Error: FBX library failed to load - importing FBX data will not succeed. Message: No module named 'fbx'
+FBX tools must be installed from https://help.autodesk.com/view/FBX/2020/ENU/?guid=FBX_Developer_Help_scripting_with_python_fbx_installing_python_fbx_html
+<unknown>:3: DeprecationWarning: invalid escape sequence \*
+Error: FBX library failed to load - importing FBX data will not succeed. Message: No module named 'fbx'
+FBX tools must be installed from https://help.autodesk.com/view/FBX/2020/ENU/?guid=FBX_Developer_Help_scripting_with_python_fbx_installing_python_fbx_html
+============================================================
+  ProKnee Stage 1: DAgger-style Behavioral Cloning
+============================================================
+  Device:       cuda:0
+  Num envs:     4096
+  Max epochs:   5000
+  Steps/epoch:  32
+  Body policy:  outputs/checkpoints/stage0/stage0_amp_walk_5050.pth
+  LR:           0.001
+  Noise std:    0.3
+============================================================
+  Output dir:   /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_dagger_20260306_173929
+
+[Stage 1] Creating environment...
+Not connected to PVD
++++ Using GPU PhysX
+Physics Engine: PhysX
+Physics Device: cuda:0
+GPU Pipeline: enabled
+/home/user/Workspace/ProKnee/ProKnee-HoraStyle/proknee_hora/envs/proknee_base.py:295: DeprecationWarning: an integer is required (got type isaacgym._bindings.linux-x86_64.gym_38.DofDriveMode).  Implicit conversion to integers using __int__ is deprecated, and may be removed in a future version of Python.
+  asset_options.default_dof_drive_mode = gymapi.DOF_MODE_NONE
+/home/user/Workspace/ProKnee/ProKnee-HoraStyle/proknee_hora/envs/proknee_base.py:215: UserWarning: To copy construct from a tensor, it is recommended to use sourceTensor.clone().detach() or sourceTensor.clone().detach().requires_grad_(True), rather than torch.tensor(sourceTensor).
+  key_body_ids=torch.tensor(self._key_body_ids).cpu().long(),
+Loading 1/1 motion files: /home/user/Workspace/ProKnee/ProKnee-HoraStyle/IsaacGymEnvs/assets/amp/motions/amp_humanoid_walk.npy
+Loaded 1 motions with a total length of 2.550s.
+[Stage 1] Environment created in 0.7s
+[Stage 1] Body policy loaded for target knee action
+[Stage 1] Creating ProKneePolicy (teacher mode)...
+  Parameters: 161,929
+[Stage 1] Resetting environment...
+[Stage 1] TensorBoard: tensorboard --logdir /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/stage1_dagger_20260306_173929/tb
+
+============================================================
+  Training started!
+============================================================
+  Epoch     0/5000 | loss=0.055772 | ep_len=   0.0 | noise=0.300 | 0.8 ep/s
+  Epoch    10/5000 | loss=0.003724 | ep_len=  70.5 | noise=0.298 | 1.0 ep/s
+  Epoch    20/5000 | loss=0.002169 | ep_len=  70.2 | noise=0.297 | 1.1 ep/s
+  Epoch    30/5000 | loss=0.001631 | ep_len=  70.3 | noise=0.295 | 1.1 ep/s
+  Epoch    40/5000 | loss=0.001327 | ep_len=  70.3 | noise=0.294 | 1.1 ep/s
+  Epoch    50/5000 | loss=0.001141 | ep_len=  71.3 | noise=0.292 | 1.1 ep/s
+  Epoch    60/5000 | loss=0.001010 | ep_len=  70.8 | noise=0.291 | 1.1 ep/s
+  Epoch    70/5000 | loss=0.000916 | ep_len=  70.6 | noise=0.289 | 1.1 ep/s
+  Epoch    80/5000 | loss=0.000828 | ep_len=  70.6 | noise=0.288 | 1.1 ep/s
+  Epoch    90/5000 | loss=0.000744 | ep_len=  70.5 | noise=0.286 | 1.1 ep/s
+  Epoch   100/5000 | loss=0.000685 | ep_len=  70.6 | noise=0.285 | 1.1 ep/s
+  Epoch   110/5000 | loss=0.000637 | ep_len=  70.0 | noise=0.283 | 1.1 ep/s
+  Epoch   120/5000 | loss=0.000620 | ep_len=  71.1 | noise=0.282 | 1.1 ep/s
+  Epoch   130/5000 | loss=0.000536 | ep_len=  71.0 | noise=0.281 | 1.1 ep/s
+  Epoch   140/5000 | loss=0.000519 | ep_len=  70.4 | noise=0.279 | 1.1 ep/s
+  Epoch   150/5000 | loss=0.000509 | ep_len=  70.5 | noise=0.278 | 1.1 ep/s
+  Epoch   160/5000 | loss=0.000454 | ep_len=  70.9 | noise=0.276 | 1.1 ep/s
+  Epoch   170/5000 | loss=0.000432 | ep_len=  70.8 | noise=0.275 | 1.1 ep/s
+  Epoch   180/5000 | loss=0.000439 | ep_len=  70.6 | noise=0.273 | 1.1 ep/s
+  Epoch   190/5000 | loss=0.000412 | ep_len=  70.2 | noise=0.272 | 1.1 ep/s
+  Epoch   200/5000 | loss=0.000402 | ep_len=  70.6 | noise=0.270 | 1.1 ep/s
+  Epoch   210/5000 | loss=0.000367 | ep_len=  70.3 | noise=0.269 | 1.1 ep/s
+  Epoch   220/5000 | loss=0.000365 | ep_len=  71.4 | noise=0.267 | 1.1 ep/s
+  Epoch   230/5000 | loss=0.000362 | ep_len=  70.6 | noise=0.266 | 1.1 ep/s
+  Epoch   240/5000 | loss=0.000341 | ep_len=  70.1 | noise=0.264 | 1.1 ep/s
+  Epoch   250/5000 | loss=0.000329 | ep_len=  70.7 | noise=0.263 | 1.1 ep/s
+  Epoch   260/5000 | loss=0.000337 | ep_len=  70.8 | noise=0.261 | 1.1 ep/s
+  Epoch   270/5000 | loss=0.000329 | ep_len=  70.7 | noise=0.260 | 1.1 ep/s
+  Epoch   280/5000 | loss=0.000317 | ep_len=  70.6 | noise=0.258 | 1.1 ep/s
+  Epoch   290/5000 | loss=0.000300 | ep_len=  71.2 | noise=0.257 | 1.1 ep/s
+  Epoch   300/5000 | loss=0.000277 | ep_len=  70.7 | noise=0.255 | 1.1 ep/s
+  Epoch   310/5000 | loss=0.000293 | ep_len=  70.9 | noise=0.254 | 1.1 ep/s
+  Epoch   320/5000 | loss=0.000261 | ep_len=  70.6 | noise=0.252 | 1.1 ep/s
+  Epoch   330/5000 | loss=0.000272 | ep_len=  70.7 | noise=0.251 | 1.1 ep/s
+  Epoch   340/5000 | loss=0.000264 | ep_len=  70.4 | noise=0.249 | 1.1 ep/s
+  Epoch   350/5000 | loss=0.000246 | ep_len=  71.3 | noise=0.247 | 1.1 ep/s
+  Epoch   360/5000 | loss=0.000248 | ep_len=  70.8 | noise=0.246 | 1.1 ep/s
+  Epoch   370/5000 | loss=0.000247 | ep_len=  71.2 | noise=0.244 | 1.1 ep/s
+  Epoch   380/5000 | loss=0.000241 | ep_len=  70.6 | noise=0.243 | 1.1 ep/s
+  Epoch   390/5000 | loss=0.000241 | ep_len=  70.8 | noise=0.241 | 1.1 ep/s
+  Epoch   400/5000 | loss=0.000232 | ep_len=  71.2 | noise=0.240 | 1.1 ep/s
+  Epoch   410/5000 | loss=0.000229 | ep_len=  71.1 | noise=0.238 | 1.1 ep/s
+  Epoch   420/5000 | loss=0.000222 | ep_len=  71.2 | noise=0.237 | 1.1 ep/s
+  Epoch   430/5000 | loss=0.000217 | ep_len=  71.0 | noise=0.235 | 1.1 ep/s
+  Epoch   440/5000 | loss=0.000221 | ep_len=  70.8 | noise=0.234 | 1.1 ep/s
+  Epoch   450/5000 | loss=0.000223 | ep_len=  70.5 | noise=0.232 | 1.1 ep/s
+  Epoch   460/5000 | loss=0.000197 | ep_len=  71.0 | noise=0.231 | 1.1 ep/s
+  Epoch   470/5000 | loss=0.000208 | ep_len=  70.9 | noise=0.229 | 1.1 ep/s
+  Epoch   480/5000 | loss=0.000190 | ep_len=  72.0 | noise=0.228 | 1.1 ep/s
+  Epoch   490/5000 | loss=0.000198 | ep_len=  70.3 | noise=0.226 | 1.1 ep/s
+  Epoch   500/5000 | loss=0.000190 | ep_len=  70.1 | noise=0.225 | 1.1 ep/s
+  Epoch   510/5000 | loss=0.000199 | ep_len=  70.9 | noise=0.224 | 1.1 ep/s
+  Epoch   520/5000 | loss=0.000196 | ep_len=  70.8 | noise=0.222 | 1.1 ep/s
+  Epoch   530/5000 | loss=0.000186 | ep_len=  70.7 | noise=0.221 | 1.1 ep/s
+  Epoch   540/5000 | loss=0.000176 | ep_len=  71.1 | noise=0.219 | 1.1 ep/s
+  Epoch   550/5000 | loss=0.000176 | ep_len=  70.8 | noise=0.217 | 1.1 ep/s
+  Epoch   560/5000 | loss=0.000192 | ep_len=  70.7 | noise=0.216 | 1.1 ep/s
+  Epoch   570/5000 | loss=0.000170 | ep_len=  72.0 | noise=0.215 | 1.1 ep/s
+  Epoch   580/5000 | loss=0.000176 | ep_len=  70.7 | noise=0.213 | 1.1 ep/s
+  Epoch   590/5000 | loss=0.000165 | ep_len=  71.4 | noise=0.212 | 1.1 ep/s
+  Epoch   600/5000 | loss=0.000168 | ep_len=  71.3 | noise=0.210 | 1.1 ep/s
+  Epoch   610/5000 | loss=0.000164 | ep_len=  71.1 | noise=0.209 | 1.1 ep/s
+  Epoch   620/5000 | loss=0.000171 | ep_len=  71.4 | noise=0.207 | 1.1 ep/s
+  Epoch   630/5000 | loss=0.000170 | ep_len=  70.8 | noise=0.206 | 1.1 ep/s
+  Epoch   640/5000 | loss=0.000169 | ep_len=  70.7 | noise=0.204 | 1.1 ep/s
+  Epoch   650/5000 | loss=0.000152 | ep_len=  71.3 | noise=0.203 | 1.1 ep/s
+  Epoch   660/5000 | loss=0.000149 | ep_len=  70.7 | noise=0.201 | 1.1 ep/s
+  Epoch   670/5000 | loss=0.000156 | ep_len=  71.0 | noise=0.200 | 1.1 ep/s
+  Epoch   680/5000 | loss=0.000156 | ep_len=  70.8 | noise=0.198 | 1.1 ep/s
+  Epoch   690/5000 | loss=0.000151 | ep_len=  71.3 | noise=0.197 | 1.1 ep/s
+  Epoch   700/5000 | loss=0.000151 | ep_len=  70.5 | noise=0.195 | 1.1 ep/s
+  Epoch   710/5000 | loss=0.000143 | ep_len=  71.3 | noise=0.194 | 1.1 ep/s
+  Epoch   720/5000 | loss=0.000134 | ep_len=  70.7 | noise=0.192 | 1.1 ep/s
+  Epoch   730/5000 | loss=0.000132 | ep_len=  71.4 | noise=0.191 | 1.1 ep/s
+  Epoch   740/5000 | loss=0.000137 | ep_len=  70.4 | noise=0.189 | 1.1 ep/s
+  Epoch   750/5000 | loss=0.000172 | ep_len=  71.3 | noise=0.188 | 1.1 ep/s
+  Epoch   760/5000 | loss=0.000153 | ep_len=  71.5 | noise=0.186 | 1.1 ep/s
+  Epoch   770/5000 | loss=0.000133 | ep_len=  70.7 | noise=0.184 | 1.1 ep/s
+  Epoch   780/5000 | loss=0.000136 | ep_len=  72.0 | noise=0.183 | 1.1 ep/s
+  Epoch   790/5000 | loss=0.000126 | ep_len=  71.5 | noise=0.181 | 1.1 ep/s
+  Epoch   800/5000 | loss=0.000128 | ep_len=  71.2 | noise=0.180 | 1.1 ep/s
+  Epoch   810/5000 | loss=0.000128 | ep_len=  71.5 | noise=0.178 | 1.1 ep/s
+  Epoch   820/5000 | loss=0.000116 | ep_len=  71.0 | noise=0.177 | 1.1 ep/s
+  Epoch   830/5000 | loss=0.000138 | ep_len=  71.5 | noise=0.175 | 1.1 ep/s
+  Epoch   840/5000 | loss=0.000115 | ep_len=  71.0 | noise=0.174 | 1.1 ep/s
+  Epoch   850/5000 | loss=0.000116 | ep_len=  71.2 | noise=0.172 | 1.1 ep/s
+  Epoch   860/5000 | loss=0.000119 | ep_len=  71.7 | noise=0.171 | 1.1 ep/s
+  Epoch   870/5000 | loss=0.000111 | ep_len=  70.4 | noise=0.169 | 1.1 ep/s
+  Epoch   880/5000 | loss=0.000112 | ep_len=  70.8 | noise=0.168 | 1.1 ep/s
+  Epoch   890/5000 | loss=0.000120 | ep_len=  71.5 | noise=0.166 | 1.1 ep/s
+  Epoch   900/5000 | loss=0.000110 | ep_len=  71.0 | noise=0.165 | 1.1 ep/s
+  Epoch   910/5000 | loss=0.000109 | ep_len=  71.0 | noise=0.163 | 1.1 ep/s
+  Epoch   920/5000 | loss=0.000108 | ep_len=  71.8 | noise=0.162 | 1.1 ep/s
+  Epoch   930/5000 | loss=0.000104 | ep_len=  71.1 | noise=0.160 | 1.1 ep/s
+  Epoch   940/5000 | loss=0.000105 | ep_len=  71.2 | noise=0.159 | 1.1 ep/s
+  Epoch   950/5000 | loss=0.000110 | ep_len=  70.4 | noise=0.158 | 1.1 ep/s

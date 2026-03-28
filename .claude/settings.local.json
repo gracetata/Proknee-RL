@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(find /home/user/Workspace/ProKnee/ProKnee-HoraStyle/proknee_hora/tests -name \"*.py\" -exec wc -l {} +)",
+      "Bash(xargs cat:*)",
+      "Bash(du -sh /home/user/Workspace/ProKnee/ProKnee-HoraStyle/outputs/checkpoints/*)",
+      "Bash(grep:*)",
+      "Skill(update-config)"
+    ]
+  }
+}
