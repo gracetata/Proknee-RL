@@ -6,6 +6,8 @@
 #   bash scripts/train_stage0_unified.sh [MAX_ITERS] [CHECKPOINT]
 #   bash scripts/train_stage0_unified.sh 10000
 #   bash scripts/train_stage0_unified.sh 15000 runs/.../nn/xxx_750.pth
+#
+# 默认 num_envs=4096（RTX 4090 24GB 左右）；显存不够: export STAGE0_NUM_ENVS=2048 或 1024
 
 set -e
 
@@ -13,11 +15,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
-cd "$PROJECT_DIR/IsaacGymEnvs/isaacgymenvs"
+# shellcheck source=/dev/null
+source "$SCRIPT_DIR/activate_rlleg_env.sh"
 
-# Activate environment
-export LD_LIBRARY_PATH=/home/user/anaconda3/envs/proknee_tc/lib:$LD_LIBRARY_PATH
-PYTHON=/home/user/anaconda3/envs/proknee_tc/bin/python
+cd "$PROJECT_DIR/IsaacGymEnvs/isaacgymenvs"
+PYTHON="${CONDA_PREFIX}/bin/python"
+NUM_ENVS="${STAGE0_NUM_ENVS:-4096}"
+# shellcheck source=/dev/null
+source "$SCRIPT_DIR/stage0_batch_hydra.sh"
 
 MAX_ITERS=${1:-10000}
 CHECKPOINT=${2:-""}
@@ -39,7 +44,7 @@ echo "║  motion_file: multi_walk_run_stand.yaml"
 echo "║  obs:         106D (105D + 1D velocity cmd)"
 echo "║  task_reward:  0.5 (velocity tracking)"
 echo "║  disc_reward:  0.5 (AMP style)"
-echo "║  num_envs:    4096"
+echo "║  num_envs:    $NUM_ENVS (STAGE0_NUM_ENVS)"
 if [ -n "$CHECKPOINT" ]; then
 echo "║  恢复训练:    $CHECKPOINT"
 fi
@@ -51,7 +56,9 @@ echo ""
 $PYTHON train.py \
     task=HumanoidAMPUnified \
     train=HumanoidAMPUnifiedPPO \
-    num_envs=4096 \
+    num_envs=$NUM_ENVS \
+    train.params.config.minibatch_size=$STAGE0_MB \
+    train.params.config.amp_minibatch_size=$STAGE0_AMP_MB \
     max_iterations=$MAX_ITERS \
     headless=True \
     $CHECKPOINT_ARG \

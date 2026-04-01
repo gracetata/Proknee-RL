@@ -1,0 +1,7 @@
+# Multi-motion bundle for HumanoidAMPUnified (walk + run).
+# Weights follow USE.md / Phase 11; stand motion file is not shipped — use walk+run only.
+motions:
+  - file: amp_humanoid_walk.npy
+    weight: 1.0
+  - file: amp_humanoid_run.npy
+    weight: 1.0

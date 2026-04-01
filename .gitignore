@@ -1,0 +1,9 @@
+# NVIDIA Isaac Gym：请在本机单独安装，勿提交整包（体积与许可）
+/isaacgym/
+
+# 本地大归档
+*.tar.gz
+
+# 根目录常见产物
+/runs/
+*.pth
