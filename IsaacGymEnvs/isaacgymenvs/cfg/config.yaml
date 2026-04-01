@@ -59,7 +59,8 @@ headless: False
 
 # set default task and default training config based on task
 defaults:
-  - task: Ant
+  # Stage0 Unified 分支：默认任务为 HumanoidAMPUnified（非 Ant）
+  - task: HumanoidAMPUnified
   - train: ${task}PPO
   - pbt: no_pbt
   - override hydra/job_logging: disabled
