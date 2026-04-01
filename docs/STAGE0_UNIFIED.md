@@ -1,5 +1,13 @@
 # Stage0 Unified 训练（另一台机器拉取后）
 
+## 拉取本分支
+
+```bash
+git clone -b zjt/test https://github.com/gracetata/Proknee-RL.git
+# 或已有仓库：
+# git fetch origin zjt/test && git checkout zjt/test
+```
+
 ## 依赖（需自行准备）
 
 1. **Isaac Gym**：从 NVIDIA 官方获取并解压，与本仓库 **同级或自定义路径** 均可。
