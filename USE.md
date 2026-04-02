@@ -639,7 +639,7 @@ kill <PID>
 
 ### 15.2 Stage 0 Unified 训练 
 
-在仓库根目录执行；环境依赖见 `docs/ENVIRONMENT_RLLEG.md`。`train_stage0_unified.sh` / `train_stage0_unified_humanmimic.sh` 会 `source scripts/activate_proknee_tc_env.sh`，`cd IsaacGymEnvs/isaacgymenvs`，并按 `scripts/stage0_batch_hydra.sh` 自动设置 `train.params.config.minibatch_size` 与 `train.params.config.amp_minibatch_size`（与 `num_envs`、horizon 对齐）。默认 `num_envs=4096`，显存不足可 `export STAGE0_NUM_ENVS=2048` 或 `1024`。
+在仓库根目录执行；环境依赖见 `docs/ENVIRONMENT_RLLEG.md`。Stage0 Unified 分两种，**训练时二选一**：标准 Unified 用 **`scripts/train_stage0_unified.sh`**；HumanMimic 用 **`scripts/train_stage0_unified_humanmimic.sh`**。两者都会 `source scripts/activate_proknee_tc_env.sh`，`cd IsaacGymEnvs/isaacgymenvs`，并按 `scripts/stage0_batch_hydra.sh` 自动设置 `train.params.config.minibatch_size` 与 `train.params.config.amp_minibatch_size`（与 `num_envs`、horizon 对齐）。默认 `num_envs=4096`，显存不足可 `export STAGE0_NUM_ENVS=2048` 或 `1024`。
 
 **标准 Unified（`train.py`，`task=HumanoidAMPUnified`，`train=HumanoidAMPUnifiedPPO`）**
 
@@ -663,15 +663,50 @@ PYTHONUNBUFFERED=1 nohup bash scripts/train_stage0_unified_humanmimic.sh 10000 \
     > outputs/stage0_unified_humanmimic.log 2>&1 &
 ```
 
-**播放检查点（可视化，非训练）**
-
-- 标准 Unified：`bash scripts/play_stage0_unified.sh`（可传 checkpoint 路径；默认 `motion_file` 须与训练一致）
-- HumanMimic：`bash scripts/play_stage0_unified_humanmimic.sh`（可传 checkpoint 路径）
+**从「不换速」检查点续训换速版（自动选 `runs/HumanoidAMPUnifiedHumanMimic_*/nn/` 下最新 `.pth`，并强制 `enableCmdSwitch` 等）**：`bash scripts/train_stage0_unified_humanmimic_finetune_switch.sh [max_iterations] [可选：显式checkpoint路径]`；或 `HUMANMIMIC_BASE_CKPT=/path/to/xxx.pth bash scripts/train_stage0_unified_humanmimic_finetune_switch.sh`。
 
 **验收标准**: ep_len ≥ 250
 **当前状态**: 在进行中
 
-### 15.3 保存 Unified Stage 0 Checkpoint
+### 15.3 Stage 0 Unified 播放检查点（可视化）
+
+在**仓库根目录**执行；需本机图形界面（脚本内为 `test=True`、`headless=False`）。环境与训练一致时依赖 `docs/ENVIRONMENT_RLLEG.md` 中的 conda；`play_stage0_unified_humanmimic.sh` 会 `source scripts/activate_proknee_tc_env.sh`。
+
+**与检查点对应关系（勿混用）**
+
+| 训练产物 | 播放脚本 | 入口 |
+|---------|----------|------|
+| `HumanoidAMPUnified_*/nn/*.pth` | `scripts/play_stage0_unified.sh` | `train.py`，`task=HumanoidAMPUnified` |
+| `HumanoidAMPUnifiedHumanMimic_*/nn/*.pth` | `scripts/play_stage0_unified_humanmimic.sh` | `train_humanmimic_unified.py`，`task=HumanoidAMPUnifiedHumanMimic_phase1` |
+
+**标准 Unified（`play_stage0_unified.sh`）**
+
+- **用法**：`bash scripts/play_stage0_unified.sh`；可选第一个参数为 checkpoint（`runs/.../*.pth`，或仓库根下的 `outputs/checkpoints/stage0/...` 等相对路径，脚本会解析到 `IsaacGymEnvs/isaacgymenvs` 下）。
+- **未传 checkpoint 时**：依次尝试 `runs/HumanoidAMPUnified_*/nn/` 中最新 `.pth`，否则 `outputs/checkpoints/stage0/stage0_unified_1800.pth` 或同目录下最新的 `stage0_unified*.pth`。
+- **环境变量**：`MOTION_FILE`（默认 `multi_walk_run.yaml`，**须与训练该权重时一致**）；`NUM_ENVS`（默认 4，显存紧可用 `NUM_ENVS=1`）。
+- **等价命令要点**：`train.py` + `task.env.motion_file="$MOTION_FILE"` + `checkpoint=...`。
+
+**HumanMimic Stage0（`play_stage0_unified_humanmimic.sh`）**
+
+- **用法**：`bash scripts/play_stage0_unified_humanmimic.sh`；可选第一个参数为 checkpoint（支持仓库根或 `isaacgymenvs` 下的相对路径，脚本会 `realpath` 成绝对路径）。
+- **未传 checkpoint 时**：取 `runs/HumanoidAMPUnifiedHumanMimic_*/nn/` 中按时间最新 `.pth`。
+- **环境变量**：`NUM_ENVS`（默认 4）；脚本附带 Hydra 追加项 `+train.params.config.torch_compile=False`（结构化配置里无该键时需加 `+`）。
+- **等价命令要点**：`train_humanmimic_unified.py` + `train=HumanoidAMPUnifiedHumanMimicPPO` + `checkpoint=...`。
+
+```bash
+# 标准 Unified：自动找 checkpoint 或显式指定
+bash scripts/play_stage0_unified.sh
+bash scripts/play_stage0_unified.sh runs/HumanoidAMPUnified_<时间>/nn/<名>.pth
+MOTION_FILE=multi_walk_run.yaml NUM_ENVS=1 bash scripts/play_stage0_unified.sh
+bash scripts/play_stage0_unified.sh outputs/checkpoints/stage0/stage0_unified_1800.pth
+
+# HumanMimic：自动找最新或显式指定
+bash scripts/play_stage0_unified_humanmimic.sh
+bash scripts/play_stage0_unified_humanmimic.sh runs/HumanoidAMPUnifiedHumanMimic_<时间>/nn/<名>.pth
+NUM_ENVS=1 bash scripts/play_stage0_unified_humanmimic.sh
+```
+
+### 15.4 保存 Unified Stage 0 Checkpoint
 
 ```bash
 # 标准 Unified 输出目录
@@ -685,7 +720,7 @@ cp IsaacGymEnvs/isaacgymenvs/runs/HumanoidAMPUnified_<timestamp>/nn/<best>.pth \
     outputs/checkpoints/stage0/stage0_unified.pth
 ```
 
-### 15.4 Stage 1 Unified 训练 ✅ (已完成 2026-03-21)
+### 15.5 Stage 1 Unified 训练 ✅ (已完成 2026-03-21)
 
 ```bash
 # 训练 Unified Stage 1 Teacher (DAgger)
@@ -696,7 +731,7 @@ PYTHONUNBUFFERED=1 nohup $PYTHON scripts/train_stage1_unified.py \
     > outputs/stage1_unified_train.log 2>&1 &
 ```
 
-### 15.5 Stage 2 Unified 训练 ✅ (已完成 2026-03-21)
+### 15.6 Stage 2 Unified 训练 ✅ (已完成 2026-03-21)
 
 ```bash
 # 训练 Unified Stage 2 Student (蒸馏)
@@ -708,10 +743,12 @@ PYTHONUNBUFFERED=1 nohup $PYTHON scripts/train_stage2_unified.py \
     > outputs/stage2_unified_train.log 2>&1 &
 ```
 
-### 15.6 Unified 交互式可视化 ✅
+**检查点保存**：每次训练会新建时间戳目录 `outputs/stage2_unified_<时间戳>/checkpoints/`，训练过程中按 reward 更新 **`best.pth`**，另有 `last.pth`、`step_*` 等；训练正常结束时会将本次 run 的 **`best.pth` 复制到固定位置 `outputs/checkpoints/stage2_unified/best.pth`**（便于 `interactive_unified.py` 与文档示例统一引用）。若尚未产生过 `best`（例如极早中断），可改用同目录下 `last.pth` 或对应 `step_*.pth`。
+
+### 15.7 Unified 交互式可视化 ✅
 
 ```bash
-# 使用 Unified Stage 2 模型进行交互式速度控制
+# 使用 Unified Stage 2 模型进行交互式速度控制（Student 用上面的 best.pth）
 $PYTHON scripts/interactive_unified.py --device cuda:0 \
     --checkpoint outputs/checkpoints/stage2_unified/best.pth \
     --body-policy outputs/checkpoints/stage0/stage0_unified_1800.pth
@@ -755,6 +792,10 @@ $PYTHON scripts/evaluate_motion_sequences.py --device cuda:0 \
 ### Unified 系统 ✅
 
 ```bash
+# Stage 0 Unified 播放（test 模式，见 §15.3）
+bash scripts/play_stage0_unified.sh
+bash scripts/play_stage0_unified_humanmimic.sh
+
 # Unified 交互式速度控制 (↑↓调速, W/R/S预设, 0-9直接设值)
 $PYTHON scripts/interactive_unified.py --device cuda:0
 

@@ -1,6 +1,6 @@
 # HumanMimic-style Stage0 phase 1: 0~3 m/s grid, walk/run bands, gap = random walk/run demo + style-weighted AMP in agent.
+# enableCmdSwitch=True：回合内随机切换目标速度，便于学会变速；cmdSwitchProb/cmdSwitchInterval 可调。
 # Entry: train_humanmimic_unified.py (see scripts/train_stage0_unified_humanmimic_phase1.sh).
-# Backup: HumanoidAMPUnifiedCurriculum_* (unchanged).
 name: HumanoidAMPUnifiedHumanMimic
 
 physics_engine: ${..physics_engine}
@@ -26,8 +26,9 @@ env:
 
   motion_file: "multi_walk_run.yaml"
 
-  cmdSwitchProb: 0.005
-  cmdSwitchInterval: 100
+  # 回合内随机换目标速度（与 HumanoidAMPUnifiedHumanMimic._maybe_switch_velocity_commands 一致）
+  cmdSwitchProb: 0.02
+  cmdSwitchInterval: 50
   velRewardWeight: 2.0
 
   velocityGridStep: 0.1
@@ -39,7 +40,7 @@ env:
   standVelocityEpsilon: 0.05
   walkMotionIndex: 0
   runMotionIndex: 1
-  enableCmdSwitch: False
+  enableCmdSwitch: True
 
   asset:
     assetFileName: "mjcf/amp_humanoid.xml"

@@ -1,7 +1,6 @@
 # Copyright (c) 2021-2023, NVIDIA Corporation
 # HumanMimic-style unified AMP: 0~3 m/s grid, walk/run demo only in configured bands;
 # gap velocities use random walk/run for discriminator positives; extras["velocity_cmd"] for AMP agent blending.
-# Backup baseline: HumanoidAMPUnifiedCurriculum (unchanged).
 
 import numpy as np
 import torch

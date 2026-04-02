@@ -1,8 +1,6 @@
 # Entry point for HumanoidAMPUnifiedHumanMimic (HumanMimic-style AMP) without editing tasks/__init__.py.
 # Registers HumanMimic AMP agent/network/model and patches isaacgym_task_map before launch_rlg_hydra.
 #
-# Backup baseline (unchanged): train.py + train_curriculum_unified.py + HumanoidAMPUnifiedCurriculum.
-
 import isaacgym  # noqa: F401 — must load before torch (tasks/ant.py imports torch before isaacgym)
 
 from isaacgymenvs.tasks import isaacgym_task_map

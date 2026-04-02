@@ -1,6 +1,6 @@
 # `proknee_tc` 虚拟环境（远程 / 另一台电脑复现）
 
-Stage0 Unified、HumanMimic、Curriculum 等脚本通过 **`source scripts/activate_proknee_tc_env.sh`** 激活 conda 环境，**默认环境名为 `proknee_tc`**。
+Stage0 Unified、HumanMimic 等脚本通过 **`source scripts/activate_proknee_tc_env.sh`** 激活 conda 环境，**默认环境名为 `proknee_tc`**。
 
 若你仍使用旧环境名 **`rlleg`**，可在 `source` 前执行：`export CONDA_ENV_NAME=rlleg`  
 （兼容：也可 `source scripts/activate_rlleg_env.sh`，其行为与下面一致。）
@@ -95,7 +95,26 @@ pip install -e .
 
 ---
 
-## 9. 快速验证
+## 9. TensorBoard（查看训练曲线，可选）
+
+训练时事件会写入 **`IsaacGymEnvs/isaacgymenvs/runs/<实验名>/summaries/`**。查看需安装：
+
+```bash
+pip install tensorboard
+```
+
+另开终端：
+
+```bash
+cd IsaacGymEnvs/isaacgymenvs
+tensorboard --logdir=./runs --port=6006
+```
+
+（`train_stage0_unified_humanmimic_phase1.sh` 启动时会打印相同命令。）
+
+---
+
+## 10. 快速验证
 
 ```bash
 source scripts/activate_proknee_tc_env.sh
@@ -105,7 +124,7 @@ python -c "import isaacgym; import isaacgymenvs; print('ok')"
 
 ---
 
-## 10. 环境一览（摘要）
+## 11. 环境一览（摘要）
 
 | 项目 | 建议值 |
 |------|--------|
