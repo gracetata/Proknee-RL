@@ -10,7 +10,7 @@
 
 ## 已包含（相对完整 IsaacGymEnvs 的删减）
 
-- **脚本**：`scripts/activate_rlleg_env.sh`、`stage0_batch_hydra.sh`、上述 `train_*` / `play_stage0_unified*.sh`
+- **脚本**：`scripts/activate_proknee_tc_env.sh`、`stage0_batch_hydra.sh`、上述 `train_*` / `play_stage0_unified*.sh`
 - **配置**：`isaacgymenvs/cfg/` 下与 `HumanoidAMPUnified*`、`HumanoidAMPUnifiedHumanMimic*`、`HumanoidAMPUnifiedCurriculum*` 相关的 task/train YAML
 - **代码**：`tasks/humanoid_amp*.py`、`tasks/amp/`、`tasks/base/`；`tasks/__init__.py` **仅注册** `HumanoidAMPUnified`
 - **学习**：`isaacgymenvs/learning/` 中 AMP / HumanMimic 相关模块

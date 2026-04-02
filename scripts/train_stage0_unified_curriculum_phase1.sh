@@ -15,7 +15,7 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
 # shellcheck source=/dev/null
-source "$SCRIPT_DIR/activate_rlleg_env.sh"
+source "$SCRIPT_DIR/activate_proknee_tc_env.sh"
 
 cd "$PROJECT_DIR/IsaacGymEnvs/isaacgymenvs"
 PYTHON="${CONDA_PREFIX}/bin/python"

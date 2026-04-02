@@ -6,7 +6,7 @@
 #   bash scripts/train_stage0_unified_humanmimic_phase1.sh [MAX_ITERS] [CHECKPOINT]
 #
 # 默认 num_envs=4096（RTX 4090 24GB 左右）；显存不够: export STAGE0_NUM_ENVS=2048 或 1024
-# Run from repo root; source activate_rlleg_env.sh 已包含在脚本内。
+# 需 conda 环境 proknee_tc（见 docs/ENVIRONMENT_RLLEG.md）；脚本内已 source activate_proknee_tc_env.sh
 
 set -e
 
@@ -15,7 +15,7 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
 # shellcheck source=/dev/null
-source "$SCRIPT_DIR/activate_rlleg_env.sh"
+source "$SCRIPT_DIR/activate_proknee_tc_env.sh"
 
 cd "$PROJECT_DIR/IsaacGymEnvs/isaacgymenvs"
 PYTHON="${CONDA_PREFIX}/bin/python"

@@ -1,5 +1,7 @@
 # Stage0 Unified 训练（另一台机器拉取后）
 
+本分支在 `zjt/test` 上做了 **Stage0 Unified 专用精简**（删去无关任务与大型资源），详见 [STAGE0_UNIFIED_SCOPE.md](STAGE0_UNIFIED_SCOPE.md)。
+
 ## 拉取本分支
 
 ```bash
@@ -11,7 +13,7 @@ git clone -b zjt/test https://github.com/gracetata/Proknee-RL.git
 ## 依赖（需自行准备）
 
 1. **Isaac Gym**：从 NVIDIA 官方获取并解压，与本仓库 **同级或自定义路径** 均可。
-2. **Conda 环境**（示例名 `rlleg`）：Python 3.8；安装与 Isaac Gym 匹配的 **PyTorch + CUDA** wheel。
+2. **Conda 环境**（默认名 **`proknee_tc`**）：Python 3.8；安装与 Isaac Gym 匹配的 **PyTorch + CUDA** wheel。
 3. **安装**（在对应目录执行）：
    - `cd <isaacgym>/python && pip install -e .`
    - `cd <本仓库>/IsaacGymEnvs && pip install -e .`
@@ -22,10 +24,10 @@ git clone -b zjt/test https://github.com/gracetata/Proknee-RL.git
 在仓库根目录：
 
 ```bash
-source scripts/activate_rlleg_env.sh
+source scripts/activate_proknee_tc_env.sh
 ```
 
-（脚本会 `conda activate rlleg` 并设置 `LD_LIBRARY_PATH`。）
+（脚本会 `conda activate proknee_tc` 并设置 `LD_LIBRARY_PATH` 等；详见 [ENVIRONMENT_RLLEG.md](ENVIRONMENT_RLLEG.md)。）
 
 ## HumanMimic Stage0（默认）
 
