@@ -629,44 +629,58 @@ kill <PID>
 |------|------------------------|---------------------|
 | Body Policy | 4 个独立模型 | 1 个速度参数化模型 |
 | 动作切换 | soft-reset / smooth-transition | 自然过渡 |
-| 控制方式 | 离散动作类型 (W/R/D/S) | 连续速度命令 (0~2.5) |
+| 控制方式 | 离散动作类型 (W/R/D/S) | 连续速度命令（标量 v；数值范围与训练采样见 15.1 速度映射） |
 | 键盘控制 | W=Walk, R=Run, S=Stand | ↑/↓ 调节速度 |
 
-速度映射：
-- `v=0.0` → 站立 (Stand)
-- `v=1.0` → 行走 (Walk)
-- `v=2.5` → 奔跑 (Run)
-- 中间值 → 自然过渡
+速度映射（与当前任务代码 / YAML 一致）：
 
-### 15.2 Stage 0 Unified 训练 ✅
+- **标准 `HumanoidAMPUnified`**：环境采样的目标前向速度只在 **`0.0`、`1.0`、`2.5` m/s** 三档（`humanoid_amp_unified.py`），分别对应站 / 走 / 跑档位，与 `motion_file` 里 walk、run 等参考动作配套；不是连续均匀采样。
+- **HumanMimic `HumanoidAMPUnifiedHumanMimic_phase1`**：目标速度为 **0.0～3.0 m/s、步长 0.1** 的网格（`HumanoidAMPUnifiedHumanMimic_phase1.yaml` 中 `velocityGridStep` / `velocityMax`）；walk / run 参考速度带为 **`walkVelMin`～`walkVelMax`**（默认约 0.5～1.5）、**`runVelMin`～`runVelMax`**（默认约 2.0～3.0）；速度绝对值小于 **`standVelocityEpsilon`**（默认 0.05）时按站立侧处理。
+
+### 15.2 Stage 0 Unified 训练 
+
+在仓库根目录执行；环境依赖见 `docs/ENVIRONMENT_RLLEG.md`。`train_stage0_unified.sh` / `train_stage0_unified_humanmimic.sh` 会 `source scripts/activate_proknee_tc_env.sh`，`cd IsaacGymEnvs/isaacgymenvs`，并按 `scripts/stage0_batch_hydra.sh` 自动设置 `train.params.config.minibatch_size` 与 `train.params.config.amp_minibatch_size`（与 `num_envs`、horizon 对齐）。默认 `num_envs=4096`，显存不足可 `export STAGE0_NUM_ENVS=2048` 或 `1024`。
+
+**标准 Unified（`train.py`，`task=HumanoidAMPUnified`，`train=HumanoidAMPUnifiedPPO`）**
+
+参考动作由 `IsaacGymEnvs/isaacgymenvs/cfg/task/HumanoidAMPUnified.yaml` 的 `motion_file` 决定（当前为 `multi_walk_run.yaml`）。
 
 ```bash
-# 训练 Unified Body Policy (28-DOF, 速度条件化)
-cd IsaacGymEnvs/isaacgymenvs
-
-PYTHONUNBUFFERED=1 nohup python train.py \
-    task=HumanoidAMPUnified \
-    train=HumanoidAMPUnifiedPPO \
-    num_envs=4096 \
-    max_iterations=10000 \
-    headless=True \
-    > ../../outputs/stage0_unified.log 2>&1 &
-
-# 可视化测试
-python train.py task=HumanoidAMPUnified test=True num_envs=4 headless=False \
-    checkpoint=runs/HumanoidAMPUnified_*/nn/*.pth
+# 训练（第二个参数可选：断点续训；路径相对 IsaacGymEnvs/isaacgymenvs 或写绝对路径）
+PYTHONUNBUFFERED=1 nohup bash scripts/train_stage0_unified.sh 10000 \
+    > outputs/stage0_unified.log 2>&1 &
+# PYTHONUNBUFFERED=1 nohup bash scripts/train_stage0_unified.sh 10000 \
+#     runs/HumanoidAMPUnified_<时间>/nn/<名>.pth \
+#     > outputs/stage0_unified_resume.log 2>&1 &
 ```
 
+**HumanMimic Stage0（`train_humanmimic_unified.py`，`task=HumanoidAMPUnifiedHumanMimic_phase1`，`train=HumanoidAMPUnifiedHumanMimicPPO`）**
+
+与标准 Unified 的检查点、网络与入口不同，勿混用。
+
+```bash
+PYTHONUNBUFFERED=1 nohup bash scripts/train_stage0_unified_humanmimic.sh 10000 \
+    > outputs/stage0_unified_humanmimic.log 2>&1 &
+```
+
+**播放检查点（可视化，非训练）**
+
+- 标准 Unified：`bash scripts/play_stage0_unified.sh`（可传 checkpoint 路径；默认 `motion_file` 须与训练一致）
+- HumanMimic：`bash scripts/play_stage0_unified_humanmimic.sh`（可传 checkpoint 路径）
+
 **验收标准**: ep_len ≥ 250
-**当前状态**: ✅ 完成 (ep_len=254.93)
+**当前状态**: 在进行中
 
 ### 15.3 保存 Unified Stage 0 Checkpoint
 
 ```bash
-# 找到最佳 checkpoint
+# 标准 Unified 输出目录
 ls -la IsaacGymEnvs/isaacgymenvs/runs/HumanoidAMPUnified_*/nn/
 
-# 复制到标准位置
+# HumanMimic Stage0 输出目录
+ls -la IsaacGymEnvs/isaacgymenvs/runs/HumanoidAMPUnifiedHumanMimic_*/nn/
+
+# 复制到标准位置（按需命名）
 cp IsaacGymEnvs/isaacgymenvs/runs/HumanoidAMPUnified_<timestamp>/nn/<best>.pth \
     outputs/checkpoints/stage0/stage0_unified.pth
 ```
@@ -752,3 +766,4 @@ $PYTHON scripts/interactive_unified.py --device cuda:0 --initial-velocity 2.0
 
 *更新: 2026-03-20 — 添加 Unified 速度控制策略章节*
 *更新: 2026-03-21 — Unified Stage 1/2 训练完成*
+
