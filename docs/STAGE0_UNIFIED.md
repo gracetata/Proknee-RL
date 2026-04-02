@@ -45,14 +45,17 @@ bash scripts/train_stage0_unified_humanmimic_phase1.sh
 bash scripts/train_stage0_unified.sh
 ```
 
-## Curriculum Unified
+## 播放检查点（HumanMimic）
+
+推荐脚本（仓库根目录，自动 `source` 环境；不传参则选 `runs/` 下最新 HumanMimic 权重）：
 
 ```bash
-bash scripts/train_stage0_unified_curriculum_phase1.sh
-# phase2 / phase3 同理
+bash scripts/play_stage0_unified_humanmimic.sh
+# 或指定 checkpoint：
+bash scripts/play_stage0_unified_humanmimic.sh /绝对路径/.../nn/xxx.pth
 ```
 
-## 播放检查点（HumanMimic）
+等价手动命令：
 
 ```bash
 cd IsaacGymEnvs/isaacgymenvs
