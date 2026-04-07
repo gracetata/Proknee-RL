@@ -7,3 +7,9 @@
 # 根目录常见产物
 /runs/
 *.pth
+# 随仓库携带：远程 pull 后可直接训 Unified Stage1（见 scripts/train_unified_stage1_stage2_from_humanmimic.sh）
+!outputs/HumanoidAMPUnifiedHumanMimic_02-18-11-01.pth
+
+# Python 缓存勿提交
+__pycache__/
+*.pyc

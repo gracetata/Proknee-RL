@@ -72,8 +72,8 @@ def parse_args():
     parser.add_argument("--max-epochs", type=int, default=8000)
     parser.add_argument("--steps-per-epoch", type=int, default=32)
     parser.add_argument("--body-policy", type=str,
-                        default="outputs/checkpoints/stage0/stage0_unified_1800.pth",
-                        help="Unified body policy checkpoint")
+                        default="outputs/HumanoidAMPUnifiedHumanMimic_02-18-11-01.pth",
+                        help="HumanMimic Unified Stage0 checkpoint")
     parser.add_argument("--output-dir", type=str, default=None)
     parser.add_argument("--resume", type=str, default=None)
     parser.add_argument("--save-interval", type=int, default=200)

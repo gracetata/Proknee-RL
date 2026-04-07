@@ -6,8 +6,12 @@
 #   bash scripts/play_stage0_unified_humanmimic.sh
 #   bash scripts/play_stage0_unified_humanmimic.sh runs/HumanoidAMPUnifiedHumanMimic_xxx/nn/xxx.pth
 #
-# 未传 checkpoint 时：若存在下方「默认权重」则优先用它，否则取 runs/ 下最新 .pth。
+# 未传 checkpoint 时：若存在下方「默认权重」则优先用它，否则取 runs/ 下最新 HumanMimic .pth。
 # 覆盖默认：export HUMANMIMIC_PLAY_CHECKPOINT=/绝对路径/xxx.pth
+#
+# 换速版权重：与训练时一致，由 HumanoidAMPUnifiedHumanMimic_phase1.yaml 的 enableCmdSwitch 等控制；
+# 一般无需改脚本；若需与训练时换速概率不一致，可在命令后追加 Hydra，例如:
+#   task.env.cmdSwitchProb=0.02 task.env.cmdSwitchInterval=50
 #
 # 可选：NUM_ENVS=1 bash scripts/play_stage0_unified_humanmimic.sh   # 显存紧
 #
@@ -18,8 +22,8 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 IGE_DIR="$PROJECT_DIR/IsaacGymEnvs/isaacgymenvs"
-# 默认播放本机拷贝的远程训练权重（可 export HUMANMIMIC_PLAY_CHECKPOINT 覆盖）
-_DEFAULT_REL="runs/HumanoidAMPUnifiedHumanMimic_02-14-55-42/HumanoidAMPUnifiedHumanMimic_02-15-02-53_6600.pth"
+# 默认播放（换速 fine-tune 后权重，可 export HUMANMIMIC_PLAY_CHECKPOINT 覆盖）
+_DEFAULT_REL="runs/HumanoidAMPUnifiedHumanMimic_02-18-11-01.pth"
 DEFAULT_HUMANMIMIC_CKPT="${HUMANMIMIC_PLAY_CHECKPOINT:-$IGE_DIR/$_DEFAULT_REL}"
 
 # shellcheck source=/dev/null
@@ -47,6 +51,9 @@ if [ -z "$CHECKPOINT" ]; then
     echo "[i] 使用默认 HumanMimic checkpoint: $CHECKPOINT"
   else
     CHECKPOINT=$(ls -t runs/HumanoidAMPUnifiedHumanMimic_*/nn/*.pth 2>/dev/null | head -1 || true)
+    if [ -z "$CHECKPOINT" ]; then
+      CHECKPOINT=$(ls -t runs/HumanoidAMPUnifiedHumanMimic*.pth 2>/dev/null | head -1 || true)
+    fi
     if [ -z "$CHECKPOINT" ]; then
       echo "[!] 未找到 checkpoint。请传入，或设置 HUMANMIMIC_PLAY_CHECKPOINT，例如:"
       echo "    bash scripts/play_stage0_unified_humanmimic.sh IsaacGymEnvs/isaacgymenvs/runs/.../nn/xxx.pth"

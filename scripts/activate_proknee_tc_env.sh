@@ -6,18 +6,30 @@
 #
 #   source /path/to/RLleg/scripts/activate_proknee_tc_env.sh
 #
-# 可选：export MINICONDA=/path/to/miniconda3
+# 可选：export MINICONDA=/path/to/miniconda3  或  export CONDA_ROOT=/path/to/anaconda3
 
 _RL_SCR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
-MINICONDA="${MINICONDA:-$HOME/miniconda3}"
+_CONDA_SH=""
+if [ -n "${CONDA_ROOT:-}" ] && [ -f "${CONDA_ROOT}/etc/profile.d/conda.sh" ]; then
+  _CONDA_SH="${CONDA_ROOT}/etc/profile.d/conda.sh"
+elif [ -n "${MINICONDA:-}" ] && [ -f "${MINICONDA}/etc/profile.d/conda.sh" ]; then
+  _CONDA_SH="${MINICONDA}/etc/profile.d/conda.sh"
+else
+  for _root in "$HOME/anaconda3" "$HOME/miniconda3" "$HOME/miniforge3"; do
+    if [ -f "$_root/etc/profile.d/conda.sh" ]; then
+      _CONDA_SH="$_root/etc/profile.d/conda.sh"
+      break
+    fi
+  done
+fi
 
-if [ -f "$MINICONDA/etc/profile.d/conda.sh" ]; then
+if [ -n "$_CONDA_SH" ]; then
   # shellcheck source=/dev/null
-  source "$MINICONDA/etc/profile.d/conda.sh"
+  source "$_CONDA_SH"
   _CE="${CONDA_ENV_NAME:-proknee_tc}"
   conda activate "$_CE"
 else
-  echo "activate_proknee_tc_env.sh: 未找到 $MINICONDA/etc/profile.d/conda.sh，请先安装 Miniconda 或设置 MINICONDA" >&2
+  echo "activate_proknee_tc_env.sh: 未找到 conda.sh（试过 CONDA_ROOT、MINICONDA、~/anaconda3、~/miniconda3）。请安装 Conda 或: export CONDA_ROOT=/你的/anaconda3" >&2
 fi
 
 export LD_LIBRARY_PATH="${CONDA_PREFIX}/lib:${LD_LIBRARY_PATH:-}"

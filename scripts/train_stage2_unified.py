@@ -326,11 +326,11 @@ class ProprioAdaptUnified:
 def parse_args():
     p = argparse.ArgumentParser(description="Stage 2 Unified Latent Distillation")
     p.add_argument("--teacher-ckpt", type=str,
-                    default="outputs/checkpoints/stage1_unified/best.pth",
+                    default="outputs/humanmimic_policy_knee_ankle_vel/stage1_unified/checkpoints/best.pth",
                     help="Stage 1 unified teacher checkpoint")
     p.add_argument("--body-policy", type=str,
-                    default="outputs/checkpoints/stage0/stage0_unified_1800.pth",
-                    help="Unified body policy checkpoint")
+                    default="outputs/HumanoidAMPUnifiedHumanMimic_02-18-11-01.pth",
+                    help="HumanMimic Unified Stage0 checkpoint")
     p.add_argument("--num-envs", type=int, default=4096)
     p.add_argument("--device", type=str, default="cuda:0")
     p.add_argument("--lr", type=float, default=3e-4)
@@ -340,6 +340,12 @@ def parse_args():
     p.add_argument("--episode-length", type=int, default=300)
     p.add_argument("--vel-switch-prob", type=float, default=0.005)
     p.add_argument("--vel-switch-interval", type=int, default=100)
+    p.add_argument(
+        "--output-dir",
+        type=str,
+        default=None,
+        help="Stage2 输出根目录（含 checkpoints/、tb/）。默认 outputs/stage2_unified_<时间戳>",
+    )
     return p.parse_args()
 
 
@@ -362,8 +368,11 @@ def main():
         print("Run Stage 1 Unified training first.")
         sys.exit(1)
 
-    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-    out_dir = os.path.join(ROOT, "outputs", f"stage2_unified_{timestamp}")
+    if args.output_dir is None:
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+        out_dir = os.path.join(ROOT, "outputs", f"stage2_unified_{timestamp}")
+    else:
+        out_dir = os.path.abspath(args.output_dir)
     os.makedirs(out_dir, exist_ok=True)
     print(f"[Config] output_dir={out_dir}")
     print()

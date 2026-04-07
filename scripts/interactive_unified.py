@@ -93,11 +93,11 @@ def load_model(checkpoint_path, device):
 def parse_args():
     p = argparse.ArgumentParser(description="Interactive Unified Velocity-Controlled Visualization")
     p.add_argument("--checkpoint", type=str,
-                    default="outputs/checkpoints/stage2_unified/best.pth",
+                    default="outputs/humanmimic_policy_knee_ankle_vel/stage2_unified/checkpoints/best.pth",
                     help="Stage 2 unified checkpoint")
     p.add_argument("--body-policy", type=str,
-                    default="outputs/checkpoints/stage0/stage0_unified_1800.pth",
-                    help="Unified body policy checkpoint")
+                    default="outputs/HumanoidAMPUnifiedHumanMimic_02-18-11-01.pth",
+                    help="HumanMimic Unified Stage0 checkpoint")
     p.add_argument("--device", type=str, default="cuda:0")
     p.add_argument("--initial-velocity", type=float, default=VELOCITY_WALK,
                     help=f"Initial velocity command (default: {VELOCITY_WALK})")

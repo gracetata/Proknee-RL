@@ -77,14 +77,14 @@ def parse_args():
     p.add_argument(
         "--checkpoint",
         type=str,
-        default="outputs/checkpoints/stage1_unified/best.pth",
+        default="outputs/humanmimic_policy_knee_ankle_vel/stage1_unified/checkpoints/best.pth",
         help="Stage 1 unified teacher checkpoint",
     )
     p.add_argument(
         "--body-policy",
         type=str,
-        default="outputs/checkpoints/stage0/stage0_unified_1800.pth",
-        help="Unified Stage 0 body policy",
+        default="outputs/HumanoidAMPUnifiedHumanMimic_02-18-11-01.pth",
+        help="HumanMimic Unified Stage0 checkpoint",
     )
     p.add_argument("--device", type=str, default="cuda:0")
     p.add_argument("--initial-velocity", type=float, default=VELOCITY_WALK)

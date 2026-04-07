@@ -663,7 +663,7 @@ PYTHONUNBUFFERED=1 nohup bash scripts/train_stage0_unified_humanmimic.sh 10000 \
     > outputs/stage0_unified_humanmimic.log 2>&1 &
 ```
 
-**从「不换速」检查点续训换速版（自动选 `runs/HumanoidAMPUnifiedHumanMimic_*/nn/` 下最新 `.pth`，并强制 `enableCmdSwitch` 等）**：`bash scripts/train_stage0_unified_humanmimic_finetune_switch.sh [max_iterations] [可选：显式checkpoint路径]`；或 `HUMANMIMIC_BASE_CKPT=/path/to/xxx.pth bash scripts/train_stage0_unified_humanmimic_finetune_switch.sh`。
+**从「不换速」检查点续训换速版（自动选 `runs/HumanoidAMPUnifiedHumanMimic_*/nn/` 下最新 `.pth`，并强制 `enableCmdSwitch` 等）**：`bash scripts/train_stage0_unified_humanmimic_finetune_switch.sh [max_iterations] [可选：显式checkpoint路径]`（默认 `max_iterations=16000`）；或 `HUMANMIMIC_BASE_CKPT=/path/to/xxx.pth bash ...`。续训时 **`max_iterations` 必须大于基座检查点里已完成的 epoch**（例如基座已训满 8000 仍设 8000 会立刻 `MAX EPOCHS NUM!` 退出），应改为 12000、16000 等。
 
 **验收标准**: ep_len ≥ 250
 **当前状态**: 在进行中
@@ -693,6 +693,13 @@ PYTHONUNBUFFERED=1 nohup bash scripts/train_stage0_unified_humanmimic.sh 10000 \
 - **环境变量**：`NUM_ENVS`（默认 4）；脚本附带 Hydra 追加项 `+train.params.config.torch_compile=False`（结构化配置里无该键时需加 `+`）。
 - **等价命令要点**：`train_humanmimic_unified.py` + `train=HumanoidAMPUnifiedHumanMimicPPO` + `checkpoint=...`。
 
+**HumanMimic Stage0 键盘控速（与 Stage2 `interactive_unified.py` 类似）**
+
+- **用法**：`bash scripts/play_humanmimic_unified_interactive.sh`；可选第一个参数为 checkpoint。默认 `NUM_ENVS=1`。
+- **回合长度（回原点间隔）**：脚本默认 `PLAY_EPISODE_LENGTH=900`（Hydra：`task.env.episodeLength`），比训练 YAML 常见的 300 更长，**超时**才回到起点；仍会因摔倒等提前终止。需要更久可 `export PLAY_EPISODE_LENGTH=1500` 等。
+- **行为**：打开 `manualVelocityControl` 与 `interactiveKeyboard`，关闭回合内随机换速；初速与每次倒地重置均为训练同款 **0～3 m/s、步长 0.1** 的随机网格；↑/↓ 每次 **±0.1 m/s**；终端用 `\r` **实时刷新**当前 `v_cmd`；`W`/`F`/`M`/`S` 等快捷；`F`≈2.5 m/s（快跑），因 viewer 的 `R` 已用于录屏；`Q` 退出。
+- **可选 Hydra**：`task.env.interactiveInitialVelocity`、`task.env.interactiveVelocityStep`。
+
 ```bash
 # 标准 Unified：自动找 checkpoint 或显式指定
 bash scripts/play_stage0_unified.sh
@@ -704,6 +711,10 @@ bash scripts/play_stage0_unified.sh outputs/checkpoints/stage0/stage0_unified_18
 bash scripts/play_stage0_unified_humanmimic.sh
 bash scripts/play_stage0_unified_humanmimic.sh runs/HumanoidAMPUnifiedHumanMimic_<时间>/nn/<名>.pth
 NUM_ENVS=1 bash scripts/play_stage0_unified_humanmimic.sh
+
+# HumanMimic：键盘控速播放（↑/↓、W/F/M/S、Q 退出）
+bash scripts/play_humanmimic_unified_interactive.sh
+bash scripts/play_humanmimic_unified_interactive.sh runs/HumanoidAMPUnifiedHumanMimic_<时间>/nn/<名>.pth
 ```
 
 ### 15.4 保存 Unified Stage 0 Checkpoint

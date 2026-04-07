@@ -46,6 +46,9 @@ params:
   config:
     name: ${resolve_default:HumanoidAMPUnifiedHumanMimic,${....experiment}}
     full_experiment_name: ${.name}
+    # rl_games 将 checkpoint 写入 <train_dir>/<HumanoidAMPUnifiedHumanMimic_时间戳>/nn/
+    # 默认 runs；scripts/train_stage0_unified_humanmimic.sh 会改为 outputs/humanmimic_policy_knee_ankle_vel/stage0_unified
+    train_dir: runs
     env_name: rlgpu
     ppo: True
     multi_gpu: ${....multi_gpu}

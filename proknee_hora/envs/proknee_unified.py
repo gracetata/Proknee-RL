@@ -18,7 +18,7 @@ Usage:
     env = ProKneeUnifiedEnv(
         num_envs=4096,
         device='cuda:0',
-        body_policy_checkpoint='outputs/checkpoints/stage0/stage0_unified_1800.pth',
+        body_policy_checkpoint='outputs/HumanoidAMPUnifiedHumanMimic_02-18-11-01.pth',
     )
 """
 

@@ -3,11 +3,9 @@
 Extends the base constants for the unified velocity-controlled policy (Phase 11+).
 The original constants.py is NOT modified — all single-motion pipelines remain intact.
 
-Unified mode: Single body policy with continuous velocity command (0~2.5 m/s)
-  - v=0.0 → Stand
-  - v=1.0 → Walk
-  - v=2.5 → Run
-  - Intermediate values → Natural transition
+Unified mode: Single body policy with continuous velocity command
+  - 与 HumanMimic Stage0（velocityMax=3.0）对齐时，命令上界为 VELOCITY_MAX（默认 3.0 m/s）
+  - v=0.0 → Stand, v=1.0 → Walk, v=2.5 → Run；亦可采样至 3.0（快跑上限）
 
 Observation modes:
   - obs = 16D proprio (same as single-motion)
@@ -36,16 +34,16 @@ from .constants import (
 # ── Unified velocity command configuration ────────────────────────────
 VELOCITY_CMD_DIM = 1  # Single scalar velocity command
 
-# Velocity range
+# Velocity range（与 IsaacGym HumanoidAMPUnifiedHumanMimic_phase1 的 velocityMax 一致）
 VELOCITY_MIN = 0.0   # Stand
-VELOCITY_MAX = 2.5   # Run
+VELOCITY_MAX = 3.0   # 上限 m/s（原 Phase11 为 2.5；HumanMimic Stage0 为 0~3）
 
-# Discrete velocity levels for keyboard control
+# Discrete velocity levels for env randomization / TB（Stage1/2 训练时在各档间均匀采样）
 VELOCITY_STAND = 0.0
 VELOCITY_WALK = 1.0
 VELOCITY_RUN = 2.5
 
-VELOCITY_LEVELS = [VELOCITY_STAND, VELOCITY_WALK, VELOCITY_RUN]
+VELOCITY_LEVELS = [VELOCITY_STAND, VELOCITY_WALK, VELOCITY_RUN, VELOCITY_MAX]
 
 # ── Observation dimensions ────────────────────────────────────────────
 # obs = 16D proprio (same as single-motion, no velocity command for student)
@@ -61,8 +59,8 @@ STUDENT_PROPRIO_DIM_UNIFIED = OBS_DIM  # 16
 # The unified body policy takes 106D input: 105D humanoid_obs + 1D velocity_cmd
 UNIFIED_BODY_OBS_DIM = 105 + VELOCITY_CMD_DIM  # 106
 
-# Default checkpoint path (relative to outputs/checkpoints/stage0/)
-UNIFIED_BODY_CHECKPOINT = 'stage0_unified_1800.pth'
+# 与 Stage1/2 脚本默认一致：仓库根下 outputs/HumanoidAMPUnifiedHumanMimic_02-18-11-01.pth
+UNIFIED_BODY_CHECKPOINT = 'HumanoidAMPUnifiedHumanMimic_02-18-11-01.pth'
 
 # ── Velocity command dynamics ─────────────────────────────────────────
 # How often to randomly switch velocity during training
@@ -71,9 +69,10 @@ VELOCITY_SWITCH_INTERVAL = 100  # Minimum steps between switches
 
 # Velocity sampling distribution during training
 VELOCITY_SAMPLE_WEIGHTS = {
-    0.0: 0.2,   # 20% Stand
-    1.0: 0.5,   # 50% Walk
-    2.5: 0.3,   # 30% Run
+    0.0: 0.2,
+    1.0: 0.4,
+    2.5: 0.25,
+    3.0: 0.15,
 }
 
 # ── Reward configuration ──────────────────────────────────────────────

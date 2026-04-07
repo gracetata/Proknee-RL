@@ -42,6 +42,12 @@ env:
   runMotionIndex: 1
   enableCmdSwitch: True
 
+  # 键盘控速（仅播放）：play_humanmimic_unified_interactive.sh 会设为 True；训练保持 False
+  manualVelocityControl: False
+  interactiveKeyboard: False
+  interactiveInitialVelocity: 1.0
+  interactiveVelocityStep: 0.1
+
   asset:
     assetFileName: "mjcf/amp_humanoid.xml"
 
