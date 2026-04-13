@@ -85,6 +85,14 @@ def parse_args():
                         help="Per-step probability of velocity command switch")
     parser.add_argument("--vel-switch-interval", type=int, default=100,
                         help="Minimum steps before velocity can switch")
+    parser.add_argument("--wandb", action="store_true", default=False,
+                        help="Enable Weights & Biases logging")
+    parser.add_argument("--wandb-project", type=str, default="rlleg-stage1-unified",
+                        help="wandb project name")
+    parser.add_argument("--wandb-entity", type=str, default="",
+                        help="wandb entity/team (optional)")
+    parser.add_argument("--wandb-run-name", type=str, default="",
+                        help="wandb run name (optional)")
     return parser.parse_args()
 
 
@@ -100,6 +108,7 @@ def main():
     print(f"  LR:           {args.lr}")
     print(f"  Noise std:    {args.noise_std}")
     print(f"  Vel switch:   prob={args.vel_switch_prob}, interval={args.vel_switch_interval}")
+    print(f"  WandB:        {'ON' if args.wandb else 'OFF'}")
     print("=" * 60)
 
     # Check body policy exists
@@ -178,6 +187,28 @@ def main():
     except ImportError:
         writer = None
 
+    # ── Weights & Biases (optional) ───────────────────────────────────
+    wandb_run = None
+    if args.wandb:
+        try:
+            import wandb  # type: ignore
+
+            run_name = args.wandb_run_name.strip()
+            if not run_name:
+                run_name = f"stage1-unified-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
+            wandb_kwargs = {
+                "project": args.wandb_project,
+                "name": run_name,
+                "config": vars(args),
+            }
+            if args.wandb_entity.strip():
+                wandb_kwargs["entity"] = args.wandb_entity.strip()
+            wandb_run = wandb.init(**wandb_kwargs)
+            print(f"[Stage 1 Unified] Weights & Biases: {wandb_run.url}")
+        except Exception as e:
+            print(f"[Stage 1 Unified] WandB 初始化失败，继续训练（无 WandB）: {e}")
+            wandb_run = None
+
     # ── Training loop ─────────────────────────────────────────────────
     print("\n" + "=" * 60)
     print("  Training started!")
@@ -250,6 +281,19 @@ def main():
                 frac = (vel_cmd == v).float().mean().item()
                 writer.add_scalar(f'velocity/frac_{v:.1f}', frac, epoch)
 
+        # Log to WandB
+        if wandb_run is not None:
+            log_dict = {
+                "loss/mse": avg_loss,
+                "reward/avg_ep_len": avg_ep_len,
+                "train/noise_std": noise_std,
+                "train/epoch": epoch,
+            }
+            vel_cmd = env.velocity_cmd
+            for v in VELOCITY_LEVELS:
+                log_dict[f"velocity/frac_{v:.1f}"] = (vel_cmd == v).float().mean().item()
+            wandb_run.log(log_dict, step=epoch)
+
         # Console output
         if epoch % args.log_interval == 0:
             elapsed = time.time() - train_start
@@ -300,6 +344,9 @@ def main():
         print(f"[Stage 1 Unified] Best checkpoint → {canonical_dir}/best.pth")
 
     print(f"\n[Stage 1 Unified] Best ep_len achieved: {best_eval_len:.1f}")
+    if wandb_run is not None:
+        wandb_run.summary["best_avg_ep_len"] = float(best_eval_len)
+        wandb_run.finish()
 
 
 if __name__ == "__main__":
