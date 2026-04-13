@@ -98,6 +98,9 @@ params:
     disc_reward_w: 0.35
     style_reward_w: 0.35
     style_reward_scale: 2
+    style_use_wasserstein: True
+    style_wgan_gp: 5.0
+    style_reward_logit_clip: 10.0
     gapImitationScale: 0.25
     gapStyleScale: 1.5
     walkVelMin: 0.5

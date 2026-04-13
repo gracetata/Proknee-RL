@@ -1,0 +1,6 @@
+# Deduplicated multi-motion bundle (walk + run)
+motions:
+  - file: amp_humanoid_walk_dedup.npy
+    weight: 1.0
+  - file: amp_humanoid_run_dedup.npy
+    weight: 1.0

@@ -24,7 +24,7 @@ env:
   terminationHeight: 0.5
   enableEarlyTermination: True
 
-  motion_file: "multi_walk_run.yaml"
+  motion_file: "multi_walk_run_dedup.yaml"
 
   # 回合内随机换目标速度（与 HumanoidAMPUnifiedHumanMimic._maybe_switch_velocity_commands 一致）
   cmdSwitchProb: 0.02

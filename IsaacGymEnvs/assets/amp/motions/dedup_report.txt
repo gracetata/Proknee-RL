@@ -1,0 +1,2 @@
+amp_humanoid_walk.npy [dof]: frames 154 -> 77, fps 60.000000 -> 29.803922, duration 2.550000s -> 2.550000s
+amp_humanoid_run.npy [dof]: frames 82 -> 41, fps 60.000000 -> 29.629630, duration 1.350000s -> 1.350000s

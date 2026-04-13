@@ -19,6 +19,10 @@ class AMPAgentHumanMimic(amp_continuous.AMPAgent):
         super()._load_config_params(config)
         self._style_reward_w = float(config.get("style_reward_w", 0.5))
         self._style_reward_scale = float(config.get("style_reward_scale", 2.0))
+        # Wasserstein-style critic options for style branch.
+        self._style_use_wasserstein = bool(config.get("style_use_wasserstein", True))
+        self._style_wgan_gp_lambda = float(config.get("style_wgan_gp", self._disc_grad_penalty))
+        self._style_reward_logit_clip = float(config.get("style_reward_logit_clip", 10.0))
         self._gap_imit_scale = float(config.get("gapImitationScale", 0.25))
         self._gap_style_scale = float(config.get("gapStyleScale", 1.5))
         self._walk_vel_min = float(config.get("walkVelMin", 0.5))
@@ -189,6 +193,7 @@ class AMPAgentHumanMimic(amp_continuous.AMPAgent):
                 style_agent_cat_logit,
                 style_demo_logit,
                 amp_obs_demo,
+                torch.cat([amp_obs, amp_obs_replay], dim=0),
             )
             disc_loss = disc_info["disc_loss"]
 
@@ -241,14 +246,59 @@ class AMPAgentHumanMimic(amp_continuous.AMPAgent):
         self.train_result.update(c_info)
         self.train_result.update(disc_info)
 
-    def _disc_loss_humanmimic(self, disc_agent_logit, disc_demo_logit, style_agent_logit, style_demo_logit, obs_demo):
+    def _calc_style_wgan_gp(self, style_demo_obs, style_agent_obs):
+        """WGAN-GP on interpolated style inputs."""
+        n_demo = style_demo_obs.shape[0]
+        n_agent = style_agent_obs.shape[0]
+        if n_demo == 0 or n_agent == 0:
+            return torch.tensor(0.0, device=self.ppo_device)
+
+        if n_agent != n_demo:
+            idx = torch.randint(0, n_agent, (n_demo,), device=style_agent_obs.device)
+            style_agent_obs = style_agent_obs[idx]
+
+        eps = torch.rand((n_demo, 1), device=style_demo_obs.device)
+        interp = eps * style_demo_obs + (1.0 - eps) * style_agent_obs
+        interp.requires_grad_(True)
+        interp_logit = self.model.a2c_network.eval_style_disc(interp)
+        interp_grad = torch.autograd.grad(
+            interp_logit,
+            interp,
+            grad_outputs=torch.ones_like(interp_logit),
+            create_graph=True,
+            retain_graph=True,
+            only_inputs=True,
+        )[0]
+        grad_norm = torch.sqrt(torch.sum(torch.square(interp_grad), dim=-1) + 1e-12)
+        gp = torch.mean(torch.square(grad_norm - 1.0))
+        return gp
+
+    def _disc_loss_humanmimic(
+        self,
+        disc_agent_logit,
+        disc_demo_logit,
+        style_agent_logit,
+        style_demo_logit,
+        obs_demo,
+        style_obs_agent,
+    ):
         disc_loss_agent = self._disc_loss_neg(disc_agent_logit)
         disc_loss_demo = self._disc_loss_pos(disc_demo_logit)
         imit_pred = 0.5 * (disc_loss_agent + disc_loss_demo)
 
-        style_loss_agent = self._disc_loss_neg(style_agent_logit)
-        style_loss_demo = self._disc_loss_pos(style_demo_logit)
-        style_pred = 0.5 * (style_loss_agent + style_loss_demo)
+        if self._style_use_wasserstein:
+            # Wasserstein critic objective: maximize E[D(demo)] - E[D(agent)]
+            style_demo_mean = torch.mean(style_demo_logit)
+            style_agent_mean = torch.mean(style_agent_logit)
+            style_wdist = style_demo_mean - style_agent_mean
+            style_pred = -style_wdist
+        else:
+            style_loss_agent = self._disc_loss_neg(style_agent_logit)
+            style_loss_demo = self._disc_loss_pos(style_demo_logit)
+            style_pred = 0.5 * (style_loss_agent + style_loss_demo)
+            style_demo_mean = torch.mean(style_demo_logit)
+            style_agent_mean = torch.mean(style_agent_logit)
+            style_wdist = style_demo_mean - style_agent_mean
 
         logit_weights = self.model.a2c_network.get_disc_logit_weights()
         disc_logit_loss = torch.sum(torch.square(logit_weights))
@@ -264,17 +314,22 @@ class AMPAgentHumanMimic(amp_continuous.AMPAgent):
         )[0]
         gp_imit = torch.mean(torch.sum(torch.square(disc_demo_grad), dim=-1))
 
-        style_demo_grad = torch.autograd.grad(
-            style_demo_logit,
-            obs_demo,
-            grad_outputs=torch.ones_like(style_demo_logit),
-            create_graph=True,
-            retain_graph=True,
-            only_inputs=True,
-        )[0]
-        gp_style = torch.mean(torch.sum(torch.square(style_demo_grad), dim=-1))
+        if self._style_use_wasserstein:
+            gp_style = self._calc_style_wgan_gp(obs_demo, style_obs_agent)
+            gp_style_scale = self._style_wgan_gp_lambda
+        else:
+            style_demo_grad = torch.autograd.grad(
+                style_demo_logit,
+                obs_demo,
+                grad_outputs=torch.ones_like(style_demo_logit),
+                create_graph=True,
+                retain_graph=True,
+                only_inputs=True,
+            )[0]
+            gp_style = torch.mean(torch.sum(torch.square(style_demo_grad), dim=-1))
+            gp_style_scale = self._disc_grad_penalty
 
-        disc_loss = disc_loss + self._disc_grad_penalty * (gp_imit + gp_style)
+        disc_loss = disc_loss + self._disc_grad_penalty * gp_imit + gp_style_scale * gp_style
 
         if self._disc_weight_decay != 0:
             disc_weights = self.model.a2c_network.get_disc_weights()
@@ -297,6 +352,9 @@ class AMPAgentHumanMimic(amp_continuous.AMPAgent):
             "style_demo_acc": style_demo_acc,
             "style_agent_logit": style_agent_logit,
             "style_demo_logit": style_demo_logit,
+            "style_wdist": style_wdist.detach(),
+            "style_agent_score": style_agent_mean.detach(),
+            "style_demo_score": style_demo_mean.detach(),
         }
 
     def _velocity_blend(self, velocity_cmd):
@@ -338,9 +396,14 @@ class AMPAgentHumanMimic(amp_continuous.AMPAgent):
     def _calc_style_rewards(self, amp_obs):
         with torch.no_grad():
             logits = self._eval_style_disc(amp_obs)
-            prob = 1 / (1 + torch.exp(-logits))
-            style_r = -torch.log(torch.maximum(1 - prob, torch.tensor(0.0001, device=self.ppo_device)))
-            style_r *= self._style_reward_scale
+            logits = torch.clamp(logits, -self._style_reward_logit_clip, self._style_reward_logit_clip)
+            if self._style_use_wasserstein:
+                # Requested style reward: r_s = exp(D_theta(x~))
+                style_r = torch.exp(logits)
+            else:
+                prob = 1 / (1 + torch.exp(-logits))
+                style_r = -torch.log(torch.maximum(1 - prob, torch.tensor(0.0001, device=self.ppo_device)))
+            style_r = style_r * self._style_reward_scale
         return style_r
 
     def _record_train_batch_info(self, batch_dict, train_info):
@@ -351,6 +414,10 @@ class AMPAgentHumanMimic(amp_continuous.AMPAgent):
         super()._log_train_info(train_info, frame)
         self.writer.add_scalar("info/style_agent_acc", torch_ext.mean_list(train_info["style_agent_acc"]).item(), frame)
         self.writer.add_scalar("info/style_demo_acc", torch_ext.mean_list(train_info["style_demo_acc"]).item(), frame)
+        if "style_wdist" in train_info:
+            self.writer.add_scalar("info/style_wdist", torch_ext.mean_list(train_info["style_wdist"]).item(), frame)
+            self.writer.add_scalar("info/style_agent_score", torch_ext.mean_list(train_info["style_agent_score"]).item(), frame)
+            self.writer.add_scalar("info/style_demo_score", torch_ext.mean_list(train_info["style_demo_score"]).item(), frame)
         if train_info.get("style_rewards") is not None:
             sr_std, sr_mean = torch.std_mean(train_info["style_rewards"])
             self.writer.add_scalar("info/style_reward_mean", sr_mean.item(), frame)
