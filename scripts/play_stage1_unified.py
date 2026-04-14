@@ -88,6 +88,14 @@ def parse_args():
     )
     p.add_argument("--device", type=str, default="cuda:0")
     p.add_argument("--initial-velocity", type=float, default=VELOCITY_WALK)
+    p.add_argument("--camera-follow", action="store_true", default=True,
+                   help="Enable camera follow (default: on)")
+    p.add_argument("--camera-distance", type=float, default=2.0,
+                   help="Follow camera distance in X/Y plane")
+    p.add_argument("--camera-height", type=float, default=1.2,
+                   help="Follow camera height offset from root")
+    p.add_argument("--camera-target-height", type=float, default=0.8,
+                   help="Follow camera target height offset from root")
     return p.parse_args()
 
 
@@ -140,10 +148,30 @@ def main():
 
     policy = load_teacher(args.checkpoint, args.device)
 
+    def update_follow_camera():
+        if (viewer is None) or (not args.camera_follow):
+            return
+        root = env._root_states[0, 0:3]
+        rx = float(root[0].item())
+        ry = float(root[1].item())
+        rz = float(root[2].item())
+        cam_pos = gymapi.Vec3(
+            rx + args.camera_distance,
+            ry - args.camera_distance,
+            rz + args.camera_height,
+        )
+        cam_tar = gymapi.Vec3(
+            rx,
+            ry,
+            rz + args.camera_target_height,
+        )
+        gym.viewer_camera_look_at(viewer, env.envs[0], cam_pos, cam_tar)
+
     current_vel = args.initial_velocity
     env.set_velocity(current_vel)
     obs_dict = env.reset()
     step_count = 0
+    update_follow_camera()
 
     print(f"\n  Start vel: {current_vel:.2f} m/s ({velocity_to_label(current_vel)})\n")
 
@@ -181,6 +209,7 @@ def main():
             action = out["action_mean"].clamp(-1.0, 1.0)
 
             obs_dict, reward, done, info = env.step(action)
+            update_follow_camera()
             step_count += 1
 
             if done.any():
