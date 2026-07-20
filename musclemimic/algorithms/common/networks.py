@@ -251,6 +251,82 @@ class ActorCritic(nn.Module):
         return pi, jnp.squeeze(critic, axis=-1)
 
 
+class SplitActionActorCritic(nn.Module):
+    """Actor-critic with explicit remaining-muscle and prosthesis action heads."""
+
+    action_dim: int
+    remaining_action_dim: int
+    prosthesis_action_dim: int = 4
+    activation: str = "tanh"
+    init_std: float = 1.0
+    learnable_std: bool = True
+    hidden_layer_dims: Sequence[int] = (1024, 512)
+    critic_hidden_layer_dims: Sequence[int] | None = None
+    actor_obs_ind: jnp.ndarray = None
+    critic_obs_ind: jnp.ndarray = None
+    use_layernorm: bool = False
+    layernorm_eps: float = 1e-5
+
+    def setup(self):
+        if int(self.remaining_action_dim) + int(self.prosthesis_action_dim) != int(self.action_dim):
+            raise ValueError(
+                "SplitActionActorCritic dimensions mismatch: "
+                f"remaining={self.remaining_action_dim} prosthesis={self.prosthesis_action_dim} action_dim={self.action_dim}"
+            )
+
+    @nn.compact
+    def __call__(self, x):
+        x = RunningMeanStd()(x)
+
+        actor_x = x if self.actor_obs_ind is None else x[..., self.actor_obs_ind]
+        remaining_mean = FullyConnectedNet(
+            hidden_layer_dims=self.hidden_layer_dims,
+            output_dim=self.remaining_action_dim,
+            activation=self.activation,
+            output_activation=None,
+            use_running_mean_stand=False,
+            squeeze_output=False,
+            use_layernorm=self.use_layernorm,
+            layernorm_eps=self.layernorm_eps,
+            name="actor_remaining_muscles",
+        )(actor_x)
+        prosthesis_mean = FullyConnectedNet(
+            hidden_layer_dims=self.hidden_layer_dims,
+            output_dim=self.prosthesis_action_dim,
+            activation=self.activation,
+            output_activation=None,
+            use_running_mean_stand=False,
+            squeeze_output=False,
+            use_layernorm=self.use_layernorm,
+            layernorm_eps=self.layernorm_eps,
+            name="actor_prosthesis",
+        )(actor_x)
+        actor_mean = jnp.concatenate([remaining_mean, prosthesis_mean], axis=-1)
+        actor_logtstd = self.param(
+            "log_std",
+            nn.initializers.constant(jnp.log(self.init_std)),
+            (self.action_dim,),
+        )
+        if not self.learnable_std:
+            actor_logtstd = jax.lax.stop_gradient(actor_logtstd)
+        pi = distrax.MultivariateNormalDiag(actor_mean, jnp.exp(actor_logtstd))
+
+        critic_x = x if self.critic_obs_ind is None else x[..., self.critic_obs_ind]
+        critic_dims = self.critic_hidden_layer_dims if self.critic_hidden_layer_dims is not None else self.hidden_layer_dims
+        critic = FullyConnectedNet(
+            hidden_layer_dims=critic_dims,
+            output_dim=1,
+            activation=self.activation,
+            output_activation=None,
+            use_running_mean_stand=False,
+            squeeze_output=False,
+            use_layernorm=self.use_layernorm,
+            layernorm_eps=self.layernorm_eps,
+            name="critic",
+        )(critic_x)
+        return pi, jnp.squeeze(critic, axis=-1)
+
+
 class RunningMeanStd(nn.Module):
     """Layer that maintains running mean and variance for input normalization."""
 

@@ -1,0 +1,40 @@
+defaults:
+  - conf_fullbody_gmr_resnet
+  - _self_
+
+wandb:
+  mode: disabled
+  tags: ["fullbody", "gmr", "resnet", "prosthesis"]
+
+tensorboard:
+  enabled: true
+  log_dir: tensorboard
+
+experiment:
+  env_params:
+    env_name: MjxMyoFullBodyProsthesisEnv
+    mjx_backend: jax
+    prosthesis:
+      enabled: true
+      side: left
+      control_mode: train_policy
+      action_type: torque
+      joints: [knee_angle_l, ankle_angle_l, subtalar_angle_l, mtp_angle_l]
+      torque_limits:
+        knee: 120.0
+        ankle: 120.0
+        subtalar: 30.0
+        mtp: 20.0
+      disable_muscles:
+        mode: hard_zero_force
+        include: []
+        exclude: []
+      tau_perturbation:
+        enabled: false
+        scale: 1.0
+        noise_std: 0.0
+      penalties:
+        torque: 0.001
+        torque_rate: 0.0005
+        joint_limit: 0.01
+        foot_slip: 0.0

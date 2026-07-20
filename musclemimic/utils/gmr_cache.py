@@ -30,6 +30,8 @@ def _load_dataset_group_helpers():
 
 def normalize_gmr_env_name(env_name: str) -> str:
     normalized = env_name.removeprefix("Mjx")
+    if normalized in {"MyoFullBodyProsthesisEnv", "MyoFullBodyProsthesis"}:
+        normalized = "MyoFullBody"
     if normalized not in _GMR_DATASET_REPOS:
         supported = ", ".join(sorted(_GMR_DATASET_REPOS))
         raise ValueError(f"Unsupported GMR cache environment '{env_name}'. Supported values: {supported}")

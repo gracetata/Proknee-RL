@@ -30,7 +30,6 @@ dependencies = [
     # Core dependencies
     "numpy==2.2.6",
     "scipy>=1.14.0",
-
     # MuJoCo/JAX stack
     "mujoco-mjx==3.4.0",
     "mujoco==3.4.0",
@@ -41,33 +40,31 @@ dependencies = [
     "optax>=0.2.4",
     "orbax==0.1.9",
     "distrax==0.1.7",
-
     # Configuration & utilities
     "hydra-core",
     "pyyaml",
     "ml-collections>=1.1.0",
-
     # Data processing
     "opencv-python",
     "gitpython",
     "lxml>=6.0.0",
     "tqdm",
     "huggingface_hub",
-
     # Visualization & media
     "imageio>=2.37.0",
     "imageio-ffmpeg>=0.6.0",
     "glfw>=2.9.0",
     "seaborn>=0.13.2",
-
     # ML metrics & logging
     "metrx",
     "wandb>=0.19.10",
-
     "viser>=1.0.10",
     "trimesh>=4.0.0",
     "Pillow>=10.0.0",
     "musclemimic_models>=1.0.2",
+    "tensorboardx>=2.6.5",
+    "tensorboard>=2.20.0",
+    "onnxruntime>=1.26.0",
 ]
 
 [project.optional-dependencies]

@@ -798,11 +798,15 @@ def _compute_resume_info(config, agent_state, resume_info, train_state):
 
     if agent_state is not None and resume_info is not None:
         current_config = TrainingConfig.from_experiment_config(config)
-        base_global_ts0 = int(resume_info["global_timestep"])
+        base_global_ts0 = max(int(resume_info["global_timestep"]), 0)
+        completed_updates_raw = max(int(resume_info.get("update_number", -1)), 0)
 
         # If the checkpoint already records the absolute training budget,
         # use it directly.  Otherwise compute it from config (first resume).
         stored_target = int(resume_info.get("target_global_timestep", 0) or 0)
+        # Fresh init from distilled / transfer weights: honor current run budget.
+        if completed_updates_raw == 0 and base_global_ts0 == 0:
+            stored_target = 0
         if stored_target > 0:
             target_global_ts = stored_target
         else:

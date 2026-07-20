@@ -1,0 +1,172 @@
+# Composite locomotion score (6 dimensions, 0-100 each).
+# Weights: pose 35%, trajectory 20%, other four 11.25% each.
+
+composite_score:
+  fail_cap_total: 50.0
+  dimension_weights:
+    task_reliability: 0.1125
+    pose_tracking: 0.35
+    global_trajectory: 0.20
+    contact_biomechanics: 0.1125
+    bilateral_symmetry: 0.1125
+    control_quality: 0.1125
+
+  dimensions:
+    task_reliability:
+      label_zh: 任务可靠性
+      label_en: Task reliability
+      submetrics:
+        - id: success
+          source: metrics
+          path: official_imitation.success.value
+          type: higher_is_better
+          good: 1.0
+          bad: 0.0
+          weight: 0.6
+        - id: frame_coverage
+          source: metrics
+          path: official_imitation.frame_coverage.value
+          type: higher_is_better
+          good: 0.99
+          bad: 0.85
+          weight: 0.4
+
+    pose_tracking:
+      label_zh: 姿态跟踪
+      label_en: Pose tracking
+      submetrics:
+        - id: joint_angle_error_deg
+          source: metrics
+          path: official_imitation.joint_angle_error_deg.mean.value
+          type: lower_is_better
+          good: 6.0
+          bad: 15.0
+        - id: joint_velocity_error_deg_s
+          source: metrics
+          path: official_imitation.joint_velocity_error_deg_s.mean.value
+          type: lower_is_better
+          good: 30.0
+          bad: 60.0
+        - id: relative_site_error_cm
+          source: metrics
+          path: official_imitation.relative_site_position_error_cm.mean.value
+          type: lower_is_better
+          good: 3.0
+          bad: 8.0
+
+    global_trajectory:
+      label_zh: 全局轨迹
+      label_en: Global trajectory
+      submetrics:
+        - id: root_position_error_cm
+          source: metrics
+          path: official_imitation.root_position_error_cm.mean.value
+          type: lower_is_better
+          good: 25.0
+          bad: 60.0
+        - id: root_yaw_error_deg
+          source: metrics
+          path: official_imitation.root_yaw_error_deg.mean.value
+          type: lower_is_better
+          good: 5.0
+          bad: 20.0
+
+    contact_biomechanics:
+      label_zh: 接触力学
+      label_en: Contact biomechanics
+      submetrics:
+        - id: peak_vgrf_norm_left
+          source: metrics
+          path: force.peak_vGRF_left_filtered_norm.value
+          type: in_band
+          band_low: 0.75
+          band_high: 1.15
+          band_ideal: 1.0
+        - id: peak_vgrf_norm_right
+          source: metrics
+          path: force.peak_vGRF_right_filtered_norm.value
+          type: in_band
+          band_low: 0.75
+          band_high: 1.15
+          band_ideal: 1.0
+        - id: mean_vgrf_stance_norm_left
+          source: derived
+          derived: mean_vgrf_stance_norm_left
+          type: in_band
+          band_low: 0.20
+          band_high: 0.45
+          band_ideal: 0.32
+        - id: mean_vgrf_stance_norm_right
+          source: derived
+          derived: mean_vgrf_stance_norm_right
+          type: in_band
+          band_low: 0.20
+          band_high: 0.45
+          band_ideal: 0.32
+        - id: contact_switch_count
+          source: metrics
+          path: force.contact_switch_count.value
+          type: lower_is_better
+          good: 35.0
+          bad: 70.0
+
+    bilateral_symmetry:
+      label_zh: 左右对称
+      label_en: Bilateral symmetry
+      submetrics:
+        - id: grf_si_peak
+          source: metrics
+          path: symmetry.GRF_symmetry_index_peak_filtered.value
+          type: symmetry_si
+          si_bad: 40.0
+        - id: grf_si_impulse
+          source: metrics
+          path: symmetry.GRF_symmetry_index_impulse_filtered.value
+          type: symmetry_si
+          si_bad: 40.0
+        - id: stance_duration_si
+          source: metrics
+          path: symmetry.contact_duration_symmetry_index.value
+          type: symmetry_si
+          si_bad: 40.0
+        - id: rom_si_knee
+          source: symmetry_summary
+          path: symmetry_index_pct.ROM_knee
+          type: symmetry_si
+          si_bad: 40.0
+        - id: rom_si_hip
+          source: symmetry_summary
+          path: symmetry_index_pct.ROM_hip
+          type: symmetry_si
+          si_bad: 40.0
+        - id: rom_si_ankle
+          source: symmetry_summary
+          path: symmetry_index_pct.ROM_ankle
+          type: symmetry_si
+          si_bad: 40.0
+
+    control_quality:
+      label_zh: 控制质量
+      label_en: Control quality
+      submetrics:
+        - id: leg_torque_smoothness
+          source: torque_summary
+          derived: leg_torque_smoothness_mean
+          type: lower_is_better
+          good: 2.0
+          bad: 7.0
+          weight: 1.0
+        - id: leg_torque_jerk
+          source: torque_summary
+          derived: leg_torque_jerk_mean
+          type: lower_is_better
+          good: 0.5
+          bad: 2.5
+          weight: 1.0
+        - id: leg_peak_torque
+          source: torque_summary
+          derived: leg_peak_torque_max
+          type: lower_is_better
+          good: 90.0
+          bad: 130.0
+          weight: 1.0

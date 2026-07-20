@@ -2,6 +2,7 @@ defaults:
   - conf_bimanual
 
 wandb:
+  mode: disabled
   tags: ["bimanual", "demo", "gmr"]
 
 experiment:

@@ -1,0 +1,17 @@
+defaults:
+  - conf_fullbody_prosthesis_gmr_resnet_knee15
+  - _self_
+
+wandb:
+  tags: ["fullbody", "gmr", "resnet", "prosthesis", "knee15", "smooth_pd"]
+
+experiment:
+  env_params:
+    prosthesis:
+      action_type: pd_residual_torque
+      residual_pd:
+        kp: [240, 80, 25, 30]
+        kd: [24, 8, 3, 3]
+      execution:
+        torque_slew_limit: [60, 35, 12, 12]
+        tau_lowpass_alpha: 0.35

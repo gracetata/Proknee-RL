@@ -15,6 +15,7 @@ from omegaconf import OmegaConf
 # Fields excluded from config hash (they don't affect training identity)
 _HASH_EXCLUDE_FIELDS = frozenset({
     "resume_from",
+    "resume_from_distilled",
     "reset_logging_timestep",
     "checkpoint_dir",
     "checkpoint_root",

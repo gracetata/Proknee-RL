@@ -1,0 +1,94 @@
+# MyoFullBody robot configuration for SMPL retargeting
+# Full-body muscle-actuated model with ankle and toe tracking
+# Only for mjEQ_WELD, defines how much the optimization cares of rotation vs translation. 
+# 0.0 means no rotational importance.
+site_joint_matches:
+  # Torso sites - Strong orientation control
+  pelvis_mimic:
+    smpl_joint: "Pelvis"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0
+  head_mimic:
+    smpl_joint: "Head"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0
+  upper_body_mimic:
+    smpl_joint: "Spine"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0
+    
+  left_shoulder_mimic:
+    smpl_joint: "L_Shoulder"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 0.5
+  left_elbow_mimic:
+    smpl_joint: "L_Elbow"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0
+  left_hand_mimic:
+    smpl_joint: "L_Wrist"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0
+    
+  right_shoulder_mimic:
+    smpl_joint: "R_Shoulder"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 0.5
+  right_elbow_mimic:
+    smpl_joint: "R_Elbow"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0
+  right_hand_mimic:
+    smpl_joint: "R_Wrist"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0
+    
+  left_hip_mimic:
+    smpl_joint: "L_Hip"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0
+  left_knee_mimic:
+    smpl_joint: "L_Knee"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0
+  left_ankle_mimic:
+    smpl_joint: "L_Ankle"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0
+  left_toes_mimic:
+    smpl_joint: "L_Toe"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0 
+
+  right_hip_mimic:
+    smpl_joint: "R_Hip"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0
+  right_knee_mimic:
+    smpl_joint: "R_Knee"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0 
+  right_ankle_mimic:
+    smpl_joint: "R_Ankle" 
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0
+  right_toes_mimic:
+    smpl_joint: "R_Toe"
+    equality_constraint_type: mjEQ_WELD
+    torque_scale: 1.0
+
+robot_pose_modifier:
+  - root: "[0 , 0, np.pi]"
+  - shoulder_elv_r: "np.pi/2"
+  - shoulder_elv_l: "np.pi/2"
+
+optimization_params:
+  z_offset_feet: -0.05 
+  shape_iterations: 1000
+  shape_lr: 0.01
+  pose_lr: 0.01
+  motion_iterations: 100  # More time for soft constraints to settle
+
+env_params:
+  timestep: 0.002  # 2ms timestep 
+  n_substeps: 5    # 5 substeps for 100Hz control frequency

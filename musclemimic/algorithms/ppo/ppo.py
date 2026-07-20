@@ -13,7 +13,7 @@ import jax
 import jax.numpy as jnp
 from omegaconf import ListConfig, open_dict
 
-from musclemimic.algorithms import ActorCritic, JaxRLAlgorithmBase
+from musclemimic.algorithms import ActorCritic, JaxRLAlgorithmBase, SplitActionActorCritic
 from musclemimic.algorithms.common.moe_networks import SoftMoEActorCritic
 from musclemimic.algorithms.ppo.checkpoint import load_checkpoint_for_resume
 from musclemimic.algorithms.ppo.config import PPOAgentConf, PPOAgentState, get_ppo_config
@@ -146,6 +146,28 @@ class PPOJax(JaxRLAlgorithmBase):
         use_residual = exp.get("use_residual", False)
         residual_type = exp.get("residual_type", "gated")
         residual_gate_init = exp.get("residual_gate_init", -2.0)
+
+        split_action = exp.get("split_action_actor", {}) or {}
+        if split_action.get("enabled", False):
+            if use_moe:
+                raise ValueError("split_action_actor is not compatible with use_moe=True")
+            action_dim = int(env.info.action_space.shape[0])
+            prosthesis_action_dim = int(split_action.get("prosthesis_action_dim", 4))
+            remaining_action_dim = int(split_action.get("remaining_action_dim", action_dim - prosthesis_action_dim))
+            return SplitActionActorCritic(
+                action_dim=action_dim,
+                remaining_action_dim=remaining_action_dim,
+                prosthesis_action_dim=prosthesis_action_dim,
+                activation=exp.activation,
+                init_std=exp.init_std,
+                learnable_std=exp.learnable_std,
+                hidden_layer_dims=actor_hidden,
+                critic_hidden_layer_dims=critic_hidden if critic_hidden != actor_hidden else None,
+                actor_obs_ind=actor_obs_ind,
+                critic_obs_ind=critic_obs_ind,
+                use_layernorm=use_layernorm,
+                layernorm_eps=layernorm_eps,
+            )
 
         if use_moe:
             moe_config = exp.get("moe_config", {})

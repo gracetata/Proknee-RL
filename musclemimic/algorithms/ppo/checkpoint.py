@@ -82,10 +82,15 @@ def load_checkpoint_for_resume(
             except Exception:
                 pass
 
+        def _meta_int(value, default: int) -> int:
+            if value is None:
+                return default
+            return int(value)
+
         resume_info = {
-            "update_number": int(getattr(metadata, "update_number", -1) or -1),
-            "global_timestep": int(getattr(metadata, "global_timestep", -1) or -1),
-            "target_global_timestep": int(getattr(metadata, "target_global_timestep", 0) or 0),
+            "update_number": _meta_int(getattr(metadata, "update_number", None), -1),
+            "global_timestep": _meta_int(getattr(metadata, "global_timestep", None), -1),
+            "target_global_timestep": _meta_int(getattr(metadata, "target_global_timestep", None), 0),
             "num_envs": int(getattr(metadata, "num_envs", -1) or -1),
             "num_steps": int(getattr(metadata, "num_steps", -1) or -1),
             "num_minibatches": int(getattr(metadata, "num_minibatches", -1) or -1),

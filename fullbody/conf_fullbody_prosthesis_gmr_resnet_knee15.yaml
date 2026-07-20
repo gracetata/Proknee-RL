@@ -1,0 +1,12 @@
+defaults:
+  - conf_fullbody_prosthesis_gmr_resnet
+  - _self_
+
+wandb:
+  tags: ["fullbody", "gmr", "resnet", "prosthesis", "knee15"]
+
+experiment:
+  env_params:
+    prosthesis:
+      disable_muscles:
+        preset: knee15

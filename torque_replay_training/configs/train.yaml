@@ -1,0 +1,30 @@
+replay:
+  episode_steps: 256
+  random_start: true
+  healthy_kp: 4.0
+  healthy_kd: 0.15
+  healthy_pd_limit: 25.0
+  residual_scale: 1.0
+  residual_limits: [20.0, 20.0, 8.0, 5.0]
+  torque_limits: [120.0, 120.0, 35.0, 25.0]
+  fall_height: 0.55
+  fall_up_z: 0.35
+  replay_mode: split
+  exact_baseline: false
+
+ppo:
+  seed: 0
+  total_steps: 200000
+  rollout_steps: 1024
+  update_epochs: 10
+  minibatch_size: 256
+  learning_rate: 0.0003
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_epsilon: 0.2
+  value_coefficient: 0.5
+  entropy_coefficient: 0.001
+  max_grad_norm: 0.5
+  hidden_sizes: [128, 128]
+  initial_log_std: -2.0
+  checkpoint_every_updates: 10

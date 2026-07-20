@@ -1,0 +1,20 @@
+# Locomotion evaluation defaults (compose with fullbody training configs).
+eval:
+  force:
+    # Explicit collision geoms only (never auto-sum all foot* names).
+    # MyoFullBody: parent sole meshes (l_bofoot/r_bofoot) are visual; contacts occur on *_col* children.
+    left_foot_geoms:
+      - l_bofoot_col1
+      - l_bofoot_col2
+    right_foot_geoms:
+      - r_foot_col1
+      - r_bofoot_col1
+    contact_threshold: 1.0
+    grf_filter: moving_average
+    grf_filter_window: 5
+    grf_lowpass_cutoff_hz: 12.0
+    sanity_weight_tolerance: 0.20
+    warn_on_missing_contacts: true
+    print_geom_contributions: false
+  fall_height_threshold: 0.5
+  contact_explosion_threshold: 5000.0

@@ -1,0 +1,13 @@
+defaults:
+  - conf_fullbody_prosthesis_gmr_resnet
+  - _self_
+
+wandb:
+  mode: disabled
+  tags: ["fullbody", "gmr", "resnet", "prosthesis", "finetune"]
+
+experiment:
+  auto_resume: false
+  total_timesteps: 50000000
+  lr: 3.0e-5
+  resume_from_distilled: null

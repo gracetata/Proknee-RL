@@ -139,6 +139,12 @@ def main() -> int:
         help="Disable early termination (run for full n_steps regardless of falls).",
     )
     parser.add_argument(
+        "--hide_ghost",
+        default=False,
+        action="store_true",
+        help="Do not render the reference/ghost body while recording or viewing.",
+    )
+    parser.add_argument(
         "--terminal_state_type",
         type=str,
         default=None,
@@ -246,6 +252,11 @@ def main() -> int:
     if "MyoFullBody" in env_name:
         print("\nConfiguring MyoFullBody evaluation:")
         configure_goal_visualization(config, args, "GoalTrajMimicv2", is_mjx_env="Mjx" in env_name)
+        if args.hide_ghost:
+            goal_params = config.experiment.env_params.get("goal_params", {})
+            goal_params["visualize_goal"] = False
+            goal_params["n_visual_geoms"] = 0
+            print("   Ghost/reference visualization disabled")
         print(f"   Training goal_type: {goal_type}")
         print(f"   Evaluation goal_type: {config.experiment.env_params.get('goal_type')}")
         print(
@@ -307,6 +318,10 @@ def main() -> int:
         play_env_params["env_name"] = play_env_params["env_name"].replace("Mjx", "")
     if not args.use_mujoco:
         play_env_params["num_envs"] = int(args.num_envs)
+
+    if int(args.n_steps) > int(play_env_params.get("horizon", 1000)):
+        play_env_params["horizon"] = int(args.n_steps)
+        print(f"Raised env horizon to {args.n_steps} for long-trajectory playback")
 
     # Compute actual control_dt (with override if specified)
     actual_control_dt = training_timestep * (args.n_substeps if args.n_substeps else training_n_substeps)

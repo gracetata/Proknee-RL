@@ -37,12 +37,12 @@ def setup_jax_cache() -> None:
 
 
 def setup_wandb(config) -> tuple[bool, Any]:
-    import wandb
-
     use_wandb = config.wandb.get("mode", "online") != "disabled"
     if not use_wandb:
         logger.info("Wandb logging disabled")
         return False, None
+    import wandb
+
     wandb.login()
     config_dict = OmegaConf.to_container(config, resolve=True, throw_on_missing=True)
     params = {"project": config.wandb.project, "config": config_dict}
@@ -50,6 +50,45 @@ def setup_wandb(config) -> tuple[bool, Any]:
         params["tags"] = config.wandb.tags
     run = wandb.init(**params)
     return True, run
+
+
+def setup_tensorboard(config, result_dir: str):
+    tb_cfg = config.get("tensorboard", {})
+    if not tb_cfg or not bool(tb_cfg.get("enabled", False)):
+        logger.info("TensorBoard logging disabled")
+        return None
+
+    log_dir = tb_cfg.get("log_dir", None)
+    if log_dir is None:
+        log_dir = os.path.join(result_dir, "tensorboard")
+    elif not os.path.isabs(log_dir):
+        log_dir = os.path.join(result_dir, log_dir)
+
+    try:
+        from tensorboardX import SummaryWriter
+    except ImportError as exc:
+        raise ImportError(
+            "TensorBoard logging is enabled but tensorboardX is not installed. "
+            "Install it with `uv add tensorboardX` or set tensorboard.enabled=false."
+        ) from exc
+
+    os.makedirs(log_dir, exist_ok=True)
+    writer = SummaryWriter(log_dir=log_dir)
+    logger.info(f"TensorBoard logging enabled at: {log_dir}")
+    return writer
+
+
+def _as_float_scalar(value: Any) -> float | None:
+    try:
+        arr = jnp.asarray(value)
+        if arr.size != 1:
+            return None
+        return float(arr.reshape(()))
+    except Exception:
+        try:
+            return float(value)
+        except Exception:
+            return None
 
 
 # Dataset config keys that may appear in validation config
@@ -269,10 +308,21 @@ def build_metrics_handler(config, env):
     return MetricsHandler(config, env) if active else None
 
 
-def build_logging_callback(env, config, agent_conf, use_wandb, hooks: ExperimentHooks):
-    import wandb as _wandb
+def build_logging_callback(env, config, agent_conf, use_wandb, tensorboard_writer, hooks: ExperimentHooks):
+    _wandb = None
+    if use_wandb:
+        import wandb as _wandb
 
     algorithm_name = config.experiment.get("algorithm", "PPOJax")
+
+    def _log_tensorboard(log_dict: dict[str, Any], step: int) -> None:
+        if tensorboard_writer is None:
+            return
+        for key, value in log_dict.items():
+            scalar = _as_float_scalar(value)
+            if scalar is not None:
+                tensorboard_writer.add_scalar(key, scalar, step)
+        tensorboard_writer.flush()
 
     def _cb(metrics_dict: dict[str, Any]):
         if metrics_dict.get("_log_only", False):
@@ -284,6 +334,8 @@ def build_logging_callback(env, config, agent_conf, use_wandb, hooks: Experiment
             if log_dict:
                 if use_wandb:
                     _wandb.log(log_dict, step=0)
+                elif tensorboard_writer is not None:
+                    _log_tensorboard(log_dict, 0)
                 else:
                     logger.info(log_dict)
             return
@@ -351,6 +403,8 @@ def build_logging_callback(env, config, agent_conf, use_wandb, hooks: Experiment
 
         if use_wandb:
             _wandb.log(log_dict, step=current_timestep)
+        elif tensorboard_writer is not None:
+            _log_tensorboard(log_dict, current_timestep)
 
         # Trigger validation video recording.
         if (
@@ -482,14 +536,16 @@ def run_experiment(config, hooks: ExperimentHooks):
     from hydra.core.hydra_config import HydraConfig
 
     result_dir = HydraConfig.get().runtime.output_dir
+    tensorboard_writer = setup_tensorboard(config, result_dir)
     recorder = hooks.build_video_recorder(result_dir=result_dir, config=config)
     hooks._video_recorder = recorder
 
     # Logging callback
-    logging_cb = build_logging_callback(env, config, agent_conf, use_wandb, hooks)
+    logging_cb = build_logging_callback(env, config, agent_conf, use_wandb, tensorboard_writer, hooks)
 
     # Checkpoint resume or fresh with auto-resume support
     explicit_resume = getattr(config.experiment, "resume_from", None)
+    distilled_resume = getattr(config.experiment, "resume_from_distilled", None)
     auto_resume = getattr(config.experiment, "auto_resume", True)
     run_id = getattr(config.experiment, "run_id", None)
     checkpoint_root = getattr(config.experiment, "checkpoint_root", None)
@@ -529,11 +585,17 @@ def run_experiment(config, hooks: ExperimentHooks):
         elif explicit_resume:
             logger.info(f"Auto-resume: no local checkpoint, using explicit: {explicit_resume}")
             resume_from = explicit_resume
+        elif distilled_resume:
+            logger.info(f"Auto-resume: no local checkpoint, initializing from distilled policy: {distilled_resume}")
+            resume_from = distilled_resume
         else:
             logger.info(f"Auto-resume: no checkpoint in {resolved_ckpt_dir}, starting fresh")
     elif explicit_resume:
         logger.info(f"Resuming from explicit path: {explicit_resume}")
         resume_from = explicit_resume
+    elif distilled_resume:
+        logger.info(f"Initializing from distilled policy: {distilled_resume}")
+        resume_from = distilled_resume
 
     # Write manifest on first run (idempotent)
     write_manifest(resolved_ckpt_dir, config.experiment, exp_config_hash)
@@ -572,3 +634,5 @@ def run_experiment(config, hooks: ExperimentHooks):
         import wandb as _wandb
 
         _wandb.finish()
+    if tensorboard_writer is not None:
+        tensorboard_writer.close()

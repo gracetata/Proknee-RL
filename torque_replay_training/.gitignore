@@ -1,0 +1,7 @@
+__pycache__/
+.pytest_cache/
+*.py[cod]
+
+# Generated rollout/training artifacts. Keep directory layout via README only.
+data/fullbody/
+outputs/train*/

@@ -2,6 +2,7 @@ defaults:
   - conf_fullbody_gmr
 
 wandb:
+  mode: disabled
   tags: ["fullbody", "demo", "gmr"]
 
 experiment:
