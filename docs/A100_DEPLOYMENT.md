@@ -12,6 +12,7 @@ Host A100
 - 部署目录：`/workspace/Proknee-RL-muscle`
 - Git 仓库：`gracetata/Proknee-RL`
 - 分支：`muscle`
+- Python 3.11：`/workspace/.tools/cpython-3.11.15-linux-x86_64-gnu`
 - Python 环境：`/workspace/Proknee-RL-muscle/.venv`
 - checkpoint：`/workspace/Proknee-RL-muscle/data/checkpoints/mm-10m-2`
 - GMR cache：`/root/.musclemimic/caches/AMASS/MyoFullBody/gmr`
@@ -44,12 +45,28 @@ MUJOCO_GL=egl
 
 ## 3. 环境安装
 
-项目要求 Python 3.11。远端系统 Python 3.10 不可直接使用。部署时使用独立的 Python 3.11 和 `uv`：
+项目要求 Python 3.11。远端系统 Python 3.10 不可直接使用。本次部署使用独立的
+Python 3.11.15；不要使用系统 Python，也不要依赖容器中来源不明的 `uv` 二进制。
+
+当前环境已经配置完成。若需要在同一台服务器重建 `.venv`，执行：
 
 ```bash
 cd /workspace/Proknee-RL-muscle
-uv sync --python 3.11 --extra cuda --extra dev
+PYTHON=/workspace/.tools/cpython-3.11.15-linux-x86_64-gnu/bin/python3.11
+"${PYTHON}" -m venv .venv
+
+PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple \
+PIP_EXTRA_INDEX_URL=https://pypi.org/simple \
+  .venv/bin/python -m pip install -e . pytest
+
+PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple \
+PIP_EXTRA_INDEX_URL=https://pypi.org/simple \
+  .venv/bin/python -m pip install 'jax[cuda12]==0.7.2'
 ```
+
+第二条安装命令是必要步骤：它安装与 JAX 0.7.2 匹配的 CUDA 12、cuDNN、NCCL
+运行库，避免直接加载容器系统中不匹配的 cuDNN。`tfp-nightly` 在镜像站缺失时会从
+官方 PyPI 补充，不能因为镜像缺包而删除该依赖。
 
 验证版本和 CUDA 后端：
 
@@ -60,6 +77,7 @@ print("JAX:", jax.__version__)
 print("MuJoCo:", mujoco.__version__)
 print("devices:", jax.devices())
 assert jax.devices()[0].platform == "gpu"
+assert len(jax.devices()) == 3
 PY
 ```
 
@@ -119,3 +137,29 @@ git pull --ff-only proknee muscle
 
 如果容器无法解析 GitHub，应从可信本地 checkout 同步代码，不要修改为其他 GPU 或改用 0–4 号卡规避问题。
 
+## 8. 本次部署与验证记录
+
+验证日期：2026-07-20。
+
+- 远端分支：`muscle`
+- smoke 测试时基线提交：`2c180a1`
+- Python：3.11.15
+- JAX：0.7.2，CUDA 后端
+- MuJoCo：3.4.0
+- JAX 可见设备：`CudaDevice(id=0..2)`，对应物理 GPU 5–7
+- 单元测试：`5 passed`
+- smoke 数据：`walking_medium09_8steps.npz`，8 control steps，5 physics substeps
+- 回放验证：通过；最大误差 `qpos=4.995e-9`、`qvel=8.602e-8`
+- PPO smoke：32 steps，产生 `policy_000000032.msgpack`
+- 确定性评估：1 episode，`falls=0`，`mean_length=8`，`mean_return=7.9972`
+- 测试结束后物理 GPU 5、6、7 均为 4 MiB；未在 GPU 0–4 启动本项目进程
+
+部署所用 checkpoint 和 GMR cache 在解压前已做 SHA-256 校验：
+
+```text
+f226275a1ccc7d3ed0fba58b70cff2ba1b82715e01eed458094d46a5d7134a29  mm-10m-2-checkpoint.tar.gz
+46f350968b0bacaf1b98b553c90303edec413343a13b2390bce38c8ad6c56ab5  musclemimic-kit314-smoke-cache.tar.gz
+```
+
+以上 smoke 只验证数据导出、广义力拆分回放、训练、保存和重载链路可运行，不能替代
+完整行走/转弯数据集上的长时稳定性和假肢性能验收。
