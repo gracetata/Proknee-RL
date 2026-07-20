@@ -20,6 +20,8 @@
 
 可执行代码、环境和命令入口位于 [torque_replay_training/README.md](../torque_replay_training/README.md)。新代码放在独立目录 `torque_replay_training/`，不会调用旧假肢训练、蒸馏或 DAgger 实现。
 
+A100 服务器部署、固定 GPU 5–7 约束及远端训练命令见 [A100 部署文档](A100_DEPLOYMENT.md)。
+
 ## 当前方法边界
 
 - 假肢侧：左侧。

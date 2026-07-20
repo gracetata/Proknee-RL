@@ -30,6 +30,14 @@ fi
 bash torque_replay_training/scripts/run_smoke.sh
 ```
 
+A100 服务器必须使用物理 GPU 5–7，并运行：
+
+```bash
+bash torque_replay_training/scripts/run_smoke_a100.sh
+```
+
+完整远端部署说明见 [A100_DEPLOYMENT.md](../docs/A100_DEPLOYMENT.md)。
+
 它依次执行 8 步 tracker 数据导出、两种回放等价性验证、32 步 PPO 更新、checkpoint 重新加载和确定性评估。`--allow-incomplete` 只在这个 smoke 中使用，不能生成正式训练集。
 
 ## 生产命令
