@@ -10,8 +10,8 @@ CACHE_ROOT="${HOME}/.musclemimic/caches/AMASS/MyoFullBody/gmr"
 MOTIONS=(
   KIT/314/walking_medium09_poses
   KIT/425/walking_slow07_poses
-  KIT/348/turn_right03_poses
-  KIT/167/turn_left05_poses
+  KIT/167/turn_right01_poses
+  KIT/167/turn_left01_poses
 )
 
 if [[ ! -x "${PYTHON}" ]]; then

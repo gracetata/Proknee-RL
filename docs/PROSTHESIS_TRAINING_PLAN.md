@@ -78,8 +78,8 @@ P: 不回放人体执行力矩，改用假肢 baseline + policy residual
 |---|---|---:|---:|
 | 中速直行 | `KIT/314/walking_medium09_poses` | 773 | 7.73 s |
 | 慢速直行 | `KIT/425/walking_slow07_poses` | 532 | 5.32 s |
-| 右转 | `KIT/348/turn_right03_poses` | 618 | 6.18 s |
-| 左转 | `KIT/167/turn_left05_poses` | 599 | 5.99 s |
+| 右转 | `KIT/167/turn_right01_poses` | 675 | 6.75 s |
+| 左转 | `KIT/167/turn_left01_poses` | 537 | 5.37 s |
 | 逆时针曲线行走 | `KIT/4/WalkInCounterClockwiseCircle04_poses` | 840 | 8.40 s |
 
 这些目前只是**候选 reference**，不是已经验证合格的回放数据。每条动作都必须先由完整人体 policy 从头到尾 rollout，并通过 §4 的合格门槛。未通过的动作应更换 clip 或重新选择 checkpoint，而不能忽略跌倒后继续导出。
@@ -419,8 +419,8 @@ $PYTHON torque_replay_training/scripts/collect_rollouts.py \
   --output-dir torque_replay_training/data/fullbody \
   --motion KIT/314/walking_medium09_poses \
   --motion KIT/425/walking_slow07_poses \
-  --motion KIT/348/turn_right03_poses \
-  --motion KIT/167/turn_left05_poses
+  --motion KIT/167/turn_right01_poses \
+  --motion KIT/167/turn_left01_poses
 ```
 
 每条正式数据还必须运行：

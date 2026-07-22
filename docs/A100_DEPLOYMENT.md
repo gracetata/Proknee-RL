@@ -73,8 +73,8 @@ PIP_EXTRA_INDEX_URL=https://pypi.org/simple \
 ```text
 KIT/314/walking_medium09_poses
 KIT/425/walking_slow07_poses
-KIT/348/turn_right03_poses
-KIT/167/turn_left05_poses
+KIT/167/turn_right01_poses
+KIT/167/turn_left01_poses
 ```
 
 GMR trajectory 的长度是状态帧数；合法控制转移数是 `trajectory_length - 1`。生产资格检查
@@ -198,6 +198,6 @@ Smoke 验证数据导出、广义力回放、短 PPO、TensorBoard event、保�
 ```text
 8f320295504ffc0a7759ba76ee454dd2b1e3f1feb7244d476b2373100235cc9b  KIT/314/walking_medium09_poses.npz
 29346e54820c2fc6fbe65a47da77e9974f1fe671798d5eb31196649daa615530  KIT/425/walking_slow07_poses.npz
-99255a4e15866ce81b3a5fe6d7b9a5de9138905697170241bebccdb1bb84399d  KIT/348/turn_right03_poses.npz
-c874464595c76e124152a0d603db14e4dc5fd1430cb3e353b8b5b4f545f7e831  KIT/167/turn_left05_poses.npz
+72da69268dc658cf8bebeb7a480f3ed9b727538b8f7322f0b42231cfe4d7b6f2  KIT/167/turn_right01_poses.npz
+dc19c93e75ce1158c3724dd4e590d52b703209038028c97b3de9448257abf476  KIT/167/turn_left01_poses.npz
 ```

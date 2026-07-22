@@ -46,8 +46,8 @@ $PYTHON torque_replay_training/scripts/collect_rollouts.py \
   --output-dir torque_replay_training/data/fullbody \
   --motion KIT/314/walking_medium09_poses \
   --motion KIT/425/walking_slow07_poses \
-  --motion KIT/348/turn_right03_poses \
-  --motion KIT/167/turn_left05_poses
+  --motion KIT/167/turn_right01_poses \
+  --motion KIT/167/turn_left01_poses
 ```
 
 对每个正式 `.npz` 做力矩回放等价性检查：
