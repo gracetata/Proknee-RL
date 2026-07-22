@@ -43,7 +43,7 @@ def main() -> None:
         "pipeline_failed": (ROOT / "runtime/a100_pipeline.failed").is_file(),
         "seeds": {},
     }
-    for seed in (0, 1, 2):
+    for seed in (0,):
         directory = ROOT / f"outputs/a100_train_v1/seed_{seed}"
         checkpoints = sorted(directory.glob("policy_*.msgpack"))
         status["seeds"][str(seed)] = {
@@ -57,8 +57,6 @@ def main() -> None:
             str(ROOT / "scripts/a100_gpu_guard.py"),
             "--gpus",
             "5",
-            "6",
-            "7",
         ],
         capture_output=True,
         text=True,

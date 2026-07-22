@@ -49,7 +49,7 @@ if manifest.get("production") is not True or manifest.get("all_passed") is not T
     raise SystemExit("manifest is not a fully qualified production manifest")
 PY
 
-"${PYTHON}" "${ROOT}/scripts/a100_gpu_guard.py" --gpus 5 6 7
+"${PYTHON}" "${ROOT}/scripts/a100_gpu_guard.py" --gpus 5
 if [[ "$(git -C "${REPO_ROOT}" branch --show-current)" != "muscle" ]]; then
   echo "A100 training must run from the muscle branch" >&2
   exit 1
@@ -57,12 +57,12 @@ fi
 
 mkdir -p "${OUTPUT_ROOT}"
 rm -f "${RUNNING}"
-printf 'started_at=%s\ngit_head=%s\ngpus=5,6,7\n' \
+printf 'started_at=%s\ngit_head=%s\ngpus=5\n' \
   "$(date -Is)" "$(git -C "${REPO_ROOT}" rev-parse HEAD)" >"${RUNNING}"
 
 declare -a PIDS=()
-declare -a SEEDS=(0 1 2)
-declare -a GPUS=(5 6 7)
+declare -a SEEDS=(0)
+declare -a GPUS=(5)
 
 on_exit() {
   status=$?
@@ -87,7 +87,7 @@ terminate_children() {
 trap on_exit EXIT
 trap terminate_children INT TERM
 
-for index in 0 1 2; do
+for index in 0; do
   gpu="${GPUS[$index]}"
   seed="${SEEDS[$index]}"
   output="${OUTPUT_ROOT}/seed_${seed}"
@@ -111,8 +111,8 @@ while ((remaining > 0)); do
   ((remaining -= 1))
 done
 
-printf 'completed_at=%s\ngit_head=%s\ngpus=5,6,7\n' \
+printf 'completed_at=%s\ngit_head=%s\ngpus=5\n' \
   "$(date -Is)" "$(git -C "${REPO_ROOT}" rev-parse HEAD)" >"${COMPLETE}"
 rm -f "${RUNNING}"
 trap - EXIT INT TERM
-echo "all three training seeds completed: ${OUTPUT_ROOT}"
+echo "GPU-5 seed-0 training completed: ${OUTPUT_ROOT}/seed_0"

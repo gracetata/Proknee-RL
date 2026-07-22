@@ -10,8 +10,8 @@ fi
 
 GPU="$1"
 shift
-if [[ ! "${GPU}" =~ ^[567]$ ]]; then
-  echo "only physical GPU 5, 6, or 7 is permitted" >&2
+if [[ "${GPU}" != "5" ]]; then
+  echo "the current training phase permits physical GPU 5 only" >&2
   exit 2
 fi
 

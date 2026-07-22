@@ -26,7 +26,7 @@ PYTHON="$PWD/.venv/bin/python"
 bash torque_replay_training/scripts/run_smoke.sh
 ```
 
-A100 服务器必须使用物理 GPU 5–7，并运行：
+A100 当前只使用物理 GPU 5，并运行：
 
 ```bash
 bash torque_replay_training/scripts/run_smoke_a100.sh

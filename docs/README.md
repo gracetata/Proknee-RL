@@ -20,7 +20,7 @@
 
 可执行代码、环境和命令入口位于 [torque_replay_training/README.md](../torque_replay_training/README.md)。新代码放在独立目录 `torque_replay_training/`，不会调用旧假肢训练、蒸馏或 DAgger 实现。
 
-A100 服务器部署、固定 GPU 5–7 约束及远端训练命令见 [A100 部署文档](A100_DEPLOYMENT.md)。
+A100 服务器部署、当前固定 GPU 5 约束及远端训练命令见 [A100 部署文档](A100_DEPLOYMENT.md)。
 
 本机独立 checkout、测试、结果同步和 MuJoCo 可视化命令见
 [本机开发与可视化文档](LOCAL_DEVELOPMENT.md)。其中 MuJoCo GUI 指令明确标注为本机专用。

@@ -17,7 +17,7 @@ fi
 if tmux has-session -t "${SESSION}" 2>/dev/null; then
   exit 0
 fi
-if ! "${PYTHON}" "${ROOT}/scripts/a100_gpu_guard.py" --gpus 5 6 7 \
+if ! "${PYTHON}" "${ROOT}/scripts/a100_gpu_guard.py" --gpus 5 \
   >"${RUNTIME}/gpu_guard_latest.json" 2>&1; then
   exit 0
 fi

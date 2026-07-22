@@ -16,9 +16,9 @@ record_failure() {
 }
 trap record_failure EXIT
 
-"${PYTHON}" "${ROOT}/scripts/a100_gpu_guard.py" --gpus 5 6 7
+"${PYTHON}" "${ROOT}/scripts/a100_gpu_guard.py" --gpus 5
 bash "${ROOT}/scripts/collect_production_a100.sh"
-# Collection runs only on physical GPU 5. Recheck all three immediately before training.
-"${PYTHON}" "${ROOT}/scripts/a100_gpu_guard.py" --gpus 5 6 7
+# Recheck physical GPU 5 immediately before training.
+"${PYTHON}" "${ROOT}/scripts/a100_gpu_guard.py" --gpus 5
 bash "${ROOT}/scripts/run_training_a100.sh"
 trap - EXIT

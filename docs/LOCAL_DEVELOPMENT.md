@@ -118,4 +118,4 @@ ssh -p 6029 root@39.105.12.60 \
   'git -C /workspace/Proknee-RL-muscle rev-parse HEAD'
 ```
 
-三个 SHA 不一致时，不启动新的 A100 训练。
+三个 SHA 不一致时，不启动新的 A100 训练。当前 A100 正式训练只使用物理 GPU 5。

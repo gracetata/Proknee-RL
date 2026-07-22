@@ -1,4 +1,4 @@
-# A100 完整训练、监控与 TensorBoard
+# A100 GPU-5 完整训练、监控与 TensorBoard
 
 ## 1. 固定服务器、分支和路径
 
@@ -23,26 +23,24 @@ Host A100
 
 ## 2. GPU 安全规则
 
-只允许使用物理 GPU 5、6、7，绝不使用 GPU 0–4。正式训练为三个独立 seed：
+当前阶段只使用物理 GPU 5，不访问 GPU 0–4、6、7。正式训练为一个 seed：
 
 | 训练 | 物理 GPU | 进程内逻辑 GPU |
 |---|---:|---:|
 | seed 0 | 5 | 0 |
-| seed 1 | 6 | 0 |
-| seed 2 | 7 | 0 |
 
 每次启动前必须执行：
 
 ```bash
 cd /workspace/Proknee-RL-muscle
-.venv/bin/python torque_replay_training/scripts/a100_gpu_guard.py --gpus 5 6 7
+.venv/bin/python torque_replay_training/scripts/a100_gpu_guard.py --gpus 5
 ```
 
 检查同时覆盖计算进程、显存和利用率。默认显存不超过 1024 MiB、利用率不超过 10%，
 且不能存在计算进程。任一条件不满足时返回非零，训练只等待，不杀进程、不抢占、不改用
-0–4 号卡。真正启动前会在文件锁内再次检查，避免重复启动。
+其他卡。真正启动前会在文件锁内再次检查，避免重复启动。
 
-单卡入口也只接受 5、6、7：
+当前训练入口只接受物理 GPU 5：
 
 ```bash
 torque_replay_training/scripts/a100_exec_gpu.sh 5 COMMAND [ARG ...]
@@ -79,8 +77,8 @@ KIT/348/turn_right03_poses
 KIT/167/turn_left05_poses
 ```
 
-安全生产流水线会：检查 5–7 → 在 GPU 5 导出并验证四条完整轨迹 → 再次检查 5–7 →
-在三张卡上分别训练 seed 0、1、2。正式数据不允许 `--allow-incomplete`。
+安全生产流水线会：检查 GPU 5 → 在 GPU 5 导出并验证四条完整轨迹 → 再次检查 GPU 5 →
+在 GPU 5 训练 seed 0。正式数据不允许 `--allow-incomplete`。
 
 手动前台执行：
 
@@ -89,7 +87,7 @@ cd /workspace/Proknee-RL-muscle
 bash torque_replay_training/scripts/run_production_pipeline_a100.sh
 ```
 
-推荐使用排队守护任务。它每 120 秒检查一次，GPU 忙时只记录状态；三卡空闲后自动启动：
+推荐使用排队守护任务。它每 120 秒检查一次，GPU 5 忙时只记录状态；空闲后自动启动：
 
 ```bash
 cd /workspace/Proknee-RL-muscle
@@ -103,12 +101,10 @@ tmux ls
 - `proknee-a100-train`：数据生产和三卡训练流水线；
 - `proknee-tensorboard-6011`：TensorBoard。
 
-训练配置为 `configs/train.yaml`：每个 seed 200,000 environment steps。三个输出互不覆盖：
+训练配置为 `configs/train.yaml`：seed 0 训练 200,000 environment steps：
 
 ```text
 outputs/a100_train_v1/seed_0
-outputs/a100_train_v1/seed_1
-outputs/a100_train_v1/seed_2
 ```
 
 ## 5. 持续监控
@@ -125,11 +121,9 @@ cd /workspace/Proknee-RL-muscle
 ```bash
 tail -f torque_replay_training/runtime/pipeline.log
 tail -f torque_replay_training/outputs/a100_train_v1/seed_0/train.log
-tail -f torque_replay_training/outputs/a100_train_v1/seed_1/train.log
-tail -f torque_replay_training/outputs/a100_train_v1/seed_2/train.log
 ```
 
-状态必须综合检查：GPU 5–7、唯一的三个训练 PID、每个 seed 的 `metrics.jsonl`、
+状态必须综合检查：GPU 5、唯一训练 PID、seed 0 的 `metrics.jsonl`、
 最新 `policy_*.msgpack`、tmux 会话和 TensorBoard HTTP 状态，不能只看终端是否有输出。
 
 ## 6. TensorBoard
@@ -193,8 +187,8 @@ Smoke 验证数据导出、广义力回放、短 PPO、TensorBoard event、保�
 - `proknee-a100-watchdog` 已启动，每 120 秒检查一次；
 - `proknee-tensorboard-6011` 已启动，HTTP 状态为 200；
 - Codex 线程监控任务 `monitor-proknee-a100-training` 每 10 分钟只读检查一次；
-- 启动时物理 GPU 6 正被他人任务占用约 70 GiB，guard 正确返回 3，因此正式流水线处于
-  等待状态，没有启动 Proknee 训练进程，也没有影响该任务。
+- 2026-07-22 用户将当前训练安排改为只使用 GPU 5；GPU 6、7 不再影响启动条件，也不会
+  被本项目访问。
 
 正式 cache 校验值：
 
