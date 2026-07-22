@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import replace
 import json
 
 import _bootstrap  # noqa: F401
@@ -19,8 +20,11 @@ def main() -> None:
     parser.add_argument("--dataset", required=True, nargs="+", help="One or more qualified replay .npz files")
     parser.add_argument("--output", required=True)
     parser.add_argument("--checkpoint", default=str(DEFAULT_CHECKPOINT))
+    parser.add_argument("--seed", type=int, help="Override ppo.seed from the YAML config")
     args = parser.parse_args()
     ppo_config, replay_config = load_training_config(args.config)
+    if args.seed is not None:
+        ppo_config = replace(ppo_config, seed=args.seed)
     with TorqueReplayEnv(
         args.dataset,
         args.checkpoint,

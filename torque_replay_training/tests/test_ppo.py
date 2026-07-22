@@ -4,7 +4,7 @@ import jax
 import jax.numpy as jnp
 import numpy as np
 
-from torque_replay_training.ppo import ActorCritic, _gae, _normal_log_prob
+from torque_replay_training.ppo import ActorCritic, _gae, _normal_log_prob, _tensorboard_scalars
 
 
 def test_initial_policy_mean_is_zero() -> None:
@@ -31,3 +31,17 @@ def test_log_prob_and_gae_are_finite() -> None:
     )
     assert np.all(np.isfinite(advantages))
     assert np.all(np.isfinite(returns))
+
+
+def test_tensorboard_scalars_skip_metadata_and_non_finite_values() -> None:
+    result = _tensorboard_scalars(
+        {
+            "update": 3,
+            "total_steps": 1024,
+            "checkpoint": "/tmp/policy.msgpack",
+            "mean_step_reward": 0.75,
+            "mean_episode_return": None,
+            "bad": float("nan"),
+        }
+    )
+    assert result == {"mean_step_reward": 0.75}

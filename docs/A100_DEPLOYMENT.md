@@ -1,6 +1,6 @@
-# A100 部署与训练
+# A100 完整训练、监控与 TensorBoard
 
-## 1. 固定服务器与路径
+## 1. 固定服务器、分支和路径
 
 ```sshconfig
 Host A100
@@ -9,46 +9,48 @@ Host A100
   Port 6029
 ```
 
-- 部署目录：`/workspace/Proknee-RL-muscle`
-- Git 仓库：`gracetata/Proknee-RL`
-- 分支：`muscle`
-- Python 3.11：`/workspace/.tools/cpython-3.11.15-linux-x86_64-gnu`
-- Python 环境：`/workspace/Proknee-RL-muscle/.venv`
-- checkpoint：`/workspace/Proknee-RL-muscle/data/checkpoints/mm-10m-2`
-- GMR cache：`/root/.musclemimic/caches/AMASS/MyoFullBody/gmr`
+- 远端项目：`/workspace/Proknee-RL-muscle`
+- 本机项目：`/home/user/Workspace/Proknee-RL-muscle`
+- GitHub：`gracetata/Proknee-RL`
+- 共同分支：`muscle`
+- 远端环境：`/workspace/Proknee-RL-muscle/.venv`
+- tracker checkpoint：`data/checkpoints/mm-10m-2`
+- 正式数据：`torque_replay_training/data/fullbody_v1`
+- 正式训练：`torque_replay_training/outputs/a100_train_v1`
 
-## 2. GPU 约束
+代码通过 Git 同步；checkpoint、GMR cache、导出数据和训练输出是大文件，不提交 Git，
+使用校验过的 `rsync/scp` 单独同步。
 
-这个部署只能使用物理 GPU 5、6、7，禁止使用 GPU 0–4。所有训练和 smoke 命令必须通过：
+## 2. GPU 安全规则
+
+只允许使用物理 GPU 5、6、7，绝不使用 GPU 0–4。正式训练为三个独立 seed：
+
+| 训练 | 物理 GPU | 进程内逻辑 GPU |
+|---|---:|---:|
+| seed 0 | 5 | 0 |
+| seed 1 | 6 | 0 |
+| seed 2 | 7 | 0 |
+
+每次启动前必须执行：
 
 ```bash
-torque_replay_training/scripts/a100_exec.sh COMMAND [ARG ...]
+cd /workspace/Proknee-RL-muscle
+.venv/bin/python torque_replay_training/scripts/a100_gpu_guard.py --gpus 5 6 7
 ```
 
-该入口会无条件设置：
+检查同时覆盖计算进程、显存和利用率。默认显存不超过 1024 MiB、利用率不超过 10%，
+且不能存在计算进程。任一条件不满足时返回非零，训练只等待，不杀进程、不抢占、不改用
+0–4 号卡。真正启动前会在文件锁内再次检查，避免重复启动。
+
+单卡入口也只接受 5、6、7：
 
 ```bash
-CUDA_VISIBLE_DEVICES=5,6,7
-XLA_PYTHON_CLIENT_PREALLOCATE=false
-MUJOCO_GL=egl
+torque_replay_training/scripts/a100_exec_gpu.sh 5 COMMAND [ARG ...]
 ```
 
-因此程序内部看到的逻辑设备与物理设备关系是：
+## 3. 环境
 
-| JAX/CUDA 逻辑编号 | 物理 GPU |
-|---:|---:|
-| 0 | 5 |
-| 1 | 6 |
-| 2 | 7 |
-
-当前 torque-replay PPO 是单环境顺序采样，默认 JAX 设备为逻辑 0，即物理 GPU 5。GPU 6、7 保留为允许设备，但启用多卡训练前仍应先用 `nvidia-smi -i 5,6,7` 检查占用。
-
-## 3. 环境安装
-
-项目要求 Python 3.11。远端系统 Python 3.10 不可直接使用。本次部署使用独立的
-Python 3.11.15；不要使用系统 Python，也不要依赖容器中来源不明的 `uv` 二进制。
-
-当前环境已经配置完成。若需要在同一台服务器重建 `.venv`，执行：
+当前部署使用 Python 3.11.15、JAX 0.7.2 CUDA、MuJoCo 3.4.0：
 
 ```bash
 cd /workspace/Proknee-RL-muscle
@@ -57,109 +59,127 @@ PYTHON=/workspace/.tools/cpython-3.11.15-linux-x86_64-gnu/bin/python3.11
 
 PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple \
 PIP_EXTRA_INDEX_URL=https://pypi.org/simple \
-  .venv/bin/python -m pip install -e . pytest
+  .venv/bin/python -m pip install -e '.[dev]'
 
 PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple \
 PIP_EXTRA_INDEX_URL=https://pypi.org/simple \
   .venv/bin/python -m pip install 'jax[cuda12]==0.7.2'
 ```
 
-第二条安装命令是必要步骤：它安装与 JAX 0.7.2 匹配的 CUDA 12、cuDNN、NCCL
-运行库，避免直接加载容器系统中不匹配的 cuDNN。`tfp-nightly` 在镜像站缺失时会从
-官方 PyPI 补充，不能因为镜像缺包而删除该依赖。
+不要使用系统 Python 3.10。镜像缺少 `tfp-nightly` 时从官方 PyPI 补充，不能删除依赖。
 
-验证版本和 CUDA 后端：
+## 4. 正式数据与完整训练
 
-```bash
-torque_replay_training/scripts/a100_exec.sh .venv/bin/python - <<'PY'
-import jax, mujoco
-print("JAX:", jax.__version__)
-print("MuJoCo:", mujoco.__version__)
-print("devices:", jax.devices())
-assert jax.devices()[0].platform == "gpu"
-assert len(jax.devices()) == 3
-PY
+正式数据固定包含直行、慢走、右转、左转四条完整 motion：
+
+```text
+KIT/314/walking_medium09_poses
+KIT/425/walking_slow07_poses
+KIT/348/turn_right03_poses
+KIT/167/turn_left05_poses
 ```
 
-## 4. Smoke 测试
+安全生产流水线会：检查 5–7 → 在 GPU 5 导出并验证四条完整轨迹 → 再次检查 5–7 →
+在三张卡上分别训练 seed 0、1、2。正式数据不允许 `--allow-incomplete`。
 
-一键运行数据导出、力矩等价性验证、32 步 PPO、checkpoint 重载和确定性评估：
+手动前台执行：
+
+```bash
+cd /workspace/Proknee-RL-muscle
+bash torque_replay_training/scripts/run_production_pipeline_a100.sh
+```
+
+推荐使用排队守护任务。它每 120 秒检查一次，GPU 忙时只记录状态；三卡空闲后自动启动：
+
+```bash
+cd /workspace/Proknee-RL-muscle
+bash torque_replay_training/scripts/start_a100_watchdog.sh
+tmux ls
+```
+
+相关 tmux 会话：
+
+- `proknee-a100-watchdog`：周期检查任务；
+- `proknee-a100-train`：数据生产和三卡训练流水线；
+- `proknee-tensorboard-6011`：TensorBoard。
+
+训练配置为 `configs/train.yaml`：每个 seed 200,000 environment steps。三个输出互不覆盖：
+
+```text
+outputs/a100_train_v1/seed_0
+outputs/a100_train_v1/seed_1
+outputs/a100_train_v1/seed_2
+```
+
+## 5. 持续监控
+
+查看一次结构化状态：
+
+```bash
+cd /workspace/Proknee-RL-muscle
+.venv/bin/python torque_replay_training/scripts/a100_training_status.py
+```
+
+查看流水线和各 seed 日志：
+
+```bash
+tail -f torque_replay_training/runtime/pipeline.log
+tail -f torque_replay_training/outputs/a100_train_v1/seed_0/train.log
+tail -f torque_replay_training/outputs/a100_train_v1/seed_1/train.log
+tail -f torque_replay_training/outputs/a100_train_v1/seed_2/train.log
+```
+
+状态必须综合检查：GPU 5–7、唯一的三个训练 PID、每个 seed 的 `metrics.jsonl`、
+最新 `policy_*.msgpack`、tmux 会话和 TensorBoard HTTP 状态，不能只看终端是否有输出。
+
+## 6. TensorBoard
+
+远端 TensorBoard 使用独立端口 6011，避免影响服务器已有的 6006 服务：
+
+```bash
+cd /workspace/Proknee-RL-muscle
+bash torque_replay_training/scripts/start_tensorboard_a100.sh
+curl -I http://127.0.0.1:6011/
+```
+
+在本机建立 SSH 隧道：
+
+```bash
+ssh -N -L 6011:127.0.0.1:6011 -p 6029 root@39.105.12.60
+```
+
+然后只在本机浏览器打开 `http://127.0.0.1:6011`。A100 上不启动 MuJoCo GUI。
+
+## 7. 代码同步规范
+
+本机开发完成后：
+
+```bash
+cd /home/user/Workspace/Proknee-RL-muscle
+git status --short
+git add <明确文件>
+git commit -m "..."
+git push origin muscle
+```
+
+A100 必须快进到同一提交后才能开始新训练：
+
+```bash
+cd /workspace/Proknee-RL-muscle
+git fetch proknee muscle
+git merge --ff-only proknee/muscle
+git rev-parse HEAD
+```
+
+比较本机、GitHub、A100 三个 SHA，必须完全一致。远端 GitHub DNS 不可用时，从本机
+生成 Git bundle 传到服务器并快进，不能只复制文件而让 Git 历史不一致。
+
+## 8. Smoke 与边界
 
 ```bash
 cd /workspace/Proknee-RL-muscle
 bash torque_replay_training/scripts/run_smoke_a100.sh
 ```
 
-该脚本会先检查 `CUDA_VISIBLE_DEVICES=5,6,7` 和 JAX GPU 后端，检查失败时不会开始训练。
-
-## 5. 正式数据收集
-
-完整人体 MuJoCo rollout 主要在 CPU 物理引擎执行，但 policy 推理仍通过相同 GPU 限制入口运行：
-
-```bash
-cd /workspace/Proknee-RL-muscle
-torque_replay_training/scripts/a100_exec.sh .venv/bin/python \
-  torque_replay_training/scripts/collect_rollouts.py \
-  --output-dir torque_replay_training/data/fullbody \
-  --motion KIT/314/walking_medium09_poses \
-  --motion KIT/425/walking_slow07_poses \
-  --motion KIT/348/turn_right03_poses \
-  --motion KIT/167/turn_left05_poses
-```
-
-不要给正式数据收集命令添加 `--allow-incomplete`。
-
-## 6. 正式训练
-
-```bash
-cd /workspace/Proknee-RL-muscle
-torque_replay_training/scripts/a100_exec.sh .venv/bin/python \
-  torque_replay_training/scripts/train_policy.py \
-  --config torque_replay_training/configs/train.yaml \
-  --dataset torque_replay_training/data/fullbody/*.npz \
-  --output torque_replay_training/outputs/a100_train_v1
-```
-
-查看当前允许 GPU 的占用：
-
-```bash
-nvidia-smi -i 5,6,7
-```
-
-## 7. 更新代码
-
-当远端 DNS 和 GitHub 网络可用时：
-
-```bash
-cd /workspace/Proknee-RL-muscle
-git pull --ff-only proknee muscle
-```
-
-如果容器无法解析 GitHub，应从可信本地 checkout 同步代码，不要修改为其他 GPU 或改用 0–4 号卡规避问题。
-
-## 8. 本次部署与验证记录
-
-验证日期：2026-07-20。
-
-- 远端分支：`muscle`
-- smoke 测试时基线提交：`2c180a1`
-- Python：3.11.15
-- JAX：0.7.2，CUDA 后端
-- MuJoCo：3.4.0
-- JAX 可见设备：`CudaDevice(id=0..2)`，对应物理 GPU 5–7
-- 单元测试：`5 passed`
-- smoke 数据：`walking_medium09_8steps.npz`，8 control steps，5 physics substeps
-- 回放验证：通过；最大误差 `qpos=4.995e-9`、`qvel=8.602e-8`
-- PPO smoke：32 steps，产生 `policy_000000032.msgpack`
-- 确定性评估：1 episode，`falls=0`，`mean_length=8`，`mean_return=7.9972`
-- 测试结束后物理 GPU 5、6、7 均为 4 MiB；未在 GPU 0–4 启动本项目进程
-
-部署所用 checkpoint 和 GMR cache 在解压前已做 SHA-256 校验：
-
-```text
-f226275a1ccc7d3ed0fba58b70cff2ba1b82715e01eed458094d46a5d7134a29  mm-10m-2-checkpoint.tar.gz
-46f350968b0bacaf1b98b553c90303edec413343a13b2390bce38c8ad6c56ab5  musclemimic-kit314-smoke-cache.tar.gz
-```
-
-以上 smoke 只验证数据导出、广义力拆分回放、训练、保存和重载链路可运行，不能替代
-完整行走/转弯数据集上的长时稳定性和假肢性能验收。
+Smoke 验证数据导出、广义力回放、短 PPO、TensorBoard event、保存和重载链路；它不是
+完整行走/转弯训练的性能结论。

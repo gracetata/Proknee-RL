@@ -4,4 +4,6 @@ __pycache__/
 
 # Generated rollout/training artifacts. Keep directory layout via README only.
 data/fullbody/
+data/fullbody_v1/
 outputs/train*/
+runtime/

@@ -11,15 +11,11 @@
 
 ## 固定环境
 
-在 workspace 根目录执行：
+在受 Git 管理的本机独立 checkout 执行：
 
 ```bash
-cd /home/user/Workspace/musclemimic
-if [[ -x musclemimic/.venv/bin/python ]]; then
-  PYTHON="$PWD/musclemimic/.venv/bin/python"  # 当前嵌套 checkout
-else
-  PYTHON="$PWD/.venv/bin/python"              # 标准 Git clone
-fi
+cd /home/user/Workspace/Proknee-RL-muscle
+PYTHON="$PWD/.venv/bin/python"
 ```
 
 本次验证环境：Python 3.11.15、MuJoCo 3.4.0、JAX 0.7.2、Flax 0.12.0、Optax 0.2.8。代码复用上游 checkout 的环境构建和 checkpoint loader，不修改上游旧假肢模块。
@@ -37,6 +33,7 @@ bash torque_replay_training/scripts/run_smoke_a100.sh
 ```
 
 完整远端部署说明见 [A100_DEPLOYMENT.md](../docs/A100_DEPLOYMENT.md)。
+本机测试和 MuJoCo GUI 说明见 [LOCAL_DEVELOPMENT.md](../docs/LOCAL_DEVELOPMENT.md)。
 
 它依次执行 8 步 tracker 数据导出、两种回放等价性验证、32 步 PPO 更新、checkpoint 重新加载和确定性评估。`--allow-incomplete` 只在这个 smoke 中使用，不能生成正式训练集。
 
@@ -87,3 +84,4 @@ PYTHONPATH=torque_replay_training/src:musclemimic \
 ```
 
 输出目录下的 `metrics.jsonl` 保存每轮 PPO 指标，`policy_*.msgpack` 保存参数树、数据来源和完整训练配置。
+每个训练目录的 `tensorboard/` 保存同一批指标对应的 TensorBoard event。

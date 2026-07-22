@@ -20,6 +20,20 @@ import yaml
 from .replay_env import ReplayConfig, TorqueReplayEnv
 
 
+def _tensorboard_scalars(metrics: dict[str, Any]) -> dict[str, float]:
+    """Select finite numeric training metrics for TensorBoard."""
+
+    scalars: dict[str, float] = {}
+    for name, value in metrics.items():
+        if name in {"checkpoint", "update", "total_steps"} or value is None:
+            continue
+        if isinstance(value, (int, float, np.integer, np.floating)):
+            number = float(value)
+            if np.isfinite(number):
+                scalars[name] = number
+    return scalars
+
+
 @dataclass(frozen=True)
 class PPOConfig:
     seed: int = 0
@@ -118,6 +132,14 @@ class ResidualPPOTrainer:
         self.config = config
         self.output_dir = Path(output_dir)
         self.output_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            from tensorboardX import SummaryWriter
+        except ImportError as error:
+            raise RuntimeError(
+                "TensorBoard logging requires tensorboardX; install the project environment dependencies"
+            ) from error
+        self.tensorboard_dir = self.output_dir / "tensorboard"
+        self.writer = SummaryWriter(log_dir=str(self.tensorboard_dir))
         self.model = ActorCritic(
             action_size=env.action_size,
             hidden_sizes=config.hidden_sizes,
@@ -261,27 +283,33 @@ class ResidualPPOTrainer:
         total_steps = 0
         update = 0
         last_metrics: dict[str, Any] = {}
-        while total_steps < self.config.total_steps:
-            steps = min(self.config.rollout_steps, self.config.total_steps - total_steps)
-            batch = self._collect(steps)
-            optimization = self._optimize(batch)
-            total_steps += steps
-            update += 1
-            returns = batch["episode_returns"]
-            last_metrics = {
-                "update": update,
-                "total_steps": total_steps,
-                "mean_step_reward": float(np.mean(batch["reward"])),
-                "mean_episode_return": float(np.mean(returns)) if returns.size else None,
-                "episodes": int(returns.size),
-                "elapsed_seconds": float(time.time() - started),
-                **optimization,
-            }
-            checkpoint_due = update % max(1, self.config.checkpoint_every_updates) == 0
-            if checkpoint_due or total_steps >= self.config.total_steps:
-                last_metrics["checkpoint"] = str(self.save(update, total_steps, last_metrics))
-            print(json.dumps(last_metrics, sort_keys=True), flush=True)
-        return last_metrics
+        try:
+            while total_steps < self.config.total_steps:
+                steps = min(self.config.rollout_steps, self.config.total_steps - total_steps)
+                batch = self._collect(steps)
+                optimization = self._optimize(batch)
+                total_steps += steps
+                update += 1
+                returns = batch["episode_returns"]
+                last_metrics = {
+                    "update": update,
+                    "total_steps": total_steps,
+                    "mean_step_reward": float(np.mean(batch["reward"])),
+                    "mean_episode_return": float(np.mean(returns)) if returns.size else None,
+                    "episodes": int(returns.size),
+                    "elapsed_seconds": float(time.time() - started),
+                    **optimization,
+                }
+                for name, value in _tensorboard_scalars(last_metrics).items():
+                    self.writer.add_scalar(f"train/{name}", value, total_steps)
+                self.writer.flush()
+                checkpoint_due = update % max(1, self.config.checkpoint_every_updates) == 0
+                if checkpoint_due or total_steps >= self.config.total_steps:
+                    last_metrics["checkpoint"] = str(self.save(update, total_steps, last_metrics))
+                print(json.dumps(last_metrics, sort_keys=True), flush=True)
+            return last_metrics
+        finally:
+            self.writer.close()
 
 
 def load_policy_checkpoint(path: str | Path) -> tuple[ActorCritic, Any, dict[str, Any]]:

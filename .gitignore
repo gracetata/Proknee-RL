@@ -24,6 +24,7 @@ loco_mujoco/**.yaml
 **/video2images.sh
 **/expert_traj.npz
 .venv/
+/.venv
 notebook/
 eval_results/
 tb_logs/
