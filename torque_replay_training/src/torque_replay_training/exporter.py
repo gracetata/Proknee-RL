@@ -33,6 +33,14 @@ class StepTrace:
     contact_ncon: np.ndarray
 
 
+def _control_steps_for_trajectory(trajectory_length: int) -> int:
+    """Convert reference state-frame count to the number of valid transitions."""
+
+    if int(trajectory_length) < 2:
+        raise ValueError(f"a trajectory needs at least two state frames, got {trajectory_length}")
+    return int(trajectory_length) - 1
+
+
 def _object_names(model, object_type, count: int) -> list[str]:
     return [str(mujoco.mj_id2name(model, object_type, idx) or "") for idx in range(int(count))]
 
@@ -182,7 +190,12 @@ def export_fullbody_rollout(
         obs = env.reset()
         policy_obs = policy.reset_obs(obs)
         trajectory_length = int(env.th.len_trajectory(0))
-        target_steps = trajectory_length if int(n_steps) <= 0 else min(int(n_steps), trajectory_length)
+        reference_control_steps = _control_steps_for_trajectory(trajectory_length)
+        target_steps = (
+            reference_control_steps
+            if int(n_steps) <= 0
+            else min(int(n_steps), reference_control_steps)
+        )
 
         rollout_qpos = [np.asarray(env.data.qpos, dtype=np.float64).copy()]
         rollout_qvel = [np.asarray(env.data.qvel, dtype=np.float64).copy()]
@@ -226,7 +239,7 @@ def export_fullbody_rollout(
         joint_rows, prosthesis_dofs, prosthesis_qpos, root_dofs = _joint_metadata(env.model)
         actual_steps = len(actions)
         completed_requested = actual_steps == target_steps
-        completed_reference = actual_steps == trajectory_length
+        completed_reference = actual_steps == reference_control_steps
         finite = all(
             np.all(np.isfinite(np.asarray(values)))
             for values in (rollout_qpos, rollout_qvel, actions, traces["qfrc_actuator"])
@@ -240,6 +253,7 @@ def export_fullbody_rollout(
             "train_state_seed": int(train_state_seed),
             "deterministic": bool(deterministic),
             "trajectory_length": trajectory_length,
+            "reference_control_steps": reference_control_steps,
             "requested_steps": target_steps,
             "actual_steps": actual_steps,
             "completed_requested": completed_requested,
@@ -287,7 +301,7 @@ def export_fullbody_rollout(
             dataset.save(rejected)
             raise RuntimeError(
                 "full-motion rollout did not qualify: "
-                f"actual={actual_steps}/{trajectory_length}, early_done={early_done_step}, finite={finite}; "
+                f"actual={actual_steps}/{reference_control_steps}, early_done={early_done_step}, finite={finite}; "
                 f"audit data saved to {rejected}"
             )
         dataset.save(output_path)

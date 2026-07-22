@@ -77,6 +77,9 @@ KIT/348/turn_right03_poses
 KIT/167/turn_left05_poses
 ```
 
+GMR trajectory 的长度是状态帧数；合法控制转移数是 `trajectory_length - 1`。生产资格检查
+允许最后一个合法转移产生 `done`，但仍拒绝更早的终止、吸收状态、NaN/Inf 或少步数据。
+
 安全生产流水线会：检查 GPU 5 → 在 GPU 5 导出并验证四条完整轨迹 → 再次检查 GPU 5 →
 在 GPU 5 训练 seed 0。正式数据不允许 `--allow-incomplete`。
 
