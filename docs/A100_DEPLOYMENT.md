@@ -183,3 +183,24 @@ bash torque_replay_training/scripts/run_smoke_a100.sh
 
 Smoke 验证数据导出、广义力回放、短 PPO、TensorBoard event、保存和重载链路；它不是
 完整行走/转弯训练的性能结论。
+
+## 9. 2026-07-22 部署状态
+
+- 功能实现与测试基线提交为 `ed3a102407537fa9e78eabf2b8c67161935058f5`；
+- 本机和 A100 单元测试均为 `6 passed`；
+- 本机完整 smoke、TensorBoard event 读取和可视化 `--check-only` 均通过；
+- 四条正式 GMR cache 已传到 A100，并逐文件与本机 SHA-256 一致；
+- `proknee-a100-watchdog` 已启动，每 120 秒检查一次；
+- `proknee-tensorboard-6011` 已启动，HTTP 状态为 200；
+- Codex 线程监控任务 `monitor-proknee-a100-training` 每 10 分钟只读检查一次；
+- 启动时物理 GPU 6 正被他人任务占用约 70 GiB，guard 正确返回 3，因此正式流水线处于
+  等待状态，没有启动 Proknee 训练进程，也没有影响该任务。
+
+正式 cache 校验值：
+
+```text
+8f320295504ffc0a7759ba76ee454dd2b1e3f1feb7244d476b2373100235cc9b  KIT/314/walking_medium09_poses.npz
+29346e54820c2fc6fbe65a47da77e9974f1fe671798d5eb31196649daa615530  KIT/425/walking_slow07_poses.npz
+99255a4e15866ce81b3a5fe6d7b9a5de9138905697170241bebccdb1bb84399d  KIT/348/turn_right03_poses.npz
+c874464595c76e124152a0d603db14e4dc5fd1430cb3e353b8b5b4f545f7e831  KIT/167/turn_left05_poses.npz
+```
