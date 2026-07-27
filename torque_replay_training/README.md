@@ -7,7 +7,9 @@
 3. 关闭原 actuator，在非假肢 DOF 回放健康力矩；
 4. 在左膝 1 DOF 和左踝—足 3 DOF 上训练 `healthy baseline + PPO residual`。
 
-方法解释和生产训练流程见 [假肢训练文档](../docs/PROSTHESIS_TRAINING_PLAN.md)。
+当前全身回放的物理边界、schema v2、验证和同步规则见
+[全身广义力回放文档](../docs/FULLBODY_TORQUE_REPLAY.md)。假肢训练流程见
+[假肢训练文档](../docs/PROSTHESIS_TRAINING_PLAN.md)。
 
 ## 固定环境
 
