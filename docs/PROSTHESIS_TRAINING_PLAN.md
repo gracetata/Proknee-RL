@@ -33,9 +33,10 @@
 - 多 motion 数据在 episode reset 时随机采样；
 - 回放等价性、单元测试、checkpoint 保存/加载及端到端 smoke。
 
-2026-07-23 的 schema v2 修复后，四条本机完整轨迹已通过全长 all/split 回放和随机起点
-窗口验证。关键物理转移量使用 float64，并恢复 MuJoCo `qacc_warmstart`。旧 schema v1
-数据会在长时间接触回放中发散，不能用于训练。
+2026-07-27 的 schema v3 修复后，四条本机完整轨迹已通过全长 all/split 回放和随机起点
+窗口验证。导出器不在子步前插入额外 `mj_forward`，在 `mj_step` 后记录该转移实际使用的
+关键物理量，并使用 float64 和恢复 MuJoCo `qacc_warmstart`。旧 schema v1、v2 数据不能
+用于训练。
 
 当前版本记录接触数量 `contact_ncon`，接触力由 MuJoCo 重新求解；逐足 GRF、足底滑移和视频报告仍属于后续评估增强项，不应声称已经实现。
 
@@ -90,7 +91,7 @@ P: 不回放人体执行力矩，改用假肢 baseline + policy residual
 | 左转 | `KIT/167/turn_left01_poses` | 537 | 5.37 s |
 | 逆时针曲线行走 | `KIT/4/WalkInCounterClockwiseCircle04_poses` | 840 | 8.40 s |
 
-前四条已经在本机导出为 `torque_replay_training/data/fullbody_v2`，并通过完整 tracker
+前四条已经在本机导出为 `torque_replay_training/data/fullbody_v3`，并通过完整 tracker
 资格检查、全长力矩回放和随机起点检查。圆周行走仍只是候选 reference。任何新增动作都
 必须先由完整人体 policy 从头到尾 rollout，并通过 §4 的门槛。
 
@@ -104,7 +105,8 @@ P: 不回放人体执行力矩，改用假肢 baseline + policy residual
 - 固定 seed；
 - 轨迹从第 0 帧开始；
 - 不允许 episode reset 后拼接；
-- 终止标志必须记录，筛选时不能用 `NoTerminal` 隐藏失败。
+- 导出时关闭环境提前终止，使 tracker 完整走到 reference 末尾；
+- 独立记录终止、吸收、root 高度和朝上方向，以统一门限判定是否跌倒。
 
 正式导出器是 [exporter.py](../torque_replay_training/src/torque_replay_training/exporter.py)，命令入口是 [export_fullbody_rollout.py](../torque_replay_training/scripts/export_fullbody_rollout.py) 和批量入口 [collect_rollouts.py](../torque_replay_training/scripts/collect_rollouts.py)。它直接镜像上游 `LocoMuJoCo.step()`，并把内部 5 个物理子步拆开记录。
 

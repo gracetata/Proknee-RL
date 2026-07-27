@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from collections.abc import Sequence
 from typing import Any
 
 import jax
@@ -19,11 +20,13 @@ from musclemimic.runner.eval_utils import align_agent_state, apply_temporal_para
 
 def build_fullbody_env(
     checkpoint_path: str,
-    motion_path: str,
+    motion_path: str | Sequence[str],
     *,
     fixed_start_step: int = 0,
+    fixed_start_trajectory: int = 0,
+    disable_termination: bool = False,
 ) -> tuple[Any, Any, Any, dict]:
-    """Build the CPU MyoFullBody tracker environment for one motion."""
+    """Build the CPU MyoFullBody tracker environment for one or more motions."""
 
     config, agent_state, metadata = load_checkpoint(checkpoint_path)
     OmegaConf.set_struct(config, False)
@@ -33,6 +36,8 @@ def build_fullbody_env(
     env_params["env_name"] = "MyoFullBody"
     env_params["headless"] = True
     env_params.pop("prosthesis", None)
+    if disable_termination:
+        env_params["terminal_state_type"] = "NoTerminalStateHandler"
     goal_params = dict(env_params.get("goal_params", {}) or {})
     goal_params["visualize_goal"] = False
     goal_params["n_visual_geoms"] = 0
@@ -41,7 +46,7 @@ def build_fullbody_env(
     th_params.update(
         {
             "random_start": False,
-            "fixed_start_conf": [0, int(fixed_start_step)],
+            "fixed_start_conf": [int(fixed_start_trajectory), int(fixed_start_step)],
             "start_from_random_step": False,
         }
     )
@@ -49,8 +54,15 @@ def build_fullbody_env(
 
     task_params = OmegaConf.to_container(config.experiment.task_factory.params, resolve=True)
     amass = dict(task_params.get("amass_dataset_conf", {}) or {})
+    motion_paths = (
+        [str(motion_path)]
+        if isinstance(motion_path, str)
+        else [str(item) for item in motion_path]
+    )
+    if not motion_paths:
+        raise ValueError("at least one motion path is required")
     amass["dataset_group"] = None
-    amass["rel_dataset_path"] = [str(motion_path)]
+    amass["rel_dataset_path"] = motion_paths
     task_params["amass_dataset_conf"] = amass
     factory = TaskFactory.get_factory_cls(config.experiment.task_factory.name)
     env = factory.make(**{**env_params, **task_params})
@@ -140,4 +152,3 @@ class OfficialPolicyRunner:
         if action_np.ndim == 2 and action_np.shape[0] == 1:
             action_np = action_np[0]
         return action_np.astype(np.float32), np.asarray(value)
-

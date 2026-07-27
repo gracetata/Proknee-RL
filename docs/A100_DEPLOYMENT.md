@@ -15,8 +15,8 @@ Host A100
 - 共同分支：`muscle`
 - 远端环境：`/workspace/Proknee-RL-muscle/.venv`
 - tracker checkpoint：`data/checkpoints/mm-10m-2`
-- 正式数据：`torque_replay_training/data/fullbody_v2`
-- 正式训练：`torque_replay_training/outputs/a100_train_v2`
+- 正式数据：`torque_replay_training/data/fullbody_v3`
+- 正式训练：`torque_replay_training/outputs/a100_train_v3`
 
 代码通过 Git 同步；checkpoint、GMR cache、导出数据和训练输出是大文件，不提交 Git，
 使用校验过的 `rsync/scp` 单独同步。
@@ -83,15 +83,16 @@ GMR trajectory 的长度是状态帧数；合法控制转移数是 `trajectory_l
 安全生产流水线会：检查 GPU 5 → 在 GPU 5 导出并验证四条完整轨迹 → 再次检查 GPU 5 →
 在 GPU 5 训练 seed 0。正式数据不允许 `--allow-incomplete`。
 
-`fullbody_v2` 的物理边界与旧数据不同：
+`fullbody_v3` 的物理边界与旧数据不同：
 
+- 不在物理子步前插入额外 `mj_forward`，每次 `mj_step` 后记录该转移实际使用的力；
 - `qfrc_actuator` 和 `rollout_qacc` 必须以 float64 保存；
 - 任意帧 reset 都恢复前一物理子步的 `qacc_warmstart`；
 - split 模式回放所有非假肢 DOF，包括数值上接近零的 free-root actuator 广义力；
-- manifest 必须包含 `schema_version: 2`；
+- manifest 必须包含 `schema_version: 3`；
 - 全长 all/split 和三个随机起点窗口必须全部通过。
 
-旧 `fullbody_v1` 会因 schema 版本不符被拒绝，不能用于训练。
+旧 `fullbody_v1`、`fullbody_v2` 会因 schema 版本不符被拒绝，不能用于训练。
 
 手动前台执行：
 
@@ -117,7 +118,7 @@ tmux ls
 训练配置为 `configs/train.yaml`：seed 0 训练 200,000 environment steps：
 
 ```text
-outputs/a100_train_v2/seed_0
+outputs/a100_train_v3/seed_0
 ```
 
 ## 5. 持续监控
@@ -133,7 +134,7 @@ cd /workspace/Proknee-RL-muscle
 
 ```bash
 tail -f torque_replay_training/runtime/pipeline.log
-tail -f torque_replay_training/outputs/a100_train_v2/seed_0/train.log
+tail -f torque_replay_training/outputs/a100_train_v3/seed_0/train.log
 ```
 
 状态必须综合检查：GPU 5、唯一训练 PID、seed 0 的 `metrics.jsonl`、

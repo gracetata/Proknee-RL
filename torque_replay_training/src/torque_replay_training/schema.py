@@ -10,7 +10,7 @@ from typing import Any
 import numpy as np
 
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 
 @dataclass

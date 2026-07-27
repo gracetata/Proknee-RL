@@ -47,9 +47,9 @@ qfrc_{applied}=qfrc_{actuator}^{recorded}.
 ```mermaid
 flowchart LR
     A["完整人体状态 qpos[t], qvel[t]"] --> B["MuscleMimic policy 输出动作"]
-    B --> C["每个物理子步执行 mj_forward"]
-    C --> D["记录 qfrc_actuator[t,s] 和 rollout_qacc[t,s]"]
-    D --> E["执行一次 mj_step"]
+    B --> C["每个物理子步执行一次 mj_step(..., 1)"]
+    C --> D["读取该子步实际使用的 qfrc_actuator 和 qacc"]
+    D --> E["保存 float64 子步数据"]
     E --> F["5 个子步后得到 qpos[t+1], qvel[t+1]"]
 ```
 
@@ -61,7 +61,8 @@ rollout_qpos[t], rollout_qvel[t]
 rollout_qpos[t+1], rollout_qvel[t+1]
 ```
 
-导出器在每次 `mj_step(..., 1)` 前调用 `mj_forward`，然后记录该物理子步的：
+导出器严格保持官方环境 `mj_step(model, data, n_substeps)` 的物理顺序，将其拆成 5 次
+`mj_step(..., 1)`。每次积分后读取 MuJoCo 留在 `data` 中、刚刚用于该次状态转移的：
 
 - `rollout_qacc`；
 - `actuator_ctrl`；
@@ -71,18 +72,22 @@ rollout_qpos[t+1], rollout_qvel[t+1]
 - `qfrc_constraint`；
 - `contact_ncon`。
 
+禁止在子步前额外调用 `mj_forward`。旧 v2 导出器的额外 forward 会改变接触求解器和
+warmstart；数据虽然能自洽回放，但 tracker 可能偏离官方 `env.step`，因此不能与 v3
+混用。
+
 相关实现：
 
 - `torque_replay_training/src/torque_replay_training/exporter.py`
 - `torque_replay_training/scripts/export_fullbody_rollout.py`
 - `torque_replay_training/scripts/collect_rollouts.py`
 
-## 4. schema v2
+## 4. schema v3
 
 正式数据目录为：
 
 ```text
-torque_replay_training/data/fullbody_v2
+torque_replay_training/data/fullbody_v3
 ```
 
 最重要的数据字段是：
@@ -98,9 +103,13 @@ torque_replay_training/data/fullbody_v2
 | `qfrc_passive` | `[T,S,nv]` | float32 | 被动力审计，不直接回放 |
 | `qfrc_constraint` | `[T,S,nv]` | float32 | 接触约束审计，不直接回放 |
 
-`qfrc_actuator` 和 `rollout_qacc` 必须是 float64。旧 schema v1 将二者保存为 float32，
-单步误差虽然很小，但会在约 1–1.5 秒后被足地接触动力学放大，最终进入不同的接触模式。
-加载器会拒绝 schema v1，不能把旧文件直接改名成 v2。
+`qfrc_actuator` 和 `rollout_qacc` 必须是 float64。版本边界为：
+
+- v1：关键物理量为 float32，长时间接触回放会发散；
+- v2：改为 float64，但导出时额外执行了 `mj_forward`，不严格等于官方 rollout；
+- v3：不插入额外 forward，记录官方物理子步实际使用的力和加速度。
+
+加载器只接受当前 schema，不能通过改文件名或手工改 metadata 绕过版本检查。
 
 ## 5. 回放环境初始化
 
@@ -190,10 +199,14 @@ policy 只改变 \(P\) 上的 4 维 residual。
 一条正式轨迹必须先满足 tracker rollout 资格：
 
 - 走完整条 reference；
-- 没有提前 `done` 或 absorbing；
 - 状态和广义力无 NaN/Inf；
-- root 高度和朝向合理；
-- manifest 中 `production=true`、`all_passed=true`、`schema_version=2`。
+- 全程 `root_height >= 0.55`；
+- 全程 `root_up_z >= 0.35`；
+- manifest 中 `production=true`、该轨迹 `passed=true`、`schema_version=3`。
+
+批量筛选时关闭“偏离 reference 即终止”的 terminal handler，使 tracker 有机会走完整条
+动作；但不会放宽摔倒标准。走完整但高度或朝向越界的动作保存为 `.rejected.npz`，只供
+审计，不进入训练集。
 
 随后 `validate_replay.py` 验证：
 
@@ -210,7 +223,7 @@ qpos max abs <= 2e-3
 qvel max abs <= 2e-2
 ```
 
-当前本机四条 v2 轨迹在上述检查中 `qpos/qvel` 最大误差均为 0。
+当前本机四条 v3 轨迹在上述检查中 `qpos/qvel` 最大误差均为 0。
 
 ## 9. 当前完整轨迹
 
@@ -224,21 +237,21 @@ qvel max abs <= 2e-2
 本机数据 SHA-256：
 
 ```text
-8c715df170fa97a50207d0a97dd7e9b275001d061b1b7c571b36f072d861603d  KIT_314_walking_medium09_poses.npz
-6c093cb4df79ef97768b6bedf068186e25b805e08f6518b46e93e0b46cd0573d  KIT_425_walking_slow07_poses.npz
-bbe941082f8b5d85282d2462873de64b508974d3ed870abf2d881c73ebe7ab42  KIT_167_turn_right01_poses.npz
-2963f23d487e564b7c7dd26b199afa5435f3cd8f30af1741fa2a3b94a131ca12  KIT_167_turn_left01_poses.npz
+e0adc39aea768b1279f804228072443eca589b69d67ac73cf3a5636fefb88ec3  KIT_314_walking_medium09_poses.npz
+24b9d3111e3fe1fc4f17d83595d1de46ad85db49bd28e19998885782b0284aa3  KIT_425_walking_slow07_poses.npz
+cac67913f5ca8e0d483a28103d10346740a2c69006174cf878f9784738d38309  KIT_167_turn_right01_poses.npz
+66150fc83526227da9799d2d8636cb1d7563c5e5dac0399083cad588811326b8  KIT_167_turn_left01_poses.npz
 ```
 
 ## 10. 本机命令
 
-生成四条 v2 数据：
+生成四条 v3 数据：
 
 ```bash
 cd /home/user/Workspace/Proknee-RL-muscle
 XLA_PYTHON_CLIENT_PREALLOCATE=false \
   .venv/bin/python torque_replay_training/scripts/collect_rollouts.py \
-  --output-dir torque_replay_training/data/fullbody_v2 \
+  --output-dir torque_replay_training/data/fullbody_v3 \
   --motion KIT/314/walking_medium09_poses \
   --motion KIT/425/walking_slow07_poses \
   --motion KIT/167/turn_right01_poses \
@@ -248,10 +261,8 @@ XLA_PYTHON_CLIENT_PREALLOCATE=false \
 验证：
 
 ```bash
-for dataset in torque_replay_training/data/fullbody_v2/*.npz; do
-  .venv/bin/python torque_replay_training/scripts/validate_replay.py \
-    --dataset "${dataset}"
-done
+.venv/bin/python torque_replay_training/scripts/validate_rollouts.py \
+  --manifest torque_replay_training/data/fullbody_v3/manifest.json
 ```
 
 本机 MuJoCo 可视化：
@@ -259,7 +270,7 @@ done
 ```bash
 .venv/bin/python \
   torque_replay_training/scripts/visualize_fullbody_replay_local.py \
-  --dataset torque_replay_training/data/fullbody_v2/*.npz
+  --dataset torque_replay_training/data/fullbody_v3/*.npz
 ```
 
 桌面可视化不要强制设置 `MUJOCO_GL=egl`。无窗口物理检查添加 `--check-only`。
@@ -308,7 +319,7 @@ ssh -p 6029 root@39.105.12.60 \
 - `.venv`；
 - checkpoint；
 - GMR cache；
-- `fullbody_v2/*.npz`；
+- `fullbody_v3/*.npz` 和 `fullbody_all_v3/*.npz`；
 - PPO checkpoint、TensorBoard event、日志和视频。
 
 这些制品通过独立传输和 SHA-256 管理。代码一致不代表运行环境目录逐字节相同；可复现性

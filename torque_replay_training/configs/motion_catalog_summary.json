@@ -1,0 +1,40 @@
+{
+  "cache_files": 1089,
+  "candidate_categories": {
+    "clockwise_circle": 77,
+    "counterclockwise_circle": 77,
+    "custom": 9,
+    "generic_walking": 13,
+    "handrail_walking": 40,
+    "special_walking": 3,
+    "straight_backward": 78,
+    "straight_forward": 64,
+    "supported_walking": 9,
+    "turn_left": 165,
+    "turn_right": 176,
+    "walking_fast": 71,
+    "walking_medium": 109,
+    "walking_run": 90,
+    "walking_slow": 108
+  },
+  "candidate_control_steps": 662991,
+  "candidate_duration_seconds": 6629.91,
+  "custom": 9,
+  "historical_failures": [
+    "KIT/3/walk_6m_straight_line06_poses"
+  ],
+  "historically_evaluated": 1080,
+  "not_evaluated": [
+    "KIT/custom/official_retarget_walk6m_longseq_v1_poses",
+    "KIT/custom/official_retarget_walk6m_straightonly_longseq_v2_poses",
+    "KIT/custom/official_retarget_walk6m_straightonly_nostitch_v1_poses",
+    "KIT/custom/walk_6m_straight_line06_longwalk_v1_poses",
+    "KIT/custom/walking_slow01_longwalk_poses",
+    "KIT/custom/walking_slow01_longwalk_v2_poses",
+    "KIT/custom/walking_slow01_softclosure_longwalk_v5_poses",
+    "KIT/custom/walking_slow01_strictperiod_longwalk_v3_poses",
+    "KIT/custom/walking_slow01_strictperiod_longwalk_v4_poses"
+  ],
+  "official_kit": 1080,
+  "replay_candidates": 1089
+}

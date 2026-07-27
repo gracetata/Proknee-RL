@@ -38,13 +38,13 @@ def main() -> None:
         "watchdog_running": _tmux_session("proknee-a100-watchdog"),
         "pipeline_running": _tmux_session("proknee-a100-train"),
         "tensorboard_http_6011": _http_ok("http://127.0.0.1:6011/"),
-        "complete": (ROOT / "runtime/a100_train_v2.complete").is_file(),
-        "failed": (ROOT / "runtime/a100_train_v2.failed").is_file(),
+        "complete": (ROOT / "runtime/a100_train_v3.complete").is_file(),
+        "failed": (ROOT / "runtime/a100_train_v3.failed").is_file(),
         "pipeline_failed": (ROOT / "runtime/a100_pipeline.failed").is_file(),
         "seeds": {},
     }
     for seed in (0,):
-        directory = ROOT / f"outputs/a100_train_v2/seed_{seed}"
+        directory = ROOT / f"outputs/a100_train_v3/seed_{seed}"
         checkpoints = sorted(directory.glob("policy_*.msgpack"))
         status["seeds"][str(seed)] = {
             "latest_metrics": _latest_json(directory / "metrics.jsonl"),

@@ -10,7 +10,7 @@ SESSION="proknee-a100-train"
 mkdir -p "${RUNTIME}"
 date -Is >"${RUNTIME}/watchdog_last_check"
 
-if [[ -f "${RUNTIME}/a100_train_v2.complete" || -f "${RUNTIME}/a100_train_v2.failed" \
+if [[ -f "${RUNTIME}/a100_train_v3.complete" || -f "${RUNTIME}/a100_train_v3.failed" \
   || -f "${RUNTIME}/a100_pipeline.failed" ]]; then
   exit 0
 fi

@@ -45,13 +45,13 @@ bash torque_replay_training/scripts/run_smoke.sh
 ## 3. 生成和验证完整人体回放数据
 
 schema v1 将关键物理量保存成 float32，长时间接触回放会发散，禁止继续使用。
-本机和 A100 的新数据目录统一为 `fullbody_v2`。一次生成四条完整轨迹：
+本机和 A100 的正式四轨迹目录统一为 `fullbody_v3`。一次生成四条完整轨迹：
 
 ```bash
 cd /home/user/Workspace/Proknee-RL-muscle
 XLA_PYTHON_CLIENT_PREALLOCATE=false \
   .venv/bin/python torque_replay_training/scripts/collect_rollouts.py \
-  --output-dir torque_replay_training/data/fullbody_v2 \
+  --output-dir torque_replay_training/data/fullbody_v3 \
   --motion KIT/314/walking_medium09_poses \
   --motion KIT/425/walking_slow07_poses \
   --motion KIT/167/turn_right01_poses \
@@ -61,7 +61,7 @@ XLA_PYTHON_CLIENT_PREALLOCATE=false \
 逐文件执行全长 `all`、零残差 `split` 和三个随机起点窗口验证：
 
 ```bash
-for dataset in torque_replay_training/data/fullbody_v2/*.npz; do
+for dataset in torque_replay_training/data/fullbody_v3/*.npz; do
   XLA_PYTHON_CLIENT_PREALLOCATE=false \
     .venv/bin/python torque_replay_training/scripts/validate_replay.py \
     --dataset "${dataset}"
@@ -72,12 +72,12 @@ done
 
 ```bash
 .venv/bin/python torque_replay_training/scripts/visualize_fullbody_replay_local.py \
-  --dataset torque_replay_training/data/fullbody_v2/*.npz \
+  --dataset torque_replay_training/data/fullbody_v3/*.npz \
   --check-only
 ```
 
 成功结果必须同时满足：四条轨迹走到末尾、`fell=false`，并且 `qpos_max_abs`、
-`qvel_max_abs` 在门限内。当前本机重新导出的四条 v2 轨迹全部为零误差。
+`qvel_max_abs` 在门限内。当前本机重新导出的四条 v3 轨迹全部为零误差。
 
 ## 4. 本机 MuJoCo 可视化
 
@@ -91,17 +91,17 @@ done
 cd /home/user/Workspace/Proknee-RL-muscle
 .venv/bin/python torque_replay_training/scripts/visualize_fullbody_replay_local.py \
   --dataset \
-    torque_replay_training/data/fullbody_v2/KIT_314_walking_medium09_poses.npz \
-    torque_replay_training/data/fullbody_v2/KIT_425_walking_slow07_poses.npz \
-    torque_replay_training/data/fullbody_v2/KIT_167_turn_right01_poses.npz \
-    torque_replay_training/data/fullbody_v2/KIT_167_turn_left01_poses.npz
+    torque_replay_training/data/fullbody_v3/KIT_314_walking_medium09_poses.npz \
+    torque_replay_training/data/fullbody_v3/KIT_425_walking_slow07_poses.npz \
+    torque_replay_training/data/fullbody_v3/KIT_167_turn_right01_poses.npz \
+    torque_replay_training/data/fullbody_v3/KIT_167_turn_left01_poses.npz
 ```
 
 只看中速行走并循环两次：
 
 ```bash
 .venv/bin/python torque_replay_training/scripts/visualize_fullbody_replay_local.py \
-  --dataset torque_replay_training/data/fullbody_v2/KIT_314_walking_medium09_poses.npz \
+  --dataset torque_replay_training/data/fullbody_v3/KIT_314_walking_medium09_poses.npz \
   --repeat 2
 ```
 
@@ -113,8 +113,8 @@ cd /home/user/Workspace/Proknee-RL-muscle
 ```bash
 .venv/bin/python torque_replay_training/scripts/visualize_policy_local.py \
   --config torque_replay_training/configs/train.yaml \
-  --dataset torque_replay_training/data/fullbody_v2/*.npz \
-  --policy torque_replay_training/outputs/a100_train_v2/seed_0/policy_000200000.msgpack \
+  --dataset torque_replay_training/data/fullbody_v3/*.npz \
+  --policy torque_replay_training/outputs/a100_train_v3/seed_0/policy_000200000.msgpack \
   --dataset-index 0 --steps 1000
 ```
 
@@ -125,11 +125,11 @@ cd /home/user/Workspace/Proknee-RL-muscle
 ```bash
 cd /home/user/Workspace/Proknee-RL-muscle
 scp -P 6029 -r \
-  root@39.105.12.60:/workspace/Proknee-RL-muscle/torque_replay_training/data/fullbody_v2 \
+  root@39.105.12.60:/workspace/Proknee-RL-muscle/torque_replay_training/data/fullbody_v3 \
   torque_replay_training/data/
 
 scp -P 6029 -r \
-  root@39.105.12.60:/workspace/Proknee-RL-muscle/torque_replay_training/outputs/a100_train_v2 \
+  root@39.105.12.60:/workspace/Proknee-RL-muscle/torque_replay_training/outputs/a100_train_v3 \
   torque_replay_training/outputs/
 ```
 
@@ -142,7 +142,7 @@ scp -P 6029 -r \
 ```bash
 cd /home/user/Workspace/Proknee-RL-muscle
 .venv/bin/tensorboard \
-  --logdir torque_replay_training/outputs/a100_train_v2 \
+  --logdir torque_replay_training/outputs/a100_train_v3 \
   --port 6012
 ```
 

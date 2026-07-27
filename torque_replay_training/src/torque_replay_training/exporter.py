@@ -15,6 +15,10 @@ from .schema import SCHEMA_VERSION, TorqueReplayDataset
 from .upstream import OfficialPolicyRunner, build_fullbody_env
 
 
+QUALIFICATION_FALL_HEIGHT = 0.55
+QUALIFICATION_FALL_UP_Z = 0.35
+
+
 @dataclass
 class StepTrace:
     observation: np.ndarray
@@ -113,17 +117,19 @@ def traced_env_step(env, action: np.ndarray) -> StepTrace:
         ctrl_action, carry = env._compute_action(processed_action, env._model, env._data, carry)
         env._data.ctrl[env._action_indices] = np.asarray(ctrl_action).reshape(-1)
         for _substep in range(int(env._n_substeps)):
-            # Forward computes actuator, passive, constraint, and acceleration at
-            # the exact pre-integration state for this physics substep.
-            mujoco.mj_forward(env._model, env._data)
-            qacc_rows.append(np.asarray(env._data.qacc, dtype=np.float64).copy())
             ctrl_rows.append(np.asarray(env._data.ctrl, dtype=np.float64).copy())
+            # Do not insert mj_forward here. The official environment calls
+            # mj_step(model, data, n_substeps) directly; an extra forward pass
+            # changes contact warmstart state and eventually changes the rollout.
+            # MuJoCo leaves the force and acceleration used by this transition in
+            # data after the one-substep integration, so capture them afterwards.
+            mujoco.mj_step(env._model, env._data, 1)
+            qacc_rows.append(np.asarray(env._data.qacc, dtype=np.float64).copy())
             force_rows.append(np.asarray(env._data.actuator_force, dtype=np.float64).copy())
             actuator_rows.append(np.asarray(env._data.qfrc_actuator, dtype=np.float64).copy())
             passive_rows.append(np.asarray(env._data.qfrc_passive, dtype=np.float64).copy())
             constraint_rows.append(np.asarray(env._data.qfrc_constraint, dtype=np.float64).copy())
             ncon_rows.append(int(env._data.ncon))
-            mujoco.mj_step(env._model, env._data, 1)
 
     env._data, carry = env._simulation_post_step(env._model, env._data, carry)
     observation, carry = env._create_observation(env._model, env._data, carry)
@@ -177,19 +183,99 @@ def export_fullbody_rollout(
 ) -> TorqueReplayDataset:
     """Run the official full-body tracker and save a replay-ready dataset."""
 
-    env, config, agent_state, checkpoint_metadata = build_fullbody_env(checkpoint_path, motion_path)
-    try:
-        policy = OfficialPolicyRunner.create(
-            env,
+    with FullbodyRolloutSession(
+        checkpoint_path=checkpoint_path,
+        motion_paths=[motion_path],
+        seed=seed,
+        train_state_seed=train_state_seed,
+        deterministic=deterministic,
+    ) as session:
+        return session.export(
+            motion_path=motion_path,
+            trajectory_index=0,
+            output_path=output_path,
+            n_steps=n_steps,
+            require_complete=require_complete,
+        )
+
+
+class FullbodyRolloutSession:
+    """Reuse one tracker environment and one JAX policy across a motion chunk."""
+
+    def __init__(
+        self,
+        *,
+        checkpoint_path: str,
+        motion_paths: list[str],
+        seed: int = 0,
+        train_state_seed: int = 0,
+        deterministic: bool = True,
+    ) -> None:
+        self.checkpoint_path = str(checkpoint_path)
+        self.motion_paths = [str(item) for item in motion_paths]
+        self.seed = int(seed)
+        self.train_state_seed = int(train_state_seed)
+        self.deterministic = bool(deterministic)
+        self.env, config, agent_state, self.checkpoint_metadata = build_fullbody_env(
+            self.checkpoint_path,
+            self.motion_paths,
+            disable_termination=True,
+        )
+        self.policy = OfficialPolicyRunner.create(
+            self.env,
             config,
             agent_state,
-            seed=seed,
-            train_state_seed=train_state_seed,
-            deterministic=deterministic,
+            seed=self.seed,
+            train_state_seed=self.train_state_seed,
+            deterministic=self.deterministic,
         )
+        self._initial_train_state = self.policy.train_state
+
+    def __enter__(self) -> "FullbodyRolloutSession":
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback) -> None:
+        self.close()
+
+    def close(self) -> None:
+        if self.env is not None:
+            self.env.stop()
+            self.env = None
+
+    def export(
+        self,
+        *,
+        motion_path: str,
+        trajectory_index: int,
+        output_path: str | Path,
+        n_steps: int = 0,
+        require_complete: bool = True,
+    ) -> TorqueReplayDataset:
+        """Export one trajectory from the shared environment."""
+
+        if self.env is None:
+            raise RuntimeError("rollout session is closed")
+        trajectory_index = int(trajectory_index)
+        if not 0 <= trajectory_index < len(self.motion_paths):
+            raise IndexError(
+                f"trajectory_index={trajectory_index} outside [0, {len(self.motion_paths)})"
+            )
+        expected_motion = self.motion_paths[trajectory_index]
+        if str(motion_path) != expected_motion:
+            raise ValueError(
+                f"motion/index mismatch: index {trajectory_index} is {expected_motion!r}, "
+                f"got {motion_path!r}"
+            )
+
+        env = self.env
+        # Network inference updates mutable run_stats. Each trajectory must start
+        # from the checkpoint state so chunk composition and ordering cannot
+        # change the exported motion.
+        self.policy.train_state = self._initial_train_state
+        env.th.fixed_start_conf = [trajectory_index, 0]
         obs = env.reset()
-        policy_obs = policy.reset_obs(obs)
-        trajectory_length = int(env.th.len_trajectory(0))
+        policy_obs = self.policy.reset_obs(obs)
+        trajectory_length = int(env.th.len_trajectory(trajectory_index))
         reference_control_steps = _control_steps_for_trajectory(trajectory_length)
         target_steps = (
             reference_control_steps
@@ -219,7 +305,7 @@ def export_fullbody_rollout(
         }
         early_done_step: int | None = None
         for step in range(target_steps):
-            action, _value = policy.act(policy_obs)
+            action, _value = self.policy.act(policy_obs)
             trace = traced_env_step(env, action)
             actions.append(action.copy())
             references_qpos.append(trace.reference_qpos)
@@ -231,7 +317,7 @@ def export_fullbody_rollout(
             dones.append(trace.done)
             for name in traces:
                 traces[name].append(np.asarray(getattr(trace, name)).copy())
-            policy_obs = policy.update_obs(trace.observation)
+            policy_obs = self.policy.update_obs(trace.observation)
             if trace.done and step + 1 < target_steps:
                 early_done_step = step
                 break
@@ -244,14 +330,27 @@ def export_fullbody_rollout(
             np.all(np.isfinite(np.asarray(values)))
             for values in (rollout_qpos, rollout_qvel, actions, traces["qfrc_actuator"])
         )
-        qualified = completed_reference and early_done_step is None and finite and not any(absorbings[:-1])
+        root_height_min = float(np.min(np.asarray(rollout_qpos)[:, 2]))
+        root_up_min = float(min(root_up_z(q) for q in rollout_qpos))
+        fell = (
+            root_height_min < QUALIFICATION_FALL_HEIGHT
+            or root_up_min < QUALIFICATION_FALL_UP_Z
+        )
+        qualified = (
+            completed_reference
+            and early_done_step is None
+            and finite
+            and not any(absorbings[:-1])
+            and not fell
+        )
         metadata = {
             "schema_version": SCHEMA_VERSION,
-            "checkpoint_path": str(checkpoint_path),
-            "checkpoint_metadata": str(checkpoint_metadata),
-            "seed": int(seed),
-            "train_state_seed": int(train_state_seed),
-            "deterministic": bool(deterministic),
+            "checkpoint_path": self.checkpoint_path,
+            "checkpoint_metadata": str(self.checkpoint_metadata),
+            "seed": self.seed,
+            "train_state_seed": self.train_state_seed,
+            "deterministic": self.deterministic,
+            "trajectory_index_in_chunk": trajectory_index,
             "trajectory_length": trajectory_length,
             "reference_control_steps": reference_control_steps,
             "requested_steps": target_steps,
@@ -261,8 +360,11 @@ def export_fullbody_rollout(
             "early_done_step": early_done_step,
             "qualified_full_motion": qualified,
             "finite": finite,
-            "root_height_min": float(np.min(np.asarray(rollout_qpos)[:, 2])),
-            "root_up_min": float(min(root_up_z(q) for q in rollout_qpos)),
+            "fell": fell,
+            "qualification_fall_height": QUALIFICATION_FALL_HEIGHT,
+            "qualification_fall_up_z": QUALIFICATION_FALL_UP_Z,
+            "root_height_min": root_height_min,
+            "root_up_min": root_up_min,
             "nq": int(env.model.nq),
             "nv": int(env.model.nv),
             "nu": int(env.model.nu),
@@ -306,5 +408,3 @@ def export_fullbody_rollout(
             )
         dataset.save(output_path)
         return dataset
-    finally:
-        env.stop()

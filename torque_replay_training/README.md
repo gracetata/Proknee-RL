@@ -7,9 +7,11 @@
 3. 关闭原 actuator，在非假肢 DOF 回放健康力矩；
 4. 在左膝 1 DOF 和左踝—足 3 DOF 上训练 `healthy baseline + PPO residual`。
 
-当前全身回放的物理边界、schema v2、验证和同步规则见
+当前全身回放的物理边界、schema v3、验证和同步规则见
 [全身广义力回放文档](../docs/FULLBODY_TORQUE_REPLAY.md)。假肢训练流程见
-[假肢训练文档](../docs/PROSTHESIS_TRAINING_PLAN.md)。
+[假肢训练文档](../docs/PROSTHESIS_TRAINING_PLAN.md)。全部 1,089 条候选动作的清点和
+本机 RTX 4090 headless 批处理见
+[全部轨迹回放文档](../docs/ALL_MOTION_REPLAY.md)。
 
 ## 固定环境
 
@@ -45,7 +47,7 @@ bash torque_replay_training/scripts/run_smoke_a100.sh
 
 ```bash
 $PYTHON torque_replay_training/scripts/collect_rollouts.py \
-  --output-dir torque_replay_training/data/fullbody_v2 \
+  --output-dir torque_replay_training/data/fullbody_v3 \
   --motion KIT/314/walking_medium09_poses \
   --motion KIT/425/walking_slow07_poses \
   --motion KIT/167/turn_right01_poses \
@@ -55,26 +57,27 @@ $PYTHON torque_replay_training/scripts/collect_rollouts.py \
 对每个正式 `.npz` 做力矩回放等价性检查：
 
 ```bash
-for dataset in torque_replay_training/data/fullbody_v2/*.npz; do
+for dataset in torque_replay_training/data/fullbody_v3/*.npz; do
   $PYTHON torque_replay_training/scripts/validate_replay.py --dataset "${dataset}"
 done
 ```
 
-schema v2 保留 float64 `qfrc_actuator/rollout_qacc`，恢复随机起点的 MuJoCo warmstart，并在
-split 模式回放所有非假肢 DOF。旧 v1 数据不兼容，不能用于训练。
+schema v3 严格遵循官方 `env.step` 顺序，在每个 `mj_step` 后记录实际使用的
+float64 `qfrc_actuator/rollout_qacc`，恢复随机起点的 MuJoCo warmstart，并在 split
+模式回放所有非假肢 DOF。旧 v1、v2 数据不兼容，不能用于训练。
 
 本机直接可视化四条精确全身力矩回放：
 
 ```bash
 $PYTHON torque_replay_training/scripts/visualize_fullbody_replay_local.py \
-  --dataset torque_replay_training/data/fullbody_v2/*.npz
+  --dataset torque_replay_training/data/fullbody_v3/*.npz
 ```
 
 无窗口验证使用：
 
 ```bash
 $PYTHON torque_replay_training/scripts/visualize_fullbody_replay_local.py \
-  --dataset torque_replay_training/data/fullbody_v2/*.npz --check-only
+  --dataset torque_replay_training/data/fullbody_v3/*.npz --check-only
 ```
 
 用多条动作训练；每次 episode reset 会随机选择一条完整 motion 数据：
@@ -82,7 +85,7 @@ $PYTHON torque_replay_training/scripts/visualize_fullbody_replay_local.py \
 ```bash
 $PYTHON torque_replay_training/scripts/train_policy.py \
   --config torque_replay_training/configs/train.yaml \
-  --dataset torque_replay_training/data/fullbody_v2/*.npz \
+  --dataset torque_replay_training/data/fullbody_v3/*.npz \
   --output torque_replay_training/outputs/train_v1
 ```
 
@@ -91,7 +94,7 @@ $PYTHON torque_replay_training/scripts/train_policy.py \
 ```bash
 $PYTHON torque_replay_training/scripts/evaluate_policy.py \
   --config torque_replay_training/configs/train.yaml \
-  --dataset torque_replay_training/data/fullbody_v2/*.npz \
+  --dataset torque_replay_training/data/fullbody_v3/*.npz \
   --policy torque_replay_training/outputs/train_v1/policy_000200000.msgpack \
   --episodes 20
 ```

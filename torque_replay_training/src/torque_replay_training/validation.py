@@ -25,8 +25,9 @@ def _rollout(
     steps: int,
     *,
     start_step: int = 0,
+    dataset_index: int = 0,
 ) -> tuple[np.ndarray, np.ndarray]:
-    env.reset(start_step=start_step)
+    env.reset(start_step=start_step, dataset_index=dataset_index)
     qpos = [env.data.qpos.copy()]
     qvel = [env.data.qvel.copy()]
     for _ in range(steps):
@@ -53,13 +54,19 @@ def _reset_window_errors(
     *,
     end_step: int,
     window_steps: int,
+    dataset_index: int = 0,
 ) -> dict[str, Any]:
     rows = []
     qpos_max = 0.0
     qvel_max = 0.0
     for start in starts:
         steps = min(int(window_steps), int(end_step) - int(start))
-        qpos, qvel = _rollout(env, steps, start_step=int(start))
+        qpos, qvel = _rollout(
+            env,
+            steps,
+            start_step=int(start),
+            dataset_index=dataset_index,
+        )
         qpos_error = _errors(qpos, dataset.rollout_qpos[start : start + steps + 1])
         qvel_error = _errors(qvel, dataset.rollout_qvel[start : start + steps + 1])
         qpos_max = max(qpos_max, qpos_error["max_abs"])
@@ -75,27 +82,18 @@ def _reset_window_errors(
     return {"qpos_max_abs": qpos_max, "qvel_max_abs": qvel_max, "windows": rows}
 
 
-def validate_replay(
-    dataset_path: str | Path,
-    checkpoint_path: str,
+def _validate_loaded_replay(
+    dataset: TorqueReplayDataset,
+    all_env: TorqueReplayEnv,
+    split_env: TorqueReplayEnv,
     *,
-    steps: int = 0,
-    tolerances: ValidationTolerances | None = None,
+    dataset_index: int,
+    n_steps: int,
+    tolerances: ValidationTolerances,
 ) -> dict[str, Any]:
-    """Validate full-vector replacement and the healthy/prosthesis partition."""
+    """Validate one already-loaded dataset using shared replay environments."""
 
-    dataset = TorqueReplayDataset.load(dataset_path)
-    n_steps = dataset.n_steps if int(steps) <= 0 else min(int(steps), dataset.n_steps)
-    tol = tolerances or ValidationTolerances()
-    common = dict(
-        episode_steps=n_steps,
-        random_start=False,
-        healthy_kp=0.0,
-        healthy_kd=0.0,
-        exact_baseline=True,
-        fall_height=-1e6,
-        fall_up_z=-1e6,
-    )
+    tol = tolerances
     reset_starts = sorted(
         {
             int(n_steps * fraction)
@@ -104,32 +102,32 @@ def validate_replay(
         }
     )
     reset_window_steps = min(128, n_steps)
-    with TorqueReplayEnv(
-        dataset_path,
-        checkpoint_path,
-        ReplayConfig(**common, replay_mode="all"),
-    ) as all_env:
-        all_qpos, all_qvel = _rollout(all_env, n_steps)
-        all_reset_errors = _reset_window_errors(
-            all_env,
-            dataset,
-            reset_starts,
-            end_step=n_steps,
-            window_steps=reset_window_steps,
-        )
-    with TorqueReplayEnv(
-        dataset_path,
-        checkpoint_path,
-        ReplayConfig(**common, replay_mode="split"),
-    ) as split_env:
-        split_qpos, split_qvel = _rollout(split_env, n_steps)
-        split_reset_errors = _reset_window_errors(
-            split_env,
-            dataset,
-            reset_starts,
-            end_step=n_steps,
-            window_steps=reset_window_steps,
-        )
+    all_qpos, all_qvel = _rollout(
+        all_env,
+        n_steps,
+        dataset_index=dataset_index,
+    )
+    all_reset_errors = _reset_window_errors(
+        all_env,
+        dataset,
+        reset_starts,
+        end_step=n_steps,
+        window_steps=reset_window_steps,
+        dataset_index=dataset_index,
+    )
+    split_qpos, split_qvel = _rollout(
+        split_env,
+        n_steps,
+        dataset_index=dataset_index,
+    )
+    split_reset_errors = _reset_window_errors(
+        split_env,
+        dataset,
+        reset_starts,
+        end_step=n_steps,
+        window_steps=reset_window_steps,
+        dataset_index=dataset_index,
+    )
 
     expected_qpos = dataset.rollout_qpos[: n_steps + 1]
     expected_qvel = dataset.rollout_qvel[: n_steps + 1]
@@ -167,3 +165,73 @@ def validate_replay(
             "split": split_reset_errors,
         },
     }
+
+
+def _validation_config(episode_steps: int, replay_mode: str) -> ReplayConfig:
+    return ReplayConfig(
+        episode_steps=int(episode_steps),
+        random_start=False,
+        healthy_kp=0.0,
+        healthy_kd=0.0,
+        exact_baseline=True,
+        fall_height=-1e6,
+        fall_up_z=-1e6,
+        replay_mode=replay_mode,
+    )
+
+
+def validate_replay_batch(
+    dataset_paths: list[str | Path],
+    checkpoint_path: str,
+    *,
+    steps: int = 0,
+    tolerances: ValidationTolerances | None = None,
+) -> list[dict[str, Any]]:
+    """Validate a bounded dataset batch while loading the model only twice."""
+
+    if not dataset_paths:
+        return []
+    datasets = [TorqueReplayDataset.load(path) for path in dataset_paths]
+    selected_steps = [
+        dataset.n_steps if int(steps) <= 0 else min(int(steps), dataset.n_steps)
+        for dataset in datasets
+    ]
+    maximum_steps = max(selected_steps)
+    tol = tolerances or ValidationTolerances()
+    with TorqueReplayEnv(
+        dataset_paths,
+        checkpoint_path,
+        _validation_config(maximum_steps, "all"),
+    ) as all_env, TorqueReplayEnv(
+        dataset_paths,
+        checkpoint_path,
+        _validation_config(maximum_steps, "split"),
+    ) as split_env:
+        return [
+            _validate_loaded_replay(
+                dataset,
+                all_env,
+                split_env,
+                dataset_index=index,
+                n_steps=selected_steps[index],
+                tolerances=tol,
+            )
+            for index, dataset in enumerate(datasets)
+        ]
+
+
+def validate_replay(
+    dataset_path: str | Path,
+    checkpoint_path: str,
+    *,
+    steps: int = 0,
+    tolerances: ValidationTolerances | None = None,
+) -> dict[str, Any]:
+    """Validate full-vector replacement and the healthy/prosthesis partition."""
+
+    return validate_replay_batch(
+        [dataset_path],
+        checkpoint_path,
+        steps=steps,
+        tolerances=tolerances,
+    )[0]
