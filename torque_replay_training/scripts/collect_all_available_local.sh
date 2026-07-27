@@ -52,19 +52,29 @@ key = sys.argv[2]
 if not path.is_file():
     print(-1)
 else:
-    print(json.loads(path.read_text(encoding="utf-8")).get(key, -1))
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if key == "session_setup_failures":
+        print(
+            sum(
+                str(row.get("error", "")).startswith("session setup failed:")
+                for row in payload.get("rollouts", [])
+            )
+        )
+    else:
+        print(payload.get(key, -1))
 PY
 }
 
 collection_attempt=0
 previous_pending=1089
+collection_chunk_size=32
 while true; do
   collection_attempt=$((collection_attempt + 1))
   set +e
   "${PYTHON}" "${ROOT}/scripts/collect_rollouts.py" \
     --motion-file "${MOTION_LIST}" \
     --output-dir "${OUTPUT}" \
-    --chunk-size 32 \
+    --chunk-size "${collection_chunk_size}" \
     --resume \
     2>&1 | tee -a "${LOG_DIR}/collect_all_available_local.log"
   collect_rc=${PIPESTATUS[0]}
@@ -72,6 +82,13 @@ while true; do
 
   pending="$(manifest_value "${OUTPUT}/manifest.json" pending)"
   if (( pending == 0 )); then
+    setup_failures="$(manifest_value "${OUTPUT}/manifest.json" session_setup_failures)"
+    if (( setup_failures > 0 && collection_chunk_size > 1 )); then
+      echo "${setup_failures} motions failed batch session setup; retrying them individually"
+      collection_chunk_size=1
+      previous_pending="${setup_failures}"
+      continue
+    fi
     echo "collection complete; exit code ${collect_rc} (1 is expected when motions are rejected)"
     break
   fi

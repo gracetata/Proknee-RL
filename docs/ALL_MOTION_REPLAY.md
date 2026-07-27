@@ -114,6 +114,10 @@ tail -f torque_replay_training/runtime/collect_all_available_local.log
 tmux 因关机或无进展错误退出，重新运行同一启动命令即可从已完成轨迹之后继续。前台调试时
 可直接运行底层脚本：
 
+若某个 32 条分块因不同 `TrajectoryInfo` 无法拼接而发生 `session setup failed`，wrapper
+会自动将这些未实际执行的动作降级为 `chunk-size=1` 单条处理，不能把分块初始化失败误算
+成 tracker 摔倒。
+
 ```bash
 bash torque_replay_training/scripts/collect_all_available_local.sh
 ```
