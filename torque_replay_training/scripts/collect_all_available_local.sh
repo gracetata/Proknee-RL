@@ -41,30 +41,74 @@ export CUDA_VISIBLE_DEVICES=0
 export XLA_PYTHON_CLIENT_PREALLOCATE=false
 export PYTHONPATH="${ROOT}/src:${REPO_ROOT}${PYTHONPATH:+:${PYTHONPATH}}"
 
-set +e
-"${PYTHON}" "${ROOT}/scripts/collect_rollouts.py" \
-  --motion-file "${MOTION_LIST}" \
-  --output-dir "${OUTPUT}" \
-  --chunk-size 32 \
-  --resume \
-  2>&1 | tee -a "${LOG_DIR}/collect_all_available_local.log"
-collect_rc=${PIPESTATUS[0]}
-set -e
+manifest_value() {
+  "${PYTHON}" - "$1" "$2" <<'PY'
+import json
+import pathlib
+import sys
 
-if [[ ! -f "${OUTPUT}/manifest.json" ]]; then
-  echo "collection did not produce ${OUTPUT}/manifest.json" >&2
-  exit "${collect_rc}"
-fi
-echo "collection exit code: ${collect_rc} (1 is expected when motions are rejected)"
+path = pathlib.Path(sys.argv[1])
+key = sys.argv[2]
+if not path.is_file():
+    print(-1)
+else:
+    print(json.loads(path.read_text(encoding="utf-8")).get(key, -1))
+PY
+}
 
-set +e
-"${PYTHON}" "${ROOT}/scripts/validate_rollouts.py" \
-  --manifest "${OUTPUT}/manifest.json" \
-  --output "${OUTPUT}/validation_manifest.json" \
-  --resume \
-  2>&1 | tee -a "${LOG_DIR}/validate_all_available_local.log"
-validation_rc=${PIPESTATUS[0]}
-set -e
+collection_attempt=0
+previous_pending=1089
+while true; do
+  collection_attempt=$((collection_attempt + 1))
+  set +e
+  "${PYTHON}" "${ROOT}/scripts/collect_rollouts.py" \
+    --motion-file "${MOTION_LIST}" \
+    --output-dir "${OUTPUT}" \
+    --chunk-size 32 \
+    --resume \
+    2>&1 | tee -a "${LOG_DIR}/collect_all_available_local.log"
+  collect_rc=${PIPESTATUS[0]}
+  set -e
 
-"${PYTHON}" "${ROOT}/scripts/all_motion_replay_status.py"
-exit "${validation_rc}"
+  pending="$(manifest_value "${OUTPUT}/manifest.json" pending)"
+  if (( pending == 0 )); then
+    echo "collection complete; exit code ${collect_rc} (1 is expected when motions are rejected)"
+    break
+  fi
+  if (( pending < 0 || pending >= previous_pending || collection_attempt >= 10 )); then
+    echo "collection stopped without recoverable progress: rc=${collect_rc}, pending=${pending}" >&2
+    (( collect_rc == 0 )) && exit 1
+    exit "${collect_rc}"
+  fi
+  echo "collection process interrupted after progress: rc=${collect_rc}, pending=${pending}; resuming"
+  previous_pending="${pending}"
+  "${PYTHON}" "${ROOT}/scripts/local_4090_guard.py"
+done
+
+validation_attempt=0
+previous_pending="$(manifest_value "${OUTPUT}/manifest.json" completed)"
+while true; do
+  validation_attempt=$((validation_attempt + 1))
+  set +e
+  "${PYTHON}" "${ROOT}/scripts/validate_rollouts.py" \
+    --manifest "${OUTPUT}/manifest.json" \
+    --output "${OUTPUT}/validation_manifest.json" \
+    --resume \
+    2>&1 | tee -a "${LOG_DIR}/validate_all_available_local.log"
+  validation_rc=${PIPESTATUS[0]}
+  set -e
+
+  pending="$(manifest_value "${OUTPUT}/validation_manifest.json" pending)"
+  if (( pending == 0 )); then
+    "${PYTHON}" "${ROOT}/scripts/all_motion_replay_status.py"
+    exit "${validation_rc}"
+  fi
+  if (( pending < 0 || pending >= previous_pending || validation_attempt >= 10 )); then
+    echo "validation stopped without recoverable progress: rc=${validation_rc}, pending=${pending}" >&2
+    (( validation_rc == 0 )) && exit 1
+    exit "${validation_rc}"
+  fi
+  echo "validation process interrupted after progress: rc=${validation_rc}, pending=${pending}; resuming"
+  previous_pending="${pending}"
+  "${PYTHON}" "${ROOT}/scripts/local_4090_guard.py"
+done

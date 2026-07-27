@@ -109,8 +109,10 @@ tmux capture-pane -pt proknee-local-all-replays -S -80
 tail -f torque_replay_training/runtime/collect_all_available_local.log
 ```
 
-若任务因关机或异常中断，重新运行同一启动命令即可从已完成轨迹之后继续。前台调试时可直接
-运行底层脚本：
+底层 wrapper 只有在 manifest 的 pending 数持续下降时，才会对 exporter/validator
+原生进程异常执行最多 10 次自动断点重启；导出 pending 归零后才允许进入验证。若整个
+tmux 因关机或无进展错误退出，重新运行同一启动命令即可从已完成轨迹之后继续。前台调试时
+可直接运行底层脚本：
 
 ```bash
 bash torque_replay_training/scripts/collect_all_available_local.sh
