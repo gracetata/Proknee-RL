@@ -10,7 +10,7 @@ from typing import Any
 import numpy as np
 
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 
 @dataclass
@@ -140,12 +140,15 @@ class TorqueReplayDataset:
             reference_qvel=self.reference_qvel.astype(np.float64),
             rollout_qpos=self.rollout_qpos.astype(np.float64),
             rollout_qvel=self.rollout_qvel.astype(np.float64),
-            rollout_qacc=self.rollout_qacc.astype(np.float32),
+            # These two arrays define the deterministic physics transition.
+            # Keeping them in float64 is required for long open-loop contact
+            # replay; float32 perturbations grow into different contact modes.
+            rollout_qacc=self.rollout_qacc.astype(np.float64),
             policy_action=self.policy_action.astype(np.float32),
             actuator_ctrl=self.actuator_ctrl.astype(np.float32),
             actuator_force=self.actuator_force.astype(np.float32),
-            qfrc_actuator=self.qfrc_actuator.astype(np.float32),
-            qfrc_actuator_mean=self.qfrc_actuator_mean.astype(np.float32),
+            qfrc_actuator=self.qfrc_actuator.astype(np.float64),
+            qfrc_actuator_mean=self.qfrc_actuator_mean.astype(np.float64),
             qfrc_passive=self.qfrc_passive.astype(np.float32),
             qfrc_constraint=self.qfrc_constraint.astype(np.float32),
             contact_ncon=self.contact_ncon.astype(np.int32),
@@ -183,4 +186,3 @@ class TorqueReplayDataset:
             )
         result.validate()
         return result
-

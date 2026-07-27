@@ -15,8 +15,8 @@ Host A100
 - 共同分支：`muscle`
 - 远端环境：`/workspace/Proknee-RL-muscle/.venv`
 - tracker checkpoint：`data/checkpoints/mm-10m-2`
-- 正式数据：`torque_replay_training/data/fullbody_v1`
-- 正式训练：`torque_replay_training/outputs/a100_train_v1`
+- 正式数据：`torque_replay_training/data/fullbody_v2`
+- 正式训练：`torque_replay_training/outputs/a100_train_v2`
 
 代码通过 Git 同步；checkpoint、GMR cache、导出数据和训练输出是大文件，不提交 Git，
 使用校验过的 `rsync/scp` 单独同步。
@@ -83,6 +83,16 @@ GMR trajectory 的长度是状态帧数；合法控制转移数是 `trajectory_l
 安全生产流水线会：检查 GPU 5 → 在 GPU 5 导出并验证四条完整轨迹 → 再次检查 GPU 5 →
 在 GPU 5 训练 seed 0。正式数据不允许 `--allow-incomplete`。
 
+`fullbody_v2` 的物理边界与旧数据不同：
+
+- `qfrc_actuator` 和 `rollout_qacc` 必须以 float64 保存；
+- 任意帧 reset 都恢复前一物理子步的 `qacc_warmstart`；
+- split 模式回放所有非假肢 DOF，包括数值上接近零的 free-root actuator 广义力；
+- manifest 必须包含 `schema_version: 2`；
+- 全长 all/split 和三个随机起点窗口必须全部通过。
+
+旧 `fullbody_v1` 会因 schema 版本不符被拒绝，不能用于训练。
+
 手动前台执行：
 
 ```bash
@@ -101,13 +111,13 @@ tmux ls
 相关 tmux 会话：
 
 - `proknee-a100-watchdog`：周期检查任务；
-- `proknee-a100-train`：数据生产和三卡训练流水线；
+- `proknee-a100-train`：GPU 5 数据生产和单 seed 训练流水线；
 - `proknee-tensorboard-6011`：TensorBoard。
 
 训练配置为 `configs/train.yaml`：seed 0 训练 200,000 environment steps：
 
 ```text
-outputs/a100_train_v1/seed_0
+outputs/a100_train_v2/seed_0
 ```
 
 ## 5. 持续监控
@@ -123,7 +133,7 @@ cd /workspace/Proknee-RL-muscle
 
 ```bash
 tail -f torque_replay_training/runtime/pipeline.log
-tail -f torque_replay_training/outputs/a100_train_v1/seed_0/train.log
+tail -f torque_replay_training/outputs/a100_train_v2/seed_0/train.log
 ```
 
 状态必须综合检查：GPU 5、唯一训练 PID、seed 0 的 `metrics.jsonl`、
@@ -181,17 +191,15 @@ bash torque_replay_training/scripts/run_smoke_a100.sh
 Smoke 验证数据导出、广义力回放、短 PPO、TensorBoard event、保存和重载链路；它不是
 完整行走/转弯训练的性能结论。
 
-## 9. 2026-07-22 部署状态
+## 9. 2026-07-23 全身回放修复状态
 
-- 功能实现与测试基线提交为 `ed3a102407537fa9e78eabf2b8c67161935058f5`；
-- 本机和 A100 单元测试均为 `6 passed`；
-- 本机完整 smoke、TensorBoard event 读取和可视化 `--check-only` 均通过；
-- 四条正式 GMR cache 已传到 A100，并逐文件与本机 SHA-256 一致；
-- `proknee-a100-watchdog` 已启动，每 120 秒检查一次；
-- `proknee-tensorboard-6011` 已启动，HTTP 状态为 200；
-- Codex 线程监控任务 `monitor-proknee-a100-training` 每 10 分钟只读检查一次；
-- 2026-07-22 用户将当前训练安排改为只使用 GPU 5；GPU 6、7 不再影响启动条件，也不会
-  被本项目访问。
+- 旧 v1 数据将关键广义力保存为 float32，四条轨迹在约 108–143 步后开始明显发散；
+- v2 修复 float64 物理数据、随机 reset warmstart 和 split root DOF 覆盖；
+- 本机单元测试为 `11 passed`，完整 smoke 通过；
+- 本机 v2 四条完整轨迹的 all、split、三个随机起点窗口均为零误差；
+- 本机 MuJoCo GUI 已实际启动并完成中速行走 100 步回放；
+- A100 重新导出 v2 和恢复训练前仍必须检查物理 GPU 5；禁止使用 GPU 0–4、6、7；
+- 旧失败标记和 v1 数据只作为审计记录，不得直接改名为 v2 或绕过验证。
 
 正式 cache 校验值：
 

@@ -50,6 +50,21 @@ def _scalar_joint_maps(metadata: dict[str, Any]) -> tuple[dict[int, int], dict[i
     return dof_to_qpos, qpos_to_dof
 
 
+def _non_prosthesis_dofs(nv: int, prosthesis_dofs: np.ndarray) -> np.ndarray:
+    """Return every generalized velocity index not controlled by the prosthesis."""
+
+    prosthesis = {int(dof) for dof in np.asarray(prosthesis_dofs).reshape(-1)}
+    return np.asarray([dof for dof in range(int(nv)) if dof not in prosthesis], dtype=np.int32)
+
+
+def _warmstart_for_step(dataset: TorqueReplayDataset, start_step: int) -> np.ndarray:
+    """Recover MuJoCo's acceleration warmstart at a control-step boundary."""
+
+    if int(start_step) == 0:
+        return np.zeros(dataset.nv, dtype=np.float64)
+    return np.asarray(dataset.rollout_qacc[int(start_step) - 1, -1], dtype=np.float64)
+
+
 class TorqueReplayEnv:
     """Replay the healthy human and learn four left-leg residual torques.
 
@@ -93,10 +108,10 @@ class TorqueReplayEnv:
             self.dataset.metadata["prosthesis_qpos_indices"], dtype=np.int32
         )
         self.root_dofs = np.asarray(self.dataset.metadata["root_dof_indices"], dtype=np.int32)
-        excluded = set(self.prosthesis_dofs.tolist()) | set(self.root_dofs.tolist())
-        self.healthy_dofs = np.asarray(
-            [dof for dof in range(self.model.nv) if dof not in excluded], dtype=np.int32
-        )
+        # Replay every non-prosthesis generalized force, including the free
+        # root entries. Root actuator forces are theoretically zero, but their
+        # tiny floating-point values must be retained for exact equivalence.
+        self.healthy_dofs = _non_prosthesis_dofs(self.model.nv, self.prosthesis_dofs)
         dof_to_qpos, _ = _scalar_joint_maps(self.dataset.metadata)
         self.healthy_scalar_dofs = np.asarray(
             [dof for dof in self.healthy_dofs if int(dof) in dof_to_qpos], dtype=np.int32
@@ -189,6 +204,8 @@ class TorqueReplayEnv:
         self._previous_action[:] = 0.0
         self.data.qpos[:] = self.dataset.rollout_qpos[self._step_index]
         self.data.qvel[:] = self.dataset.rollout_qvel[self._step_index]
+        self.data.time = float(self._step_index) * float(self.dataset.dt_control)
+        self.data.qacc_warmstart[:] = _warmstart_for_step(self.dataset, self._step_index)
         self.data.qfrc_applied[:] = 0.0
         self.data.ctrl[:] = 0.0
         if self.data.act.size:

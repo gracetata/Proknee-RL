@@ -5,14 +5,14 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REPO_ROOT="$(cd "${ROOT}/.." && pwd)"
 PYTHON="${REPO_ROOT}/.venv/bin/python"
 CONFIG="${ROOT}/configs/train.yaml"
-DATA_DIR="${ROOT}/data/fullbody_v1"
+DATA_DIR="${ROOT}/data/fullbody_v2"
 MANIFEST="${DATA_DIR}/manifest.json"
-OUTPUT_ROOT="${ROOT}/outputs/a100_train_v1"
+OUTPUT_ROOT="${ROOT}/outputs/a100_train_v2"
 RUNTIME="${ROOT}/runtime"
 LOCK="${RUNTIME}/a100_train.lock"
-RUNNING="${RUNTIME}/a100_train_v1.running"
-COMPLETE="${RUNTIME}/a100_train_v1.complete"
-FAILED="${RUNTIME}/a100_train_v1.failed"
+RUNNING="${RUNTIME}/a100_train_v2.running"
+COMPLETE="${RUNTIME}/a100_train_v2.complete"
+FAILED="${RUNTIME}/a100_train_v2.failed"
 
 mkdir -p "${RUNTIME}"
 exec 9>"${LOCK}"
@@ -45,7 +45,11 @@ from pathlib import Path
 import sys
 
 manifest = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-if manifest.get("production") is not True or manifest.get("all_passed") is not True:
+if (
+    manifest.get("production") is not True
+    or manifest.get("all_passed") is not True
+    or manifest.get("schema_version") != 2
+):
     raise SystemExit("manifest is not a fully qualified production manifest")
 PY
 

@@ -12,6 +12,7 @@ import _bootstrap  # noqa: F401
 
 from torque_replay_training.exporter import export_fullbody_rollout
 from torque_replay_training.paths import DEFAULT_CHECKPOINT
+from torque_replay_training.schema import SCHEMA_VERSION
 
 
 def _safe_name(motion: str) -> str:
@@ -56,6 +57,7 @@ def main() -> None:
         rows.append(row)
         print(json.dumps(row, sort_keys=True), flush=True)
     manifest = {
+        "schema_version": SCHEMA_VERSION,
         "checkpoint": args.checkpoint,
         "production": not args.allow_incomplete and args.steps == 0,
         "all_passed": all(row["passed"] for row in rows),

@@ -19,7 +19,7 @@
 新代码已经放在独立路径：
 
 ```text
-/home/user/Workspace/musclemimic/torque_replay_training
+/home/user/Workspace/Proknee-RL-muscle/torque_replay_training
 ```
 
 当前已实现并实际运行：
@@ -32,6 +32,10 @@
 - 健康 baseline + 四维 residual PPO；
 - 多 motion 数据在 episode reset 时随机采样；
 - 回放等价性、单元测试、checkpoint 保存/加载及端到端 smoke。
+
+2026-07-23 的 schema v2 修复后，四条本机完整轨迹已通过全长 all/split 回放和随机起点
+窗口验证。关键物理转移量使用 float64，并恢复 MuJoCo `qacc_warmstart`。旧 schema v1
+数据会在长时间接触回放中发散，不能用于训练。
 
 当前版本记录接触数量 `contact_ncon`，接触力由 MuJoCo 重新求解；逐足 GRF、足底滑移和视频报告仍属于后续评估增强项，不应声称已经实现。
 
@@ -57,16 +61,20 @@
 设：
 
 - \(P\)：上述 4 个假肢 `qvel/dof` 索引；
-- \(H\)：除 free-root 和 \(P\) 外的其余人体关节 DOF；
+- \(H\)：除 \(P\) 外的所有广义 DOF，包括 free-root；
 - \(R\)：6 个 free-root DOF。
 
 执行时：
 
 ```text
-R: 不直接施加参考 root wrench，由重力、关节力矩和接触自然演化
-H: 回放完整人体参考 qfrc_actuator，并可加入低增益跟踪稳定项
+R: 回放记录的 qfrc_actuator root 分量；其物理值应接近零，且不加 PD
+H: 回放完整人体参考 qfrc_actuator；标量健康关节可加入低增益跟踪稳定项
 P: 不回放人体执行力矩，改用假肢 baseline + policy residual
 ```
+
+这里的 root 分量不是人为添加的稳定外力，而是完整 `qfrc_actuator` 向量中的原始数值。
+肌肉属于内部作用，理论 root 合力接近零；保留约 `1e-13` 的数值项是为了避免接触系统把
+舍入扰动放大并破坏精确回放。
 
 这种按 DOF 分区的方式会保留双关节肌肉在髋等非假肢 DOF 上的贡献，比“按肌肉名字删除一组肌肉”更符合本方法的等效力矩定义。
 
@@ -82,7 +90,9 @@ P: 不回放人体执行力矩，改用假肢 baseline + policy residual
 | 左转 | `KIT/167/turn_left01_poses` | 537 | 5.37 s |
 | 逆时针曲线行走 | `KIT/4/WalkInCounterClockwiseCircle04_poses` | 840 | 8.40 s |
 
-这些目前只是**候选 reference**，不是已经验证合格的回放数据。每条动作都必须先由完整人体 policy 从头到尾 rollout，并通过 §4 的合格门槛。未通过的动作应更换 clip 或重新选择 checkpoint，而不能忽略跌倒后继续导出。
+前四条已经在本机导出为 `torque_replay_training/data/fullbody_v2`，并通过完整 tracker
+资格检查、全长力矩回放和随机起点检查。圆周行走仍只是候选 reference。任何新增动作都
+必须先由完整人体 policy 从头到尾 rollout，并通过 §4 的门槛。
 
 ## 4. Phase A：完整人体跟踪与轨迹筛选
 
@@ -140,12 +150,12 @@ torque_replay_training/src/torque_replay_training/exporter.py
 | `reference_qvel` | `[T, nv]` | GMR 参考速度 |
 | `rollout_qpos` | `[T+1, nq]` | 成功 policy rollout 状态，含初始状态 |
 | `rollout_qvel` | `[T+1, nv]` | 成功 policy rollout 速度 |
-| `rollout_qacc` | `[T, S, nv]` | 子步加速度 |
+| `rollout_qacc` | `[T, S, nv]` | float64 子步加速度；用于恢复 warmstart |
 | `policy_action` | `[T, na]` | 完整人体策略动作，仅审计 |
 | `actuator_ctrl` | `[T, S, nu]` | 实际肌肉 ctrl，仅审计 |
 | `actuator_force` | `[T, S, nu]` | 实际肌肉力 |
-| `qfrc_actuator` | `[T, S, nv]` | 正式回放的主动广义力 |
-| `qfrc_actuator_mean` | `[T, nv]` | 每个控制步平均值 |
+| `qfrc_actuator` | `[T, S, nv]` | float64 正式回放主动广义力 |
+| `qfrc_actuator_mean` | `[T, nv]` | float64 每控制步平均值 |
 | `qfrc_passive` | `[T, S, nv]` | 被动力审计，不回放 |
 | `qfrc_constraint` | `[T, S, nv]` | 接触/约束审计，不回放 |
 | `contact_ncon` | `[T, S]` | MuJoCo 子步接触数量，用于基础审计 |
@@ -161,6 +171,9 @@ metadata 必须保存：
 - 合格门槛结果。
 
 当前 schema 没有单独存 `time_control/time_physics`，因为二者可由整数索引与 metadata 中的 `dt_control/dt_physics` 无歧义恢复。若模型资产会频繁变化，下一版应再加入 XML/hash 审计；当前加载阶段会严格比较 `nq/nv`、物理步长和完整 joint 顺序。
+
+`rollout_qacc` 和 `qfrc_actuator` 不得降为 float32。已有实验表明，约 `1e-5` RMS 的力
+量化误差会在 1–1.5 秒后被足地接触动力学放大到不同的接触模式。
 
 ### B3. 必须保证的时间语义
 
@@ -210,7 +223,9 @@ qfrc_{actual}=qfrc_{muscle}+qfrc_{replay}.
 +K_{d,H}(\dot q_H^{ref}-\dot q_H).
 \]
 
-这个稳定项只作用于非假肢人体 DOF，不对 free root 施加外部 wrench，也不替假肢控制四个目标关节。它的作用是让“人体力矩播放器”仍然是一个对当前状态有反馈的 tracker。
+这个稳定项只作用于非假肢标量关节，不对 free root 添加 PD，也不替假肢控制四个目标
+关节。free root 只接收记录向量中理论上接近零的 actuator 分量，其余运动由重力、关节
+力矩和 MuJoCo 接触共同产生。
 
 必须同时保留两个基线：
 
@@ -311,6 +326,8 @@ w_{alive}r_{alive}
 ### E2. reset 和初始状态
 
 - 从成功 fullbody rollout 的随机合法帧初始化 `qpos/qvel`；
+- 同时设置 `time=start_step*dt_control`，并用前一物理子步的 float64
+  `rollout_qacc[start_step-1,-1]` 恢复 `qacc_warmstart`；
 - replay index、reference index 和 baseline index 必须一致；
 - 优先从双支撑或稳定接触帧开始，再逐渐开放任意帧；
 - episode 先短后长；
