@@ -103,13 +103,18 @@ while true; do
 done
 
 validation_attempt=0
-previous_pending="$(manifest_value "${OUTPUT}/manifest.json" completed)"
+previous_pending="$(manifest_value "${OUTPUT}/validation_manifest.json" pending)"
+if (( previous_pending < 0 )); then
+  previous_pending="$(manifest_value "${OUTPUT}/manifest.json" completed)"
+fi
+validation_chunk_size=16
 while true; do
   validation_attempt=$((validation_attempt + 1))
   set +e
   "${PYTHON}" "${ROOT}/scripts/validate_rollouts.py" \
     --manifest "${OUTPUT}/manifest.json" \
     --output "${OUTPUT}/validation_manifest.json" \
+    --chunk-size "${validation_chunk_size}" \
     --resume \
     2>&1 | tee -a "${LOG_DIR}/validate_all_available_local.log"
   validation_rc=${PIPESTATUS[0]}
@@ -119,6 +124,12 @@ while true; do
   if (( pending == 0 )); then
     "${PYTHON}" "${ROOT}/scripts/all_motion_replay_status.py"
     exit "${validation_rc}"
+  fi
+  if (( pending >= 0 && pending >= previous_pending && validation_chunk_size > 1 )); then
+    echo "validation batch made no progress; retrying pending datasets individually"
+    validation_chunk_size=1
+    previous_pending="${pending}"
+    continue
   fi
   if (( pending < 0 || pending >= previous_pending || validation_attempt >= 10 )); then
     echo "validation stopped without recoverable progress: rc=${validation_rc}, pending=${pending}" >&2

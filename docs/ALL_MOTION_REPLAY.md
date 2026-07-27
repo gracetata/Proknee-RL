@@ -116,7 +116,7 @@ tmux 因关机或无进展错误退出，重新运行同一启动命令即可从
 
 若某个 32 条分块因不同 `TrajectoryInfo` 无法拼接而发生 `session setup failed`，wrapper
 会自动将这些未实际执行的动作降级为 `chunk-size=1` 单条处理，不能把分块初始化失败误算
-成 tracker 摔倒。
+成 tracker 摔倒。验证器批量进程若原生退出且没有推进 manifest，也会降级为单条验证。
 
 ```bash
 bash torque_replay_training/scripts/collect_all_available_local.sh
