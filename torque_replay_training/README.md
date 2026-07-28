@@ -66,14 +66,15 @@ schema v3 严格遵循官方 `env.step` 顺序，在每个 `mj_step` 后记录�
 float64 `qfrc_actuator/rollout_qacc`，恢复随机起点的 MuJoCo warmstart，并在 split
 模式回放所有非假肢 DOF。旧 v1、v2 数据不兼容，不能用于训练。
 
-本机直接可视化四条精确全身力矩回放：
+本机交互查看全部已验证的精确全身力矩回放：
 
 ```bash
-$PYTHON torque_replay_training/scripts/visualize_fullbody_replay_local.py \
-  --dataset torque_replay_training/data/fullbody_v3/*.npz
+$PYTHON torque_replay_training/scripts/visualize_fullbody_replay_local.py
 ```
 
-无窗口验证使用：
+轨迹播完后自动循环当前条；在 MuJoCo 窗口按空格切到下一条，关闭窗口退出。脚本根据
+`data/fullbody_all_v3/validation_manifest.json` 逐条按需加载，不会把全部 12 GB 数据
+同时放入内存。无窗口验证使用：
 
 ```bash
 $PYTHON torque_replay_training/scripts/visualize_fullbody_replay_local.py \

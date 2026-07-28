@@ -101,6 +101,24 @@ class TorqueReplayEnv:
         for candidate in self.datasets:
             self._validate_model(candidate)
 
+        self._configure_dataset_metadata()
+        self.residual_limits = np.asarray(self.config.residual_limits, dtype=np.float64)
+        self.torque_limits = np.asarray(self.config.torque_limits, dtype=np.float64)
+        if self.residual_limits.shape != (4,) or self.torque_limits.shape != (4,):
+            raise ValueError("residual_limits and torque_limits must each contain four values")
+
+        self._disable_original_actuators()
+        self._step_index = 0
+        self._dataset_index = 0
+        self._episode_start = 0
+        self._episode_count = 0
+        self._previous_action = np.zeros(4, dtype=np.float64)
+        self._last_info: dict[str, Any] = {}
+        self.reset(seed=seed)
+
+    def _configure_dataset_metadata(self) -> None:
+        """Configure joint-index views for the currently selected dataset."""
+
         self.prosthesis_dofs = np.asarray(
             self.dataset.metadata["prosthesis_dof_indices"], dtype=np.int32
         )
@@ -119,19 +137,6 @@ class TorqueReplayEnv:
         self.healthy_qpos = np.asarray(
             [dof_to_qpos[int(dof)] for dof in self.healthy_scalar_dofs], dtype=np.int32
         )
-        self.residual_limits = np.asarray(self.config.residual_limits, dtype=np.float64)
-        self.torque_limits = np.asarray(self.config.torque_limits, dtype=np.float64)
-        if self.residual_limits.shape != (4,) or self.torque_limits.shape != (4,):
-            raise ValueError("residual_limits and torque_limits must each contain four values")
-
-        self._disable_original_actuators()
-        self._step_index = 0
-        self._dataset_index = 0
-        self._episode_start = 0
-        self._episode_count = 0
-        self._previous_action = np.zeros(4, dtype=np.float64)
-        self._last_info: dict[str, Any] = {}
-        self.reset(seed=seed)
 
     @property
     def observation_size(self) -> int:
@@ -213,6 +218,29 @@ class TorqueReplayEnv:
         mujoco.mj_forward(self.model, self.data)
         self._last_info = self._metrics(np.zeros(4), np.zeros(4), 0.0, np.zeros(4))
         return self._observation(), dict(self._last_info)
+
+    def replace_dataset(
+        self,
+        dataset_path: str | Path,
+        *,
+        start_step: int = 0,
+    ) -> tuple[np.ndarray, dict[str, Any]]:
+        """Replace the active replay without retaining the previous NPZ in memory.
+
+        This is intended for interactive browsing of large replay catalogs.
+        The MuJoCo model and viewer remain alive while only the current dataset
+        is loaded and validated.
+        """
+
+        path = Path(dataset_path).resolve()
+        candidate = TorqueReplayDataset.load(path)
+        self._validate_model(candidate)
+        self.dataset_paths = (path,)
+        self.datasets = (candidate,)
+        self.dataset_path = path
+        self.dataset = candidate
+        self._configure_dataset_metadata()
+        return self.reset(start_step=start_step, dataset_index=0)
 
     def _targets(self, step: int, substep: int) -> tuple[np.ndarray, np.ndarray]:
         alpha = float(substep) / float(self.dataset.n_substeps)

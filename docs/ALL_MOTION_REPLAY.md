@@ -168,25 +168,41 @@ torque_replay_training/data/fullbody_all_v3/*.rejected.npz
 
 ## 7. 本机可视化
 
-以下 GUI 命令只能在本机执行，A100 不运行 MuJoCo viewer。先从
-`validation_manifest.json` 选择 `passed=true` 的文件，然后执行：
+以下 GUI 命令只能在本机执行，A100 不运行 MuJoCo viewer。默认从
+`validation_manifest.json` 读取全部 787 条已验证轨迹，但每次只把当前一条 NPZ
+载入内存：
 
 ```bash
 cd /home/user/Workspace/Proknee-RL-muscle
-.venv/bin/python torque_replay_training/scripts/visualize_fullbody_replay_local.py \
-  --dataset \
-    torque_replay_training/data/fullbody_all_v3/KIT_7_WalkInClockwiseCircle01_poses.npz
+.venv/bin/python \
+  torque_replay_training/scripts/visualize_fullbody_replay_local.py
 ```
 
-批量无窗口检查：
+查看器左上角会显示当前序号、motion 名称和步数。轨迹结束后会从头循环；在 MuJoCo
+窗口中按 `Space`（空格）立即切换到下一条，最后一条之后回到第一条。关闭窗口即可退出。
+
+只浏览指定轨迹时：
 
 ```bash
-mapfile -t datasets < <(
-  find torque_replay_training/data/fullbody_all_v3 -maxdepth 1 \
-    -type f -name '*.npz' ! -name '*.rejected.npz' | sort
-)
 .venv/bin/python torque_replay_training/scripts/visualize_fullbody_replay_local.py \
-  --dataset "${datasets[@]}" --check-only
+  --dataset \
+    torque_replay_training/data/fullbody_all_v3/KIT_7_WalkInClockwiseCircle01_poses.npz \
+    torque_replay_training/data/fullbody_all_v3/KIT_10_LeftTurn01_poses.npz
+```
+
+从第 101 条开始，或加速播放：
+
+```bash
+.venv/bin/python torque_replay_training/scripts/visualize_fullbody_replay_local.py \
+  --start-index 100 --realtime-factor 2
+```
+
+批量无窗口检查仍使用同一入口；它也会逐条加载，避免一次占用全部 12 GB：
+
+```bash
+.venv/bin/python torque_replay_training/scripts/visualize_fullbody_replay_local.py \
+  --manifest torque_replay_training/data/fullbody_all_v3/validation_manifest.json \
+  --check-only
 ```
 
 桌面环境不要强制 `MUJOCO_GL=egl`。
