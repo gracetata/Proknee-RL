@@ -18,6 +18,11 @@
    - 将左膝 1 DOF 和左踝—足复合体 3 DOF 替换为假肢 policy；
    - 使用健康人体在这 4 个 DOF 上的原始力矩作为 baseline，policy 从零残差开始训练。
 
+3. [平地行走假肢策略训练 v1](FLAT_WALK_TRAINING.md)
+   - 281 条平地轨迹的受试者隔离训练/验证划分；
+   - baseline 力矩统计、PPO 配置与验收门槛；
+   - 本机检查、A100 GPU 5 训练、状态和 TensorBoard 命令。
+
 可执行代码、环境和命令入口位于 [torque_replay_training/README.md](../torque_replay_training/README.md)。新代码放在独立目录 `torque_replay_training/`，不会调用旧假肢训练、蒸馏或 DAgger 实现。
 
 A100 服务器部署、当前固定 GPU 5 约束及远端训练命令见 [A100 部署文档](A100_DEPLOYMENT.md)。

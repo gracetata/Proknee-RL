@@ -25,6 +25,10 @@ loco_mujoco/**.yaml
 **/expert_traj.npz
 .venv/
 /.venv
+.venv-hora/
+/.venv-hora
+*.tar.zst
+*.tar.zst.sha256
 notebook/
 eval_results/
 tb_logs/

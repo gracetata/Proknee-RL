@@ -1,5 +1,50 @@
 # A100 GPU-5 完整训练、监控与 TensorBoard
 
+> 平地行走假肢的当前正式训练已切换为 HORA 风格 PyTorch PPO。本文原有 JAX 命令仍
+> 用于旧链路和数据生成；新训练以
+> [FLAT_WALK_TRAINING.md](FLAT_WALK_TRAINING.md) 为准。
+
+## 当前平地训练：MuJoCo + HORA PPO
+
+- 物理：MuJoCo 3.4 CPU，多 `MjData`、16 个线程，不是 MuJoCo Warp；
+- 优化：HORA 派生的 PyTorch PPO，仅使用物理 GPU 5；
+- 环境：项目 `.venv` 负责数据/JAX 工具，`.venv-hora` 负责
+  PyTorch `2.7.1+cu126` PPO；
+- HORA 参考副本：`/workspace/hora`，固定 commit `410d95824dd28b...`；
+- 项目：`/workspace/Proknee-RL-muscle`，必须与本机、GitHub `muscle` 同一 commit。
+
+离线安装环境：
+
+```bash
+cd /workspace/Proknee-RL-muscle
+bash torque_replay_training/scripts/setup_hora_env_a100.sh
+CUDA_VISIBLE_DEVICES=5 .venv-hora/bin/python -c \
+  'import torch,mujoco; print(torch.__version__,torch.version.cuda,mujoco.__version__,torch.cuda.get_device_name(0))'
+```
+
+启动前必须检查卡 5 没有他人计算进程：
+
+```bash
+nvidia-smi -i 5
+.venv/bin/python torque_replay_training/scripts/a100_gpu_guard.py --gpus 5
+```
+
+检测到占用时等待；不得杀进程、抢卡或改用 GPU 0–4、6、7。检查通过后：
+
+```bash
+bash torque_replay_training/scripts/run_flat_walk_smoke_a100.sh
+bash torque_replay_training/scripts/start_tensorboard_a100.sh
+bash torque_replay_training/scripts/start_flat_walk_training_a100.sh
+```
+
+状态与日志：
+
+```bash
+.venv/bin/python torque_replay_training/scripts/flat_walk_training_status.py
+tmux capture-pane -pt proknee-a100-flat-walk -S -100
+tail -f torque_replay_training/outputs/a100_flat_walk_v1/train.log
+```
+
 ## 1. 固定服务器、分支和路径
 
 ```sshconfig

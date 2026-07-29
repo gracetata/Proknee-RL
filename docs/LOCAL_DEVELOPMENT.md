@@ -1,5 +1,21 @@
 # 本机开发、测试与可视化
 
+## 当前平地 HORA PPO 链路
+
+正式架构不是 MuJoCo Warp：物理仍由本机 CPU 的 MuJoCo 3.4 `mj_step` 执行，PPO
+复用 HORA 的 PyTorch 实现。本机用于测试适配和可视化；A100 物理 GPU 5 用于正式
+PPO 更新。完整配置和命令见
+[FLAT_WALK_TRAINING.md](FLAT_WALK_TRAINING.md)。
+
+```bash
+cd /home/user/Workspace/Proknee-RL-muscle
+PYTHONPATH=torque_replay_training/src:. \
+  .venv/bin/python -m pytest torque_replay_training/tests -q
+```
+
+本机可运行 CPU HORA smoke；交互 MuJoCo 可视化仍使用本文后续命令，A100 不运行
+viewer。
+
 完整回放原理和数据管理规则见
 [全身广义力回放逻辑与数据管理](FULLBODY_TORQUE_REPLAY.md)。
 

@@ -1,0 +1,41 @@
+environment:
+  num_envs: 16
+  num_threads: 16
+  episode_steps: 512
+  random_start: true
+  healthy_kp: 0.0
+  healthy_kd: 0.0
+  healthy_pd_limit: 25.0
+  residual_scale: 1.0
+  exact_baseline: true
+  residual_limits: [20.0, 20.0, 8.0, 5.0]
+  torque_limits: [260.0, 280.0, 80.0, 15.0]
+  fall_height: 0.55
+  fall_up_z: 0.35
+
+network:
+  units: [256, 256]
+
+ppo:
+  seed: 0
+  device: cuda:0
+  max_agent_steps: 2000000
+  num_actors: 16
+  horizon_length: 256
+  minibatch_size: 1024
+  mini_epochs: 5
+  learning_rate: 0.0003
+  kl_threshold: 0.02
+  gamma: 0.99
+  gae_lambda: 0.95
+  e_clip: 0.2
+  critic_coefficient: 2.0
+  entropy_coefficient: 0.0005
+  bounds_loss_coefficient: 0.0001
+  grad_norm: 1.0
+  normalize_input: true
+  normalize_value: true
+  value_bootstrap: true
+  reward_scale: 0.01
+  initial_log_std: -3.0
+  save_frequency: 10

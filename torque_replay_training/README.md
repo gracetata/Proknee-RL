@@ -12,6 +12,8 @@
 [假肢训练文档](../docs/PROSTHESIS_TRAINING_PLAN.md)。全部 1,089 条候选动作的清点和
 本机 RTX 4090 headless 批处理见
 [全部轨迹回放文档](../docs/ALL_MOTION_REPLAY.md)。
+平地行走的受试者隔离数据集、baseline/residual 配置、A100 命令和验收门槛见
+[平地行走训练文档](../docs/FLAT_WALK_TRAINING.md)。
 
 ## 固定环境
 

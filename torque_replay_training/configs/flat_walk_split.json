@@ -1,0 +1,2925 @@
+{
+  "excluded_categories": [
+    "walking_run",
+    "straight_backward",
+    "turn_left",
+    "turn_right",
+    "clockwise_circle",
+    "counterclockwise_circle",
+    "handrail_walking",
+    "supported_walking",
+    "special_walking",
+    "custom"
+  ],
+  "flat_categories": [
+    "generic_walking",
+    "straight_forward",
+    "walking_slow",
+    "walking_medium",
+    "walking_fast"
+  ],
+  "holdout_subjects": [
+    "9",
+    "425"
+  ],
+  "schema_version": 1,
+  "source_catalog": "/home/user/Workspace/Proknee-RL-muscle/torque_replay_training/configs/motion_catalog.csv",
+  "source_catalog_sha256": "da130436aa129aca4636aa052ae54232d12aa0bb658570dbacfe88fa2ef425a7",
+  "source_validation_manifest": "/home/user/Workspace/Proknee-RL-muscle/torque_replay_training/data/fullbody_all_v3/validation_manifest.json",
+  "source_validation_manifest_sha256": "38c66350a1446a13617c389ca863b00c461402f2d13e0ab5e0c63e2130f9b289",
+  "summary": {
+    "all": {
+      "bytes": 3088889783,
+      "categories": {
+        "generic_walking": 6,
+        "straight_forward": 47,
+        "walking_fast": 67,
+        "walking_medium": 95,
+        "walking_slow": 66
+      },
+      "control_steps": 150076,
+      "duration_seconds": 1500.76,
+      "motions": 281,
+      "subjects": {
+        "11": 8,
+        "12": 7,
+        "167": 14,
+        "183": 27,
+        "205": 15,
+        "291": 2,
+        "3": 24,
+        "314": 20,
+        "317": 25,
+        "348": 19,
+        "359": 19,
+        "4": 7,
+        "424": 27,
+        "425": 28,
+        "7": 8,
+        "8": 7,
+        "9": 24
+      }
+    },
+    "train": {
+      "bytes": 2507133983,
+      "categories": {
+        "generic_walking": 2,
+        "straight_forward": 40,
+        "walking_fast": 60,
+        "walking_medium": 77,
+        "walking_slow": 50
+      },
+      "control_steps": 121805,
+      "duration_seconds": 1218.05,
+      "motions": 229,
+      "subjects": {
+        "11": 8,
+        "12": 7,
+        "167": 14,
+        "183": 27,
+        "205": 15,
+        "291": 2,
+        "3": 24,
+        "314": 20,
+        "317": 25,
+        "348": 19,
+        "359": 19,
+        "4": 7,
+        "424": 27,
+        "7": 8,
+        "8": 7
+      }
+    },
+    "validation": {
+      "bytes": 581755800,
+      "categories": {
+        "generic_walking": 4,
+        "straight_forward": 7,
+        "walking_fast": 7,
+        "walking_medium": 18,
+        "walking_slow": 16
+      },
+      "control_steps": 28271,
+      "duration_seconds": 282.71,
+      "motions": 52,
+      "subjects": {
+        "425": 28,
+        "9": 24
+      }
+    }
+  },
+  "train": [
+    {
+      "action_zh": "直线前进",
+      "bytes": 10983985,
+      "category": "straight_forward",
+      "control_steps": 535,
+      "dataset_basename": "KIT_11_WalkingStraightForwards02_poses.npz",
+      "duration_seconds": 5.35,
+      "motion": "KIT/11/WalkingStraightForwards02_poses",
+      "subject": "11"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11823995,
+      "category": "straight_forward",
+      "control_steps": 576,
+      "dataset_basename": "KIT_11_WalkingStraightForwards03_poses.npz",
+      "duration_seconds": 5.76,
+      "motion": "KIT/11/WalkingStraightForwards03_poses",
+      "subject": "11"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 10912815,
+      "category": "straight_forward",
+      "control_steps": 532,
+      "dataset_basename": "KIT_11_WalkingStraightForwards04_poses.npz",
+      "duration_seconds": 5.32,
+      "motion": "KIT/11/WalkingStraightForwards04_poses",
+      "subject": "11"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 9924290,
+      "category": "straight_forward",
+      "control_steps": 481,
+      "dataset_basename": "KIT_11_WalkingStraightForwards05_poses.npz",
+      "duration_seconds": 4.81,
+      "motion": "KIT/11/WalkingStraightForwards05_poses",
+      "subject": "11"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 9787670,
+      "category": "straight_forward",
+      "control_steps": 476,
+      "dataset_basename": "KIT_11_WalkingStraightForwards07_poses.npz",
+      "duration_seconds": 4.76,
+      "motion": "KIT/11/WalkingStraightForwards07_poses",
+      "subject": "11"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 9709360,
+      "category": "straight_forward",
+      "control_steps": 473,
+      "dataset_basename": "KIT_11_WalkingStraightForwards08_poses.npz",
+      "duration_seconds": 4.73,
+      "motion": "KIT/11/WalkingStraightForwards08_poses",
+      "subject": "11"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 8779094,
+      "category": "straight_forward",
+      "control_steps": 426,
+      "dataset_basename": "KIT_11_WalkingStraightForwards09_poses.npz",
+      "duration_seconds": 4.26,
+      "motion": "KIT/11/WalkingStraightForwards09_poses",
+      "subject": "11"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 10024564,
+      "category": "straight_forward",
+      "control_steps": 487,
+      "dataset_basename": "KIT_11_WalkingStraightForwards10_poses.npz",
+      "duration_seconds": 4.87,
+      "motion": "KIT/11/WalkingStraightForwards10_poses",
+      "subject": "11"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 8106875,
+      "category": "straight_forward",
+      "control_steps": 391,
+      "dataset_basename": "KIT_12_WalkingStraightForwards01_1_poses.npz",
+      "duration_seconds": 3.91,
+      "motion": "KIT/12/WalkingStraightForwards01_1_poses",
+      "subject": "12"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 2884444,
+      "category": "straight_forward",
+      "control_steps": 140,
+      "dataset_basename": "KIT_12_WalkingStraightForwards03_poses.npz",
+      "duration_seconds": 1.4,
+      "motion": "KIT/12/WalkingStraightForwards03_poses",
+      "subject": "12"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 7003554,
+      "category": "straight_forward",
+      "control_steps": 339,
+      "dataset_basename": "KIT_12_WalkingStraightForwards04_1_poses.npz",
+      "duration_seconds": 3.39,
+      "motion": "KIT/12/WalkingStraightForwards04_1_poses",
+      "subject": "12"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 7173918,
+      "category": "straight_forward",
+      "control_steps": 347,
+      "dataset_basename": "KIT_12_WalkingStraightForwards05_1_poses.npz",
+      "duration_seconds": 3.47,
+      "motion": "KIT/12/WalkingStraightForwards05_1_poses",
+      "subject": "12"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11354180,
+      "category": "straight_forward",
+      "control_steps": 552,
+      "dataset_basename": "KIT_12_WalkingStraightForwards06_1_poses.npz",
+      "duration_seconds": 5.52,
+      "motion": "KIT/12/WalkingStraightForwards06_1_poses",
+      "subject": "12"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 9875326,
+      "category": "straight_forward",
+      "control_steps": 480,
+      "dataset_basename": "KIT_12_WalkingStraightForwards07_1_poses.npz",
+      "duration_seconds": 4.8,
+      "motion": "KIT/12/WalkingStraightForwards07_1_poses",
+      "subject": "12"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11295079,
+      "category": "straight_forward",
+      "control_steps": 550,
+      "dataset_basename": "KIT_12_WalkingStraightForwards10_poses.npz",
+      "duration_seconds": 5.5,
+      "motion": "KIT/12/WalkingStraightForwards10_poses",
+      "subject": "12"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10379683,
+      "category": "walking_medium",
+      "control_steps": 503,
+      "dataset_basename": "KIT_167_walking_medium01_poses.npz",
+      "duration_seconds": 5.03,
+      "motion": "KIT/167/walking_medium01_poses",
+      "subject": "167"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9549059,
+      "category": "walking_medium",
+      "control_steps": 463,
+      "dataset_basename": "KIT_167_walking_medium02_poses.npz",
+      "duration_seconds": 4.63,
+      "motion": "KIT/167/walking_medium02_poses",
+      "subject": "167"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 11234164,
+      "category": "walking_medium",
+      "control_steps": 546,
+      "dataset_basename": "KIT_167_walking_medium03_poses.npz",
+      "duration_seconds": 5.46,
+      "motion": "KIT/167/walking_medium03_poses",
+      "subject": "167"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10627520,
+      "category": "walking_medium",
+      "control_steps": 516,
+      "dataset_basename": "KIT_167_walking_medium05_poses.npz",
+      "duration_seconds": 5.16,
+      "motion": "KIT/167/walking_medium05_poses",
+      "subject": "167"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9952759,
+      "category": "walking_medium",
+      "control_steps": 483,
+      "dataset_basename": "KIT_167_walking_medium06_poses.npz",
+      "duration_seconds": 4.83,
+      "motion": "KIT/167/walking_medium06_poses",
+      "subject": "167"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10575013,
+      "category": "walking_medium",
+      "control_steps": 513,
+      "dataset_basename": "KIT_167_walking_medium07_poses.npz",
+      "duration_seconds": 5.13,
+      "motion": "KIT/167/walking_medium07_poses",
+      "subject": "167"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10730230,
+      "category": "walking_medium",
+      "control_steps": 522,
+      "dataset_basename": "KIT_167_walking_medium08_poses.npz",
+      "duration_seconds": 5.22,
+      "motion": "KIT/167/walking_medium08_poses",
+      "subject": "167"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9977568,
+      "category": "walking_medium",
+      "control_steps": 484,
+      "dataset_basename": "KIT_167_walking_medium09_poses.npz",
+      "duration_seconds": 4.84,
+      "motion": "KIT/167/walking_medium09_poses",
+      "subject": "167"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 12281990,
+      "category": "walking_slow",
+      "control_steps": 595,
+      "dataset_basename": "KIT_167_walking_slow03_poses.npz",
+      "duration_seconds": 5.95,
+      "motion": "KIT/167/walking_slow03_poses",
+      "subject": "167"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 13307684,
+      "category": "walking_slow",
+      "control_steps": 644,
+      "dataset_basename": "KIT_167_walking_slow04_poses.npz",
+      "duration_seconds": 6.44,
+      "motion": "KIT/167/walking_slow04_poses",
+      "subject": "167"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 16096328,
+      "category": "walking_slow",
+      "control_steps": 779,
+      "dataset_basename": "KIT_167_walking_slow05_poses.npz",
+      "duration_seconds": 7.79,
+      "motion": "KIT/167/walking_slow05_poses",
+      "subject": "167"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 13773950,
+      "category": "walking_slow",
+      "control_steps": 666,
+      "dataset_basename": "KIT_167_walking_slow08_poses.npz",
+      "duration_seconds": 6.66,
+      "motion": "KIT/167/walking_slow08_poses",
+      "subject": "167"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 12539492,
+      "category": "walking_slow",
+      "control_steps": 608,
+      "dataset_basename": "KIT_167_walking_slow10_poses.npz",
+      "duration_seconds": 6.08,
+      "motion": "KIT/167/walking_slow10_poses",
+      "subject": "167"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 14814914,
+      "category": "walking_slow",
+      "control_steps": 717,
+      "dataset_basename": "KIT_167_walking_slow11_poses.npz",
+      "duration_seconds": 7.17,
+      "motion": "KIT/167/walking_slow11_poses",
+      "subject": "167"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 9680171,
+      "category": "walking_fast",
+      "control_steps": 471,
+      "dataset_basename": "KIT_183_walking_fast01_poses.npz",
+      "duration_seconds": 4.71,
+      "motion": "KIT/183/walking_fast01_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 11638554,
+      "category": "walking_fast",
+      "control_steps": 566,
+      "dataset_basename": "KIT_183_walking_fast02_poses.npz",
+      "duration_seconds": 5.66,
+      "motion": "KIT/183/walking_fast02_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 10945432,
+      "category": "walking_fast",
+      "control_steps": 533,
+      "dataset_basename": "KIT_183_walking_fast03_poses.npz",
+      "duration_seconds": 5.33,
+      "motion": "KIT/183/walking_fast03_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 10125147,
+      "category": "walking_fast",
+      "control_steps": 493,
+      "dataset_basename": "KIT_183_walking_fast04_poses.npz",
+      "duration_seconds": 4.93,
+      "motion": "KIT/183/walking_fast04_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 10357007,
+      "category": "walking_fast",
+      "control_steps": 503,
+      "dataset_basename": "KIT_183_walking_fast05_poses.npz",
+      "duration_seconds": 5.03,
+      "motion": "KIT/183/walking_fast05_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 10237754,
+      "category": "walking_fast",
+      "control_steps": 497,
+      "dataset_basename": "KIT_183_walking_fast06_poses.npz",
+      "duration_seconds": 4.97,
+      "motion": "KIT/183/walking_fast06_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 10174476,
+      "category": "walking_fast",
+      "control_steps": 495,
+      "dataset_basename": "KIT_183_walking_fast07_poses.npz",
+      "duration_seconds": 4.95,
+      "motion": "KIT/183/walking_fast07_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 11373499,
+      "category": "walking_fast",
+      "control_steps": 553,
+      "dataset_basename": "KIT_183_walking_fast08_poses.npz",
+      "duration_seconds": 5.53,
+      "motion": "KIT/183/walking_fast08_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 9700998,
+      "category": "walking_fast",
+      "control_steps": 471,
+      "dataset_basename": "KIT_183_walking_fast09_poses.npz",
+      "duration_seconds": 4.71,
+      "motion": "KIT/183/walking_fast09_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8578589,
+      "category": "walking_fast",
+      "control_steps": 415,
+      "dataset_basename": "KIT_183_walking_fast10_poses.npz",
+      "duration_seconds": 4.15,
+      "motion": "KIT/183/walking_fast10_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 11345904,
+      "category": "walking_medium",
+      "control_steps": 550,
+      "dataset_basename": "KIT_183_walking_medium01_poses.npz",
+      "duration_seconds": 5.5,
+      "motion": "KIT/183/walking_medium01_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 11387488,
+      "category": "walking_medium",
+      "control_steps": 552,
+      "dataset_basename": "KIT_183_walking_medium02_poses.npz",
+      "duration_seconds": 5.52,
+      "motion": "KIT/183/walking_medium02_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9459448,
+      "category": "walking_medium",
+      "control_steps": 459,
+      "dataset_basename": "KIT_183_walking_medium03_poses.npz",
+      "duration_seconds": 4.59,
+      "motion": "KIT/183/walking_medium03_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9689053,
+      "category": "walking_medium",
+      "control_steps": 470,
+      "dataset_basename": "KIT_183_walking_medium04_poses.npz",
+      "duration_seconds": 4.7,
+      "motion": "KIT/183/walking_medium04_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9782417,
+      "category": "walking_medium",
+      "control_steps": 474,
+      "dataset_basename": "KIT_183_walking_medium06_poses.npz",
+      "duration_seconds": 4.74,
+      "motion": "KIT/183/walking_medium06_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9303203,
+      "category": "walking_medium",
+      "control_steps": 450,
+      "dataset_basename": "KIT_183_walking_medium07_poses.npz",
+      "duration_seconds": 4.5,
+      "motion": "KIT/183/walking_medium07_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9609053,
+      "category": "walking_medium",
+      "control_steps": 465,
+      "dataset_basename": "KIT_183_walking_medium08_poses.npz",
+      "duration_seconds": 4.65,
+      "motion": "KIT/183/walking_medium08_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10059574,
+      "category": "walking_medium",
+      "control_steps": 488,
+      "dataset_basename": "KIT_183_walking_medium09_poses.npz",
+      "duration_seconds": 4.88,
+      "motion": "KIT/183/walking_medium09_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10653024,
+      "category": "walking_medium",
+      "control_steps": 515,
+      "dataset_basename": "KIT_183_walking_medium10_poses.npz",
+      "duration_seconds": 5.15,
+      "motion": "KIT/183/walking_medium10_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 14815392,
+      "category": "walking_slow",
+      "control_steps": 716,
+      "dataset_basename": "KIT_183_walking_slow03_poses.npz",
+      "duration_seconds": 7.16,
+      "motion": "KIT/183/walking_slow03_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 13823704,
+      "category": "walking_slow",
+      "control_steps": 670,
+      "dataset_basename": "KIT_183_walking_slow04_poses.npz",
+      "duration_seconds": 6.7,
+      "motion": "KIT/183/walking_slow04_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 13671511,
+      "category": "walking_slow",
+      "control_steps": 664,
+      "dataset_basename": "KIT_183_walking_slow05_poses.npz",
+      "duration_seconds": 6.64,
+      "motion": "KIT/183/walking_slow05_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 14698666,
+      "category": "walking_slow",
+      "control_steps": 711,
+      "dataset_basename": "KIT_183_walking_slow06_poses.npz",
+      "duration_seconds": 7.11,
+      "motion": "KIT/183/walking_slow06_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 14182076,
+      "category": "walking_slow",
+      "control_steps": 688,
+      "dataset_basename": "KIT_183_walking_slow07_poses.npz",
+      "duration_seconds": 6.88,
+      "motion": "KIT/183/walking_slow07_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 14430196,
+      "category": "walking_slow",
+      "control_steps": 699,
+      "dataset_basename": "KIT_183_walking_slow08_poses.npz",
+      "duration_seconds": 6.99,
+      "motion": "KIT/183/walking_slow08_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 14450780,
+      "category": "walking_slow",
+      "control_steps": 700,
+      "dataset_basename": "KIT_183_walking_slow09_poses.npz",
+      "duration_seconds": 7.0,
+      "motion": "KIT/183/walking_slow09_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 14674978,
+      "category": "walking_slow",
+      "control_steps": 712,
+      "dataset_basename": "KIT_183_walking_slow10_poses.npz",
+      "duration_seconds": 7.12,
+      "motion": "KIT/183/walking_slow10_poses",
+      "subject": "183"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9309168,
+      "category": "walking_medium",
+      "control_steps": 453,
+      "dataset_basename": "KIT_205_walking_medium01_poses.npz",
+      "duration_seconds": 4.53,
+      "motion": "KIT/205/walking_medium01_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8353052,
+      "category": "walking_medium",
+      "control_steps": 406,
+      "dataset_basename": "KIT_205_walking_medium02_poses.npz",
+      "duration_seconds": 4.06,
+      "motion": "KIT/205/walking_medium02_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8512691,
+      "category": "walking_medium",
+      "control_steps": 414,
+      "dataset_basename": "KIT_205_walking_medium04_poses.npz",
+      "duration_seconds": 4.14,
+      "motion": "KIT/205/walking_medium04_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8909869,
+      "category": "walking_medium",
+      "control_steps": 432,
+      "dataset_basename": "KIT_205_walking_medium05_poses.npz",
+      "duration_seconds": 4.32,
+      "motion": "KIT/205/walking_medium05_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8282003,
+      "category": "walking_medium",
+      "control_steps": 402,
+      "dataset_basename": "KIT_205_walking_medium06_poses.npz",
+      "duration_seconds": 4.02,
+      "motion": "KIT/205/walking_medium06_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8238573,
+      "category": "walking_medium",
+      "control_steps": 400,
+      "dataset_basename": "KIT_205_walking_medium07_poses.npz",
+      "duration_seconds": 4.0,
+      "motion": "KIT/205/walking_medium07_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 7328010,
+      "category": "walking_medium",
+      "control_steps": 356,
+      "dataset_basename": "KIT_205_walking_medium08_poses.npz",
+      "duration_seconds": 3.56,
+      "motion": "KIT/205/walking_medium08_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9278748,
+      "category": "walking_medium",
+      "control_steps": 449,
+      "dataset_basename": "KIT_205_walking_medium10_poses.npz",
+      "duration_seconds": 4.49,
+      "motion": "KIT/205/walking_medium10_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 13154771,
+      "category": "walking_slow",
+      "control_steps": 639,
+      "dataset_basename": "KIT_205_walking_slow02_poses.npz",
+      "duration_seconds": 6.39,
+      "motion": "KIT/205/walking_slow02_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 12552418,
+      "category": "walking_slow",
+      "control_steps": 612,
+      "dataset_basename": "KIT_205_walking_slow03_poses.npz",
+      "duration_seconds": 6.12,
+      "motion": "KIT/205/walking_slow03_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 12128772,
+      "category": "walking_slow",
+      "control_steps": 590,
+      "dataset_basename": "KIT_205_walking_slow05_poses.npz",
+      "duration_seconds": 5.9,
+      "motion": "KIT/205/walking_slow05_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 11996104,
+      "category": "walking_slow",
+      "control_steps": 585,
+      "dataset_basename": "KIT_205_walking_slow06_poses.npz",
+      "duration_seconds": 5.85,
+      "motion": "KIT/205/walking_slow06_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 9856558,
+      "category": "walking_slow",
+      "control_steps": 478,
+      "dataset_basename": "KIT_205_walking_slow08_poses.npz",
+      "duration_seconds": 4.78,
+      "motion": "KIT/205/walking_slow08_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 10841843,
+      "category": "walking_slow",
+      "control_steps": 526,
+      "dataset_basename": "KIT_205_walking_slow09_poses.npz",
+      "duration_seconds": 5.26,
+      "motion": "KIT/205/walking_slow09_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 11510179,
+      "category": "walking_slow",
+      "control_steps": 559,
+      "dataset_basename": "KIT_205_walking_slow10_poses.npz",
+      "duration_seconds": 5.59,
+      "motion": "KIT/205/walking_slow10_poses",
+      "subject": "205"
+    },
+    {
+      "action_zh": "普通行走",
+      "bytes": 16711729,
+      "category": "generic_walking",
+      "control_steps": 812,
+      "dataset_basename": "KIT_291_walking02_poses.npz",
+      "duration_seconds": 8.12,
+      "motion": "KIT/291/walking02_poses",
+      "subject": "291"
+    },
+    {
+      "action_zh": "普通行走",
+      "bytes": 15275988,
+      "category": "generic_walking",
+      "control_steps": 740,
+      "dataset_basename": "KIT_291_walking03_poses.npz",
+      "duration_seconds": 7.4,
+      "motion": "KIT/291/walking03_poses",
+      "subject": "291"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 15223032,
+      "category": "straight_forward",
+      "control_steps": 735,
+      "dataset_basename": "KIT_3_walk_6m_straight_line04_poses.npz",
+      "duration_seconds": 7.35,
+      "motion": "KIT/3/walk_6m_straight_line04_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 10591103,
+      "category": "walking_fast",
+      "control_steps": 515,
+      "dataset_basename": "KIT_3_walking_fast02_poses.npz",
+      "duration_seconds": 5.15,
+      "motion": "KIT/3/walking_fast02_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8319424,
+      "category": "walking_fast",
+      "control_steps": 404,
+      "dataset_basename": "KIT_3_walking_fast03_poses.npz",
+      "duration_seconds": 4.04,
+      "motion": "KIT/3/walking_fast03_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8733465,
+      "category": "walking_fast",
+      "control_steps": 424,
+      "dataset_basename": "KIT_3_walking_fast04_poses.npz",
+      "duration_seconds": 4.24,
+      "motion": "KIT/3/walking_fast04_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 7685871,
+      "category": "walking_fast",
+      "control_steps": 372,
+      "dataset_basename": "KIT_3_walking_fast05_poses.npz",
+      "duration_seconds": 3.72,
+      "motion": "KIT/3/walking_fast05_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 10448842,
+      "category": "walking_fast",
+      "control_steps": 508,
+      "dataset_basename": "KIT_3_walking_fast06_poses.npz",
+      "duration_seconds": 5.08,
+      "motion": "KIT/3/walking_fast06_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 10099458,
+      "category": "walking_fast",
+      "control_steps": 490,
+      "dataset_basename": "KIT_3_walking_fast07_poses.npz",
+      "duration_seconds": 4.9,
+      "motion": "KIT/3/walking_fast07_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8676774,
+      "category": "walking_fast",
+      "control_steps": 421,
+      "dataset_basename": "KIT_3_walking_fast08_poses.npz",
+      "duration_seconds": 4.21,
+      "motion": "KIT/3/walking_fast08_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8731687,
+      "category": "walking_fast",
+      "control_steps": 424,
+      "dataset_basename": "KIT_3_walking_fast10_poses.npz",
+      "duration_seconds": 4.24,
+      "motion": "KIT/3/walking_fast10_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11217887,
+      "category": "straight_forward",
+      "control_steps": 545,
+      "dataset_basename": "KIT_3_walking_forward_4steps_right_04_poses.npz",
+      "duration_seconds": 5.45,
+      "motion": "KIT/3/walking_forward_4steps_right_04_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 9443301,
+      "category": "straight_forward",
+      "control_steps": 458,
+      "dataset_basename": "KIT_3_walking_forward_4steps_right_05_poses.npz",
+      "duration_seconds": 4.58,
+      "motion": "KIT/3/walking_forward_4steps_right_05_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 6400221,
+      "category": "walking_medium",
+      "control_steps": 311,
+      "dataset_basename": "KIT_3_walking_medium01_poses.npz",
+      "duration_seconds": 3.11,
+      "motion": "KIT/3/walking_medium01_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 13410201,
+      "category": "walking_medium",
+      "control_steps": 654,
+      "dataset_basename": "KIT_3_walking_medium02_poses.npz",
+      "duration_seconds": 6.54,
+      "motion": "KIT/3/walking_medium02_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 15410436,
+      "category": "walking_medium",
+      "control_steps": 750,
+      "dataset_basename": "KIT_3_walking_medium03_poses.npz",
+      "duration_seconds": 7.5,
+      "motion": "KIT/3/walking_medium03_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10735827,
+      "category": "walking_medium",
+      "control_steps": 522,
+      "dataset_basename": "KIT_3_walking_medium04_poses.npz",
+      "duration_seconds": 5.22,
+      "motion": "KIT/3/walking_medium04_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9797437,
+      "category": "walking_medium",
+      "control_steps": 476,
+      "dataset_basename": "KIT_3_walking_medium06_poses.npz",
+      "duration_seconds": 4.76,
+      "motion": "KIT/3/walking_medium06_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 12114601,
+      "category": "walking_medium",
+      "control_steps": 589,
+      "dataset_basename": "KIT_3_walking_medium07_poses.npz",
+      "duration_seconds": 5.89,
+      "motion": "KIT/3/walking_medium07_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10999074,
+      "category": "walking_medium",
+      "control_steps": 534,
+      "dataset_basename": "KIT_3_walking_medium08_poses.npz",
+      "duration_seconds": 5.34,
+      "motion": "KIT/3/walking_medium08_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 12210449,
+      "category": "walking_medium",
+      "control_steps": 593,
+      "dataset_basename": "KIT_3_walking_medium09_poses.npz",
+      "duration_seconds": 5.93,
+      "motion": "KIT/3/walking_medium09_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 7927215,
+      "category": "walking_medium",
+      "control_steps": 385,
+      "dataset_basename": "KIT_3_walking_medium10_poses.npz",
+      "duration_seconds": 3.85,
+      "motion": "KIT/3/walking_medium10_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 11951684,
+      "category": "walking_slow",
+      "control_steps": 581,
+      "dataset_basename": "KIT_3_walking_slow02_poses.npz",
+      "duration_seconds": 5.81,
+      "motion": "KIT/3/walking_slow02_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 12140987,
+      "category": "walking_slow",
+      "control_steps": 589,
+      "dataset_basename": "KIT_3_walking_slow04_poses.npz",
+      "duration_seconds": 5.89,
+      "motion": "KIT/3/walking_slow04_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 13190171,
+      "category": "walking_slow",
+      "control_steps": 640,
+      "dataset_basename": "KIT_3_walking_slow07_poses.npz",
+      "duration_seconds": 6.4,
+      "motion": "KIT/3/walking_slow07_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 12325315,
+      "category": "walking_slow",
+      "control_steps": 598,
+      "dataset_basename": "KIT_3_walking_slow10_poses.npz",
+      "duration_seconds": 5.98,
+      "motion": "KIT/3/walking_slow10_poses",
+      "subject": "3"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 11763981,
+      "category": "walking_fast",
+      "control_steps": 572,
+      "dataset_basename": "KIT_314_walking_fast03_poses.npz",
+      "duration_seconds": 5.72,
+      "motion": "KIT/314/walking_fast03_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8791401,
+      "category": "walking_fast",
+      "control_steps": 427,
+      "dataset_basename": "KIT_314_walking_fast04_poses.npz",
+      "duration_seconds": 4.27,
+      "motion": "KIT/314/walking_fast04_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 10161366,
+      "category": "walking_fast",
+      "control_steps": 493,
+      "dataset_basename": "KIT_314_walking_fast05_poses.npz",
+      "duration_seconds": 4.93,
+      "motion": "KIT/314/walking_fast05_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 9165857,
+      "category": "walking_fast",
+      "control_steps": 446,
+      "dataset_basename": "KIT_314_walking_fast06_poses.npz",
+      "duration_seconds": 4.46,
+      "motion": "KIT/314/walking_fast06_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 7843204,
+      "category": "walking_fast",
+      "control_steps": 379,
+      "dataset_basename": "KIT_314_walking_fast07_poses.npz",
+      "duration_seconds": 3.79,
+      "motion": "KIT/314/walking_fast07_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 9247272,
+      "category": "walking_fast",
+      "control_steps": 449,
+      "dataset_basename": "KIT_314_walking_fast08_poses.npz",
+      "duration_seconds": 4.49,
+      "motion": "KIT/314/walking_fast08_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 12414003,
+      "category": "walking_fast",
+      "control_steps": 603,
+      "dataset_basename": "KIT_314_walking_fast09_poses.npz",
+      "duration_seconds": 6.03,
+      "motion": "KIT/314/walking_fast09_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8778394,
+      "category": "walking_fast",
+      "control_steps": 424,
+      "dataset_basename": "KIT_314_walking_fast10_poses.npz",
+      "duration_seconds": 4.24,
+      "motion": "KIT/314/walking_fast10_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 13417951,
+      "category": "walking_medium",
+      "control_steps": 655,
+      "dataset_basename": "KIT_314_walking_medium01_poses.npz",
+      "duration_seconds": 6.55,
+      "motion": "KIT/314/walking_medium01_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 11821239,
+      "category": "walking_medium",
+      "control_steps": 576,
+      "dataset_basename": "KIT_314_walking_medium02_poses.npz",
+      "duration_seconds": 5.76,
+      "motion": "KIT/314/walking_medium02_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 16926158,
+      "category": "walking_medium",
+      "control_steps": 824,
+      "dataset_basename": "KIT_314_walking_medium04_poses.npz",
+      "duration_seconds": 8.24,
+      "motion": "KIT/314/walking_medium04_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 16161570,
+      "category": "walking_medium",
+      "control_steps": 788,
+      "dataset_basename": "KIT_314_walking_medium05_poses.npz",
+      "duration_seconds": 7.88,
+      "motion": "KIT/314/walking_medium05_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 13077885,
+      "category": "walking_medium",
+      "control_steps": 637,
+      "dataset_basename": "KIT_314_walking_medium06_poses.npz",
+      "duration_seconds": 6.37,
+      "motion": "KIT/314/walking_medium06_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 13856141,
+      "category": "walking_medium",
+      "control_steps": 675,
+      "dataset_basename": "KIT_314_walking_medium08_poses.npz",
+      "duration_seconds": 6.75,
+      "motion": "KIT/314/walking_medium08_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 15838746,
+      "category": "walking_medium",
+      "control_steps": 772,
+      "dataset_basename": "KIT_314_walking_medium09_poses.npz",
+      "duration_seconds": 7.72,
+      "motion": "KIT/314/walking_medium09_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 19965447,
+      "category": "walking_slow",
+      "control_steps": 971,
+      "dataset_basename": "KIT_314_walking_slow01_poses.npz",
+      "duration_seconds": 9.71,
+      "motion": "KIT/314/walking_slow01_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 16047783,
+      "category": "walking_slow",
+      "control_steps": 783,
+      "dataset_basename": "KIT_314_walking_slow02_poses.npz",
+      "duration_seconds": 7.83,
+      "motion": "KIT/314/walking_slow02_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 15529863,
+      "category": "walking_slow",
+      "control_steps": 755,
+      "dataset_basename": "KIT_314_walking_slow03_poses.npz",
+      "duration_seconds": 7.55,
+      "motion": "KIT/314/walking_slow03_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 11805764,
+      "category": "walking_slow",
+      "control_steps": 575,
+      "dataset_basename": "KIT_314_walking_slow08_poses.npz",
+      "duration_seconds": 5.75,
+      "motion": "KIT/314/walking_slow08_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 16513445,
+      "category": "walking_slow",
+      "control_steps": 804,
+      "dataset_basename": "KIT_314_walking_slow10_poses.npz",
+      "duration_seconds": 8.04,
+      "motion": "KIT/314/walking_slow10_poses",
+      "subject": "314"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 9871057,
+      "category": "walking_fast",
+      "control_steps": 480,
+      "dataset_basename": "KIT_317_walking_fast02_poses.npz",
+      "duration_seconds": 4.8,
+      "motion": "KIT/317/walking_fast02_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8247653,
+      "category": "walking_fast",
+      "control_steps": 400,
+      "dataset_basename": "KIT_317_walking_fast03_poses.npz",
+      "duration_seconds": 4.0,
+      "motion": "KIT/317/walking_fast03_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 6397590,
+      "category": "walking_fast",
+      "control_steps": 310,
+      "dataset_basename": "KIT_317_walking_fast05_poses.npz",
+      "duration_seconds": 3.1,
+      "motion": "KIT/317/walking_fast05_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 9250875,
+      "category": "walking_fast",
+      "control_steps": 449,
+      "dataset_basename": "KIT_317_walking_fast06_poses.npz",
+      "duration_seconds": 4.49,
+      "motion": "KIT/317/walking_fast06_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 7364321,
+      "category": "walking_fast",
+      "control_steps": 357,
+      "dataset_basename": "KIT_317_walking_fast07_poses.npz",
+      "duration_seconds": 3.57,
+      "motion": "KIT/317/walking_fast07_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8726513,
+      "category": "walking_fast",
+      "control_steps": 424,
+      "dataset_basename": "KIT_317_walking_fast08_poses.npz",
+      "duration_seconds": 4.24,
+      "motion": "KIT/317/walking_fast08_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 10165256,
+      "category": "walking_fast",
+      "control_steps": 494,
+      "dataset_basename": "KIT_317_walking_fast09_poses.npz",
+      "duration_seconds": 4.94,
+      "motion": "KIT/317/walking_fast09_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 9657564,
+      "category": "walking_fast",
+      "control_steps": 470,
+      "dataset_basename": "KIT_317_walking_fast10_poses.npz",
+      "duration_seconds": 4.7,
+      "motion": "KIT/317/walking_fast10_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9245876,
+      "category": "walking_medium",
+      "control_steps": 449,
+      "dataset_basename": "KIT_317_walking_medium01_poses.npz",
+      "duration_seconds": 4.49,
+      "motion": "KIT/317/walking_medium01_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8007302,
+      "category": "walking_medium",
+      "control_steps": 389,
+      "dataset_basename": "KIT_317_walking_medium02_poses.npz",
+      "duration_seconds": 3.89,
+      "motion": "KIT/317/walking_medium02_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9409953,
+      "category": "walking_medium",
+      "control_steps": 458,
+      "dataset_basename": "KIT_317_walking_medium03_poses.npz",
+      "duration_seconds": 4.58,
+      "motion": "KIT/317/walking_medium03_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8948584,
+      "category": "walking_medium",
+      "control_steps": 435,
+      "dataset_basename": "KIT_317_walking_medium04_poses.npz",
+      "duration_seconds": 4.35,
+      "motion": "KIT/317/walking_medium04_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8906974,
+      "category": "walking_medium",
+      "control_steps": 433,
+      "dataset_basename": "KIT_317_walking_medium05_poses.npz",
+      "duration_seconds": 4.33,
+      "motion": "KIT/317/walking_medium05_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10499654,
+      "category": "walking_medium",
+      "control_steps": 510,
+      "dataset_basename": "KIT_317_walking_medium06_poses.npz",
+      "duration_seconds": 5.1,
+      "motion": "KIT/317/walking_medium06_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 7335983,
+      "category": "walking_medium",
+      "control_steps": 357,
+      "dataset_basename": "KIT_317_walking_medium07_poses.npz",
+      "duration_seconds": 3.57,
+      "motion": "KIT/317/walking_medium07_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9351092,
+      "category": "walking_medium",
+      "control_steps": 455,
+      "dataset_basename": "KIT_317_walking_medium08_poses.npz",
+      "duration_seconds": 4.55,
+      "motion": "KIT/317/walking_medium08_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9320922,
+      "category": "walking_medium",
+      "control_steps": 453,
+      "dataset_basename": "KIT_317_walking_medium09_poses.npz",
+      "duration_seconds": 4.53,
+      "motion": "KIT/317/walking_medium09_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9137077,
+      "category": "walking_medium",
+      "control_steps": 444,
+      "dataset_basename": "KIT_317_walking_medium10_poses.npz",
+      "duration_seconds": 4.44,
+      "motion": "KIT/317/walking_medium10_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 13475498,
+      "category": "walking_slow",
+      "control_steps": 656,
+      "dataset_basename": "KIT_317_walking_slow04_poses.npz",
+      "duration_seconds": 6.56,
+      "motion": "KIT/317/walking_slow04_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 13241038,
+      "category": "walking_slow",
+      "control_steps": 646,
+      "dataset_basename": "KIT_317_walking_slow05_poses.npz",
+      "duration_seconds": 6.46,
+      "motion": "KIT/317/walking_slow05_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 12561851,
+      "category": "walking_slow",
+      "control_steps": 609,
+      "dataset_basename": "KIT_317_walking_slow06_poses.npz",
+      "duration_seconds": 6.09,
+      "motion": "KIT/317/walking_slow06_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 12143988,
+      "category": "walking_slow",
+      "control_steps": 591,
+      "dataset_basename": "KIT_317_walking_slow07_poses.npz",
+      "duration_seconds": 5.91,
+      "motion": "KIT/317/walking_slow07_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 10991812,
+      "category": "walking_slow",
+      "control_steps": 535,
+      "dataset_basename": "KIT_317_walking_slow08_poses.npz",
+      "duration_seconds": 5.35,
+      "motion": "KIT/317/walking_slow08_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 10961652,
+      "category": "walking_slow",
+      "control_steps": 534,
+      "dataset_basename": "KIT_317_walking_slow09_poses.npz",
+      "duration_seconds": 5.34,
+      "motion": "KIT/317/walking_slow09_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 11514121,
+      "category": "walking_slow",
+      "control_steps": 561,
+      "dataset_basename": "KIT_317_walking_slow10_poses.npz",
+      "duration_seconds": 5.61,
+      "motion": "KIT/317/walking_slow10_poses",
+      "subject": "317"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 9002191,
+      "category": "walking_fast",
+      "control_steps": 439,
+      "dataset_basename": "KIT_348_walking_fast01_poses.npz",
+      "duration_seconds": 4.39,
+      "motion": "KIT/348/walking_fast01_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 6485724,
+      "category": "walking_fast",
+      "control_steps": 314,
+      "dataset_basename": "KIT_348_walking_fast02_poses.npz",
+      "duration_seconds": 3.14,
+      "motion": "KIT/348/walking_fast02_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 6180658,
+      "category": "walking_fast",
+      "control_steps": 299,
+      "dataset_basename": "KIT_348_walking_fast03_poses.npz",
+      "duration_seconds": 2.99,
+      "motion": "KIT/348/walking_fast03_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8764801,
+      "category": "walking_fast",
+      "control_steps": 426,
+      "dataset_basename": "KIT_348_walking_fast04_poses.npz",
+      "duration_seconds": 4.26,
+      "motion": "KIT/348/walking_fast04_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 9683290,
+      "category": "walking_fast",
+      "control_steps": 470,
+      "dataset_basename": "KIT_348_walking_fast05_poses.npz",
+      "duration_seconds": 4.7,
+      "motion": "KIT/348/walking_fast05_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8888622,
+      "category": "walking_fast",
+      "control_steps": 433,
+      "dataset_basename": "KIT_348_walking_fast06_poses.npz",
+      "duration_seconds": 4.33,
+      "motion": "KIT/348/walking_fast06_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8300993,
+      "category": "walking_fast",
+      "control_steps": 404,
+      "dataset_basename": "KIT_348_walking_fast07_poses.npz",
+      "duration_seconds": 4.04,
+      "motion": "KIT/348/walking_fast07_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8664744,
+      "category": "walking_fast",
+      "control_steps": 421,
+      "dataset_basename": "KIT_348_walking_fast08_poses.npz",
+      "duration_seconds": 4.21,
+      "motion": "KIT/348/walking_fast08_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 6752455,
+      "category": "walking_fast",
+      "control_steps": 326,
+      "dataset_basename": "KIT_348_walking_fast09_poses.npz",
+      "duration_seconds": 3.26,
+      "motion": "KIT/348/walking_fast09_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8276961,
+      "category": "walking_medium",
+      "control_steps": 403,
+      "dataset_basename": "KIT_348_walking_medium01_poses.npz",
+      "duration_seconds": 4.03,
+      "motion": "KIT/348/walking_medium01_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9962990,
+      "category": "walking_medium",
+      "control_steps": 486,
+      "dataset_basename": "KIT_348_walking_medium02_poses.npz",
+      "duration_seconds": 4.86,
+      "motion": "KIT/348/walking_medium02_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8731289,
+      "category": "walking_medium",
+      "control_steps": 425,
+      "dataset_basename": "KIT_348_walking_medium03_poses.npz",
+      "duration_seconds": 4.25,
+      "motion": "KIT/348/walking_medium03_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10406482,
+      "category": "walking_medium",
+      "control_steps": 507,
+      "dataset_basename": "KIT_348_walking_medium04_poses.npz",
+      "duration_seconds": 5.07,
+      "motion": "KIT/348/walking_medium04_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8361652,
+      "category": "walking_medium",
+      "control_steps": 406,
+      "dataset_basename": "KIT_348_walking_medium05_poses.npz",
+      "duration_seconds": 4.06,
+      "motion": "KIT/348/walking_medium05_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8907220,
+      "category": "walking_medium",
+      "control_steps": 434,
+      "dataset_basename": "KIT_348_walking_medium06_poses.npz",
+      "duration_seconds": 4.34,
+      "motion": "KIT/348/walking_medium06_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8625430,
+      "category": "walking_medium",
+      "control_steps": 419,
+      "dataset_basename": "KIT_348_walking_medium07_poses.npz",
+      "duration_seconds": 4.19,
+      "motion": "KIT/348/walking_medium07_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 7546375,
+      "category": "walking_medium",
+      "control_steps": 366,
+      "dataset_basename": "KIT_348_walking_medium08_poses.npz",
+      "duration_seconds": 3.66,
+      "motion": "KIT/348/walking_medium08_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 11202024,
+      "category": "walking_medium",
+      "control_steps": 545,
+      "dataset_basename": "KIT_348_walking_medium09_poses.npz",
+      "duration_seconds": 5.45,
+      "motion": "KIT/348/walking_medium09_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 12251647,
+      "category": "walking_slow",
+      "control_steps": 595,
+      "dataset_basename": "KIT_348_walking_slow10_poses.npz",
+      "duration_seconds": 5.95,
+      "motion": "KIT/348/walking_slow10_poses",
+      "subject": "348"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 7624826,
+      "category": "walking_fast",
+      "control_steps": 369,
+      "dataset_basename": "KIT_359_walking_fast01_poses.npz",
+      "duration_seconds": 3.69,
+      "motion": "KIT/359/walking_fast01_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8762756,
+      "category": "walking_fast",
+      "control_steps": 423,
+      "dataset_basename": "KIT_359_walking_fast02_poses.npz",
+      "duration_seconds": 4.23,
+      "motion": "KIT/359/walking_fast02_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8374845,
+      "category": "walking_fast",
+      "control_steps": 404,
+      "dataset_basename": "KIT_359_walking_fast03_poses.npz",
+      "duration_seconds": 4.04,
+      "motion": "KIT/359/walking_fast03_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 9364274,
+      "category": "walking_fast",
+      "control_steps": 452,
+      "dataset_basename": "KIT_359_walking_fast04_poses.npz",
+      "duration_seconds": 4.52,
+      "motion": "KIT/359/walking_fast04_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8935247,
+      "category": "walking_fast",
+      "control_steps": 432,
+      "dataset_basename": "KIT_359_walking_fast05_poses.npz",
+      "duration_seconds": 4.32,
+      "motion": "KIT/359/walking_fast05_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8517375,
+      "category": "walking_fast",
+      "control_steps": 411,
+      "dataset_basename": "KIT_359_walking_fast06_poses.npz",
+      "duration_seconds": 4.11,
+      "motion": "KIT/359/walking_fast06_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 7979284,
+      "category": "walking_fast",
+      "control_steps": 385,
+      "dataset_basename": "KIT_359_walking_fast09_poses.npz",
+      "duration_seconds": 3.85,
+      "motion": "KIT/359/walking_fast09_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10749851,
+      "category": "walking_medium",
+      "control_steps": 520,
+      "dataset_basename": "KIT_359_walking_medium03_poses.npz",
+      "duration_seconds": 5.2,
+      "motion": "KIT/359/walking_medium03_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10441347,
+      "category": "walking_medium",
+      "control_steps": 505,
+      "dataset_basename": "KIT_359_walking_medium04_poses.npz",
+      "duration_seconds": 5.05,
+      "motion": "KIT/359/walking_medium04_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10632361,
+      "category": "walking_medium",
+      "control_steps": 514,
+      "dataset_basename": "KIT_359_walking_medium05_poses.npz",
+      "duration_seconds": 5.14,
+      "motion": "KIT/359/walking_medium05_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8256619,
+      "category": "walking_medium",
+      "control_steps": 400,
+      "dataset_basename": "KIT_359_walking_medium06_poses.npz",
+      "duration_seconds": 4.0,
+      "motion": "KIT/359/walking_medium06_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9892163,
+      "category": "walking_medium",
+      "control_steps": 479,
+      "dataset_basename": "KIT_359_walking_medium07_poses.npz",
+      "duration_seconds": 4.79,
+      "motion": "KIT/359/walking_medium07_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9431573,
+      "category": "walking_medium",
+      "control_steps": 456,
+      "dataset_basename": "KIT_359_walking_medium09_poses.npz",
+      "duration_seconds": 4.56,
+      "motion": "KIT/359/walking_medium09_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10549518,
+      "category": "walking_medium",
+      "control_steps": 510,
+      "dataset_basename": "KIT_359_walking_medium10_poses.npz",
+      "duration_seconds": 5.1,
+      "motion": "KIT/359/walking_medium10_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 12816192,
+      "category": "walking_slow",
+      "control_steps": 620,
+      "dataset_basename": "KIT_359_walking_slow04_poses.npz",
+      "duration_seconds": 6.2,
+      "motion": "KIT/359/walking_slow04_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 13396627,
+      "category": "walking_slow",
+      "control_steps": 647,
+      "dataset_basename": "KIT_359_walking_slow05_poses.npz",
+      "duration_seconds": 6.47,
+      "motion": "KIT/359/walking_slow05_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 10901472,
+      "category": "walking_slow",
+      "control_steps": 528,
+      "dataset_basename": "KIT_359_walking_slow06_poses.npz",
+      "duration_seconds": 5.28,
+      "motion": "KIT/359/walking_slow06_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 11384364,
+      "category": "walking_slow",
+      "control_steps": 552,
+      "dataset_basename": "KIT_359_walking_slow07_poses.npz",
+      "duration_seconds": 5.52,
+      "motion": "KIT/359/walking_slow07_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 11813804,
+      "category": "walking_slow",
+      "control_steps": 572,
+      "dataset_basename": "KIT_359_walking_slow08_poses.npz",
+      "duration_seconds": 5.72,
+      "motion": "KIT/359/walking_slow08_poses",
+      "subject": "359"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 7560542,
+      "category": "straight_forward",
+      "control_steps": 371,
+      "dataset_basename": "KIT_4_WalkingStraightForward01_poses.npz",
+      "duration_seconds": 3.71,
+      "motion": "KIT/4/WalkingStraightForward01_poses",
+      "subject": "4"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 10707169,
+      "category": "straight_forward",
+      "control_steps": 524,
+      "dataset_basename": "KIT_4_WalkingStraightForward02_poses.npz",
+      "duration_seconds": 5.24,
+      "motion": "KIT/4/WalkingStraightForward02_poses",
+      "subject": "4"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11544023,
+      "category": "straight_forward",
+      "control_steps": 562,
+      "dataset_basename": "KIT_4_WalkingStraightForward03_poses.npz",
+      "duration_seconds": 5.62,
+      "motion": "KIT/4/WalkingStraightForward03_poses",
+      "subject": "4"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11476383,
+      "category": "straight_forward",
+      "control_steps": 559,
+      "dataset_basename": "KIT_4_WalkingStraightForward04_poses.npz",
+      "duration_seconds": 5.59,
+      "motion": "KIT/4/WalkingStraightForward04_poses",
+      "subject": "4"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11925576,
+      "category": "straight_forward",
+      "control_steps": 582,
+      "dataset_basename": "KIT_4_WalkingStraightForward05_poses.npz",
+      "duration_seconds": 5.82,
+      "motion": "KIT/4/WalkingStraightForward05_poses",
+      "subject": "4"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 12470253,
+      "category": "straight_forward",
+      "control_steps": 609,
+      "dataset_basename": "KIT_4_WalkingStraightForward06_poses.npz",
+      "duration_seconds": 6.09,
+      "motion": "KIT/4/WalkingStraightForward06_poses",
+      "subject": "4"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 12562588,
+      "category": "straight_forward",
+      "control_steps": 613,
+      "dataset_basename": "KIT_4_WalkingStraightForward08_poses.npz",
+      "duration_seconds": 6.13,
+      "motion": "KIT/4/WalkingStraightForward08_poses",
+      "subject": "4"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 10009956,
+      "category": "walking_fast",
+      "control_steps": 487,
+      "dataset_basename": "KIT_424_walking_fast01_poses.npz",
+      "duration_seconds": 4.87,
+      "motion": "KIT/424/walking_fast01_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 12024414,
+      "category": "walking_fast",
+      "control_steps": 585,
+      "dataset_basename": "KIT_424_walking_fast02_poses.npz",
+      "duration_seconds": 5.85,
+      "motion": "KIT/424/walking_fast02_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 11097190,
+      "category": "walking_fast",
+      "control_steps": 540,
+      "dataset_basename": "KIT_424_walking_fast03_poses.npz",
+      "duration_seconds": 5.4,
+      "motion": "KIT/424/walking_fast03_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 13555234,
+      "category": "walking_fast",
+      "control_steps": 657,
+      "dataset_basename": "KIT_424_walking_fast04_poses.npz",
+      "duration_seconds": 6.57,
+      "motion": "KIT/424/walking_fast04_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 7528936,
+      "category": "walking_fast",
+      "control_steps": 364,
+      "dataset_basename": "KIT_424_walking_fast05_poses.npz",
+      "duration_seconds": 3.64,
+      "motion": "KIT/424/walking_fast05_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 11056084,
+      "category": "walking_fast",
+      "control_steps": 538,
+      "dataset_basename": "KIT_424_walking_fast06_poses.npz",
+      "duration_seconds": 5.38,
+      "motion": "KIT/424/walking_fast06_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8644961,
+      "category": "walking_fast",
+      "control_steps": 419,
+      "dataset_basename": "KIT_424_walking_fast07_poses.npz",
+      "duration_seconds": 4.19,
+      "motion": "KIT/424/walking_fast07_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 10076540,
+      "category": "walking_fast",
+      "control_steps": 490,
+      "dataset_basename": "KIT_424_walking_fast08_poses.npz",
+      "duration_seconds": 4.9,
+      "motion": "KIT/424/walking_fast08_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 7363705,
+      "category": "walking_fast",
+      "control_steps": 358,
+      "dataset_basename": "KIT_424_walking_fast09_poses.npz",
+      "duration_seconds": 3.58,
+      "motion": "KIT/424/walking_fast09_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8748871,
+      "category": "walking_fast",
+      "control_steps": 427,
+      "dataset_basename": "KIT_424_walking_fast10_poses.npz",
+      "duration_seconds": 4.27,
+      "motion": "KIT/424/walking_fast10_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 14240125,
+      "category": "walking_medium",
+      "control_steps": 693,
+      "dataset_basename": "KIT_424_walking_medium01_poses.npz",
+      "duration_seconds": 6.93,
+      "motion": "KIT/424/walking_medium01_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 12875462,
+      "category": "walking_medium",
+      "control_steps": 624,
+      "dataset_basename": "KIT_424_walking_medium02_poses.npz",
+      "duration_seconds": 6.24,
+      "motion": "KIT/424/walking_medium02_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 11689491,
+      "category": "walking_medium",
+      "control_steps": 568,
+      "dataset_basename": "KIT_424_walking_medium03_poses.npz",
+      "duration_seconds": 5.68,
+      "motion": "KIT/424/walking_medium03_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 12438842,
+      "category": "walking_medium",
+      "control_steps": 605,
+      "dataset_basename": "KIT_424_walking_medium04_poses.npz",
+      "duration_seconds": 6.05,
+      "motion": "KIT/424/walking_medium04_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 12003329,
+      "category": "walking_medium",
+      "control_steps": 583,
+      "dataset_basename": "KIT_424_walking_medium05_poses.npz",
+      "duration_seconds": 5.83,
+      "motion": "KIT/424/walking_medium05_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 11716756,
+      "category": "walking_medium",
+      "control_steps": 571,
+      "dataset_basename": "KIT_424_walking_medium06_poses.npz",
+      "duration_seconds": 5.71,
+      "motion": "KIT/424/walking_medium06_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 11489840,
+      "category": "walking_medium",
+      "control_steps": 559,
+      "dataset_basename": "KIT_424_walking_medium07_poses.npz",
+      "duration_seconds": 5.59,
+      "motion": "KIT/424/walking_medium07_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10036938,
+      "category": "walking_medium",
+      "control_steps": 488,
+      "dataset_basename": "KIT_424_walking_medium08_poses.npz",
+      "duration_seconds": 4.88,
+      "motion": "KIT/424/walking_medium08_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 12097994,
+      "category": "walking_medium",
+      "control_steps": 589,
+      "dataset_basename": "KIT_424_walking_medium09_poses.npz",
+      "duration_seconds": 5.89,
+      "motion": "KIT/424/walking_medium09_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 13162986,
+      "category": "walking_medium",
+      "control_steps": 642,
+      "dataset_basename": "KIT_424_walking_medium10_poses.npz",
+      "duration_seconds": 6.42,
+      "motion": "KIT/424/walking_medium10_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 17456009,
+      "category": "walking_slow",
+      "control_steps": 850,
+      "dataset_basename": "KIT_424_walking_slow01_poses.npz",
+      "duration_seconds": 8.5,
+      "motion": "KIT/424/walking_slow01_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 18400529,
+      "category": "walking_slow",
+      "control_steps": 896,
+      "dataset_basename": "KIT_424_walking_slow02_poses.npz",
+      "duration_seconds": 8.96,
+      "motion": "KIT/424/walking_slow02_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 16975061,
+      "category": "walking_slow",
+      "control_steps": 826,
+      "dataset_basename": "KIT_424_walking_slow03_poses.npz",
+      "duration_seconds": 8.26,
+      "motion": "KIT/424/walking_slow03_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 17305229,
+      "category": "walking_slow",
+      "control_steps": 841,
+      "dataset_basename": "KIT_424_walking_slow04_poses.npz",
+      "duration_seconds": 8.41,
+      "motion": "KIT/424/walking_slow04_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 17218456,
+      "category": "walking_slow",
+      "control_steps": 836,
+      "dataset_basename": "KIT_424_walking_slow05_poses.npz",
+      "duration_seconds": 8.36,
+      "motion": "KIT/424/walking_slow05_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 17199501,
+      "category": "walking_slow",
+      "control_steps": 839,
+      "dataset_basename": "KIT_424_walking_slow09_poses.npz",
+      "duration_seconds": 8.39,
+      "motion": "KIT/424/walking_slow09_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 17974515,
+      "category": "walking_slow",
+      "control_steps": 876,
+      "dataset_basename": "KIT_424_walking_slow10_poses.npz",
+      "duration_seconds": 8.76,
+      "motion": "KIT/424/walking_slow10_poses",
+      "subject": "424"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11257981,
+      "category": "straight_forward",
+      "control_steps": 549,
+      "dataset_basename": "KIT_7_WalkingStraightForwards01_poses.npz",
+      "duration_seconds": 5.49,
+      "motion": "KIT/7/WalkingStraightForwards01_poses",
+      "subject": "7"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 10577138,
+      "category": "straight_forward",
+      "control_steps": 516,
+      "dataset_basename": "KIT_7_WalkingStraightForwards02_poses.npz",
+      "duration_seconds": 5.16,
+      "motion": "KIT/7/WalkingStraightForwards02_poses",
+      "subject": "7"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11454799,
+      "category": "straight_forward",
+      "control_steps": 558,
+      "dataset_basename": "KIT_7_WalkingStraightForwards05_poses.npz",
+      "duration_seconds": 5.58,
+      "motion": "KIT/7/WalkingStraightForwards05_poses",
+      "subject": "7"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11399103,
+      "category": "straight_forward",
+      "control_steps": 556,
+      "dataset_basename": "KIT_7_WalkingStraightForwards06_poses.npz",
+      "duration_seconds": 5.56,
+      "motion": "KIT/7/WalkingStraightForwards06_poses",
+      "subject": "7"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 12248360,
+      "category": "straight_forward",
+      "control_steps": 597,
+      "dataset_basename": "KIT_7_WalkingStraightForwards07_poses.npz",
+      "duration_seconds": 5.97,
+      "motion": "KIT/7/WalkingStraightForwards07_poses",
+      "subject": "7"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 10881709,
+      "category": "straight_forward",
+      "control_steps": 532,
+      "dataset_basename": "KIT_7_WalkingStraightForwards08_poses.npz",
+      "duration_seconds": 5.32,
+      "motion": "KIT/7/WalkingStraightForwards08_poses",
+      "subject": "7"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 10653926,
+      "category": "straight_forward",
+      "control_steps": 520,
+      "dataset_basename": "KIT_7_WalkingStraightForwards09_poses.npz",
+      "duration_seconds": 5.2,
+      "motion": "KIT/7/WalkingStraightForwards09_poses",
+      "subject": "7"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11330402,
+      "category": "straight_forward",
+      "control_steps": 554,
+      "dataset_basename": "KIT_7_WalkingStraightForwards10_poses.npz",
+      "duration_seconds": 5.54,
+      "motion": "KIT/7/WalkingStraightForwards10_poses",
+      "subject": "7"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11022218,
+      "category": "straight_forward",
+      "control_steps": 536,
+      "dataset_basename": "KIT_8_WalkingStraightForwards01_poses.npz",
+      "duration_seconds": 5.36,
+      "motion": "KIT/8/WalkingStraightForwards01_poses",
+      "subject": "8"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11245178,
+      "category": "straight_forward",
+      "control_steps": 547,
+      "dataset_basename": "KIT_8_WalkingStraightForwards02_poses.npz",
+      "duration_seconds": 5.47,
+      "motion": "KIT/8/WalkingStraightForwards02_poses",
+      "subject": "8"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11361254,
+      "category": "straight_forward",
+      "control_steps": 552,
+      "dataset_basename": "KIT_8_WalkingStraightForwards03_poses.npz",
+      "duration_seconds": 5.52,
+      "motion": "KIT/8/WalkingStraightForwards03_poses",
+      "subject": "8"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11592994,
+      "category": "straight_forward",
+      "control_steps": 563,
+      "dataset_basename": "KIT_8_WalkingStraightForwards04_poses.npz",
+      "duration_seconds": 5.63,
+      "motion": "KIT/8/WalkingStraightForwards04_poses",
+      "subject": "8"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 11219775,
+      "category": "straight_forward",
+      "control_steps": 545,
+      "dataset_basename": "KIT_8_WalkingStraightForwards06_poses.npz",
+      "duration_seconds": 5.45,
+      "motion": "KIT/8/WalkingStraightForwards06_poses",
+      "subject": "8"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 10447561,
+      "category": "straight_forward",
+      "control_steps": 508,
+      "dataset_basename": "KIT_8_WalkingStraightForwards08_poses.npz",
+      "duration_seconds": 5.08,
+      "motion": "KIT/8/WalkingStraightForwards08_poses",
+      "subject": "8"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 12773840,
+      "category": "straight_forward",
+      "control_steps": 622,
+      "dataset_basename": "KIT_8_WalkingStraightForwards10_poses.npz",
+      "duration_seconds": 6.22,
+      "motion": "KIT/8/WalkingStraightForwards10_poses",
+      "subject": "8"
+    }
+  ],
+  "validation": [
+    {
+      "action_zh": "普通行走",
+      "bytes": 13498473,
+      "category": "generic_walking",
+      "control_steps": 653,
+      "dataset_basename": "KIT_425_walking_01_poses.npz",
+      "duration_seconds": 6.53,
+      "motion": "KIT/425/walking_01_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "普通行走",
+      "bytes": 11451588,
+      "category": "generic_walking",
+      "control_steps": 555,
+      "dataset_basename": "KIT_425_walking_05_poses.npz",
+      "duration_seconds": 5.55,
+      "motion": "KIT/425/walking_05_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "普通行走",
+      "bytes": 10551658,
+      "category": "generic_walking",
+      "control_steps": 513,
+      "dataset_basename": "KIT_425_walking_06_poses.npz",
+      "duration_seconds": 5.13,
+      "motion": "KIT/425/walking_06_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "普通行走",
+      "bytes": 12266026,
+      "category": "generic_walking",
+      "control_steps": 594,
+      "dataset_basename": "KIT_425_walking_07_poses.npz",
+      "duration_seconds": 5.94,
+      "motion": "KIT/425/walking_07_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 9723807,
+      "category": "walking_fast",
+      "control_steps": 470,
+      "dataset_basename": "KIT_425_walking_fast01_poses.npz",
+      "duration_seconds": 4.7,
+      "motion": "KIT/425/walking_fast01_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8554465,
+      "category": "walking_fast",
+      "control_steps": 415,
+      "dataset_basename": "KIT_425_walking_fast02_poses.npz",
+      "duration_seconds": 4.15,
+      "motion": "KIT/425/walking_fast02_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 6535676,
+      "category": "walking_fast",
+      "control_steps": 317,
+      "dataset_basename": "KIT_425_walking_fast03_poses.npz",
+      "duration_seconds": 3.17,
+      "motion": "KIT/425/walking_fast03_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 9586419,
+      "category": "walking_fast",
+      "control_steps": 466,
+      "dataset_basename": "KIT_425_walking_fast04_poses.npz",
+      "duration_seconds": 4.66,
+      "motion": "KIT/425/walking_fast04_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 7370218,
+      "category": "walking_fast",
+      "control_steps": 357,
+      "dataset_basename": "KIT_425_walking_fast05_poses.npz",
+      "duration_seconds": 3.57,
+      "motion": "KIT/425/walking_fast05_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 8490439,
+      "category": "walking_fast",
+      "control_steps": 412,
+      "dataset_basename": "KIT_425_walking_fast06_poses.npz",
+      "duration_seconds": 4.12,
+      "motion": "KIT/425/walking_fast06_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "快速直行",
+      "bytes": 10029368,
+      "category": "walking_fast",
+      "control_steps": 486,
+      "dataset_basename": "KIT_425_walking_fast07_poses.npz",
+      "duration_seconds": 4.86,
+      "motion": "KIT/425/walking_fast07_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9493928,
+      "category": "walking_medium",
+      "control_steps": 462,
+      "dataset_basename": "KIT_425_walking_medium01_poses.npz",
+      "duration_seconds": 4.62,
+      "motion": "KIT/425/walking_medium01_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 8781859,
+      "category": "walking_medium",
+      "control_steps": 425,
+      "dataset_basename": "KIT_425_walking_medium02_poses.npz",
+      "duration_seconds": 4.25,
+      "motion": "KIT/425/walking_medium02_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9227285,
+      "category": "walking_medium",
+      "control_steps": 448,
+      "dataset_basename": "KIT_425_walking_medium03_poses.npz",
+      "duration_seconds": 4.48,
+      "motion": "KIT/425/walking_medium03_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9894363,
+      "category": "walking_medium",
+      "control_steps": 481,
+      "dataset_basename": "KIT_425_walking_medium04_poses.npz",
+      "duration_seconds": 4.81,
+      "motion": "KIT/425/walking_medium04_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 7716417,
+      "category": "walking_medium",
+      "control_steps": 374,
+      "dataset_basename": "KIT_425_walking_medium05_poses.npz",
+      "duration_seconds": 3.74,
+      "motion": "KIT/425/walking_medium05_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 11224839,
+      "category": "walking_medium",
+      "control_steps": 546,
+      "dataset_basename": "KIT_425_walking_medium06_poses.npz",
+      "duration_seconds": 5.46,
+      "motion": "KIT/425/walking_medium06_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10508960,
+      "category": "walking_medium",
+      "control_steps": 510,
+      "dataset_basename": "KIT_425_walking_medium07_poses.npz",
+      "duration_seconds": 5.1,
+      "motion": "KIT/425/walking_medium07_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9809708,
+      "category": "walking_medium",
+      "control_steps": 477,
+      "dataset_basename": "KIT_425_walking_medium08_poses.npz",
+      "duration_seconds": 4.77,
+      "motion": "KIT/425/walking_medium08_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9848581,
+      "category": "walking_medium",
+      "control_steps": 478,
+      "dataset_basename": "KIT_425_walking_medium09_poses.npz",
+      "duration_seconds": 4.78,
+      "motion": "KIT/425/walking_medium09_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 11605835,
+      "category": "walking_slow",
+      "control_steps": 565,
+      "dataset_basename": "KIT_425_walking_slow01_poses.npz",
+      "duration_seconds": 5.65,
+      "motion": "KIT/425/walking_slow01_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 13292038,
+      "category": "walking_slow",
+      "control_steps": 647,
+      "dataset_basename": "KIT_425_walking_slow02_poses.npz",
+      "duration_seconds": 6.47,
+      "motion": "KIT/425/walking_slow02_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 12474520,
+      "category": "walking_slow",
+      "control_steps": 607,
+      "dataset_basename": "KIT_425_walking_slow04_poses.npz",
+      "duration_seconds": 6.07,
+      "motion": "KIT/425/walking_slow04_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 11578329,
+      "category": "walking_slow",
+      "control_steps": 562,
+      "dataset_basename": "KIT_425_walking_slow05_poses.npz",
+      "duration_seconds": 5.62,
+      "motion": "KIT/425/walking_slow05_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 10908899,
+      "category": "walking_slow",
+      "control_steps": 531,
+      "dataset_basename": "KIT_425_walking_slow07_poses.npz",
+      "duration_seconds": 5.31,
+      "motion": "KIT/425/walking_slow07_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 10392175,
+      "category": "walking_slow",
+      "control_steps": 505,
+      "dataset_basename": "KIT_425_walking_slow08_poses.npz",
+      "duration_seconds": 5.05,
+      "motion": "KIT/425/walking_slow08_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 9578245,
+      "category": "walking_slow",
+      "control_steps": 465,
+      "dataset_basename": "KIT_425_walking_slow09_poses.npz",
+      "duration_seconds": 4.65,
+      "motion": "KIT/425/walking_slow09_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 13288529,
+      "category": "walking_slow",
+      "control_steps": 646,
+      "dataset_basename": "KIT_425_walking_slow10_poses.npz",
+      "duration_seconds": 6.46,
+      "motion": "KIT/425/walking_slow10_poses",
+      "subject": "425"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 13001870,
+      "category": "straight_forward",
+      "control_steps": 630,
+      "dataset_basename": "KIT_9_WalkingStraightForwards03_poses.npz",
+      "duration_seconds": 6.3,
+      "motion": "KIT/9/WalkingStraightForwards03_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 10941599,
+      "category": "straight_forward",
+      "control_steps": 531,
+      "dataset_basename": "KIT_9_WalkingStraightForwards05_poses.npz",
+      "duration_seconds": 5.31,
+      "motion": "KIT/9/WalkingStraightForwards05_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 8461449,
+      "category": "straight_forward",
+      "control_steps": 411,
+      "dataset_basename": "KIT_9_WalkingStraightForwards06_poses.npz",
+      "duration_seconds": 4.11,
+      "motion": "KIT/9/WalkingStraightForwards06_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 10267333,
+      "category": "straight_forward",
+      "control_steps": 498,
+      "dataset_basename": "KIT_9_WalkingStraightForwards07_poses.npz",
+      "duration_seconds": 4.98,
+      "motion": "KIT/9/WalkingStraightForwards07_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 12132665,
+      "category": "straight_forward",
+      "control_steps": 588,
+      "dataset_basename": "KIT_9_WalkingStraightForwards08_poses.npz",
+      "duration_seconds": 5.88,
+      "motion": "KIT/9/WalkingStraightForwards08_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 10485451,
+      "category": "straight_forward",
+      "control_steps": 510,
+      "dataset_basename": "KIT_9_WalkingStraightForwards09_poses.npz",
+      "duration_seconds": 5.1,
+      "motion": "KIT/9/WalkingStraightForwards09_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "直线前进",
+      "bytes": 10151084,
+      "category": "straight_forward",
+      "control_steps": 494,
+      "dataset_basename": "KIT_9_WalkingStraightForwards10_poses.npz",
+      "duration_seconds": 4.94,
+      "motion": "KIT/9/WalkingStraightForwards10_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 11117252,
+      "category": "walking_medium",
+      "control_steps": 540,
+      "dataset_basename": "KIT_9_walking_medium01_poses.npz",
+      "duration_seconds": 5.4,
+      "motion": "KIT/9/walking_medium01_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 11947758,
+      "category": "walking_medium",
+      "control_steps": 580,
+      "dataset_basename": "KIT_9_walking_medium02_poses.npz",
+      "duration_seconds": 5.8,
+      "motion": "KIT/9/walking_medium02_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10277554,
+      "category": "walking_medium",
+      "control_steps": 501,
+      "dataset_basename": "KIT_9_walking_medium03_poses.npz",
+      "duration_seconds": 5.01,
+      "motion": "KIT/9/walking_medium03_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10985413,
+      "category": "walking_medium",
+      "control_steps": 534,
+      "dataset_basename": "KIT_9_walking_medium04_poses.npz",
+      "duration_seconds": 5.34,
+      "motion": "KIT/9/walking_medium04_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9246282,
+      "category": "walking_medium",
+      "control_steps": 450,
+      "dataset_basename": "KIT_9_walking_medium05_poses.npz",
+      "duration_seconds": 4.5,
+      "motion": "KIT/9/walking_medium05_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 10999495,
+      "category": "walking_medium",
+      "control_steps": 536,
+      "dataset_basename": "KIT_9_walking_medium07_poses.npz",
+      "duration_seconds": 5.36,
+      "motion": "KIT/9/walking_medium07_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9923882,
+      "category": "walking_medium",
+      "control_steps": 482,
+      "dataset_basename": "KIT_9_walking_medium08_poses.npz",
+      "duration_seconds": 4.82,
+      "motion": "KIT/9/walking_medium08_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 11237040,
+      "category": "walking_medium",
+      "control_steps": 547,
+      "dataset_basename": "KIT_9_walking_medium09_poses.npz",
+      "duration_seconds": 5.47,
+      "motion": "KIT/9/walking_medium09_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "中速直行",
+      "bytes": 9832556,
+      "category": "walking_medium",
+      "control_steps": 478,
+      "dataset_basename": "KIT_9_walking_medium10_poses.npz",
+      "duration_seconds": 4.78,
+      "motion": "KIT/9/walking_medium10_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 12664218,
+      "category": "walking_slow",
+      "control_steps": 617,
+      "dataset_basename": "KIT_9_walking_slow01_poses.npz",
+      "duration_seconds": 6.17,
+      "motion": "KIT/9/walking_slow01_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 16225506,
+      "category": "walking_slow",
+      "control_steps": 790,
+      "dataset_basename": "KIT_9_walking_slow02_poses.npz",
+      "duration_seconds": 7.9,
+      "motion": "KIT/9/walking_slow02_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 15804468,
+      "category": "walking_slow",
+      "control_steps": 769,
+      "dataset_basename": "KIT_9_walking_slow03_poses.npz",
+      "duration_seconds": 7.69,
+      "motion": "KIT/9/walking_slow03_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 15591315,
+      "category": "walking_slow",
+      "control_steps": 758,
+      "dataset_basename": "KIT_9_walking_slow04_poses.npz",
+      "duration_seconds": 7.58,
+      "motion": "KIT/9/walking_slow04_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 13718529,
+      "category": "walking_slow",
+      "control_steps": 669,
+      "dataset_basename": "KIT_9_walking_slow05_poses.npz",
+      "duration_seconds": 6.69,
+      "motion": "KIT/9/walking_slow05_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 15475869,
+      "category": "walking_slow",
+      "control_steps": 754,
+      "dataset_basename": "KIT_9_walking_slow06_poses.npz",
+      "duration_seconds": 7.54,
+      "motion": "KIT/9/walking_slow06_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 18549644,
+      "category": "walking_slow",
+      "control_steps": 903,
+      "dataset_basename": "KIT_9_walking_slow09_poses.npz",
+      "duration_seconds": 9.03,
+      "motion": "KIT/9/walking_slow09_poses",
+      "subject": "9"
+    },
+    {
+      "action_zh": "慢速直行",
+      "bytes": 15034921,
+      "category": "walking_slow",
+      "control_steps": 734,
+      "dataset_basename": "KIT_9_walking_slow10_poses.npz",
+      "duration_seconds": 7.34,
+      "motion": "KIT/9/walking_slow10_poses",
+      "subject": "9"
+    }
+  ]
+}

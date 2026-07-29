@@ -176,14 +176,40 @@ class ResidualPPOTrainer:
         return float(np.asarray(value[0]))
 
     def _collect(self, steps: int) -> dict[str, np.ndarray]:
+        environment_metrics = (
+            "healthy_pos_rms",
+            "healthy_vel_rms",
+            "prosthesis_pos_rms",
+            "prosthesis_vel_rms",
+            "root_height",
+            "root_up_z",
+            "residual_norm",
+            "action_norm",
+            "action_rate_norm",
+            "command_norm",
+        )
         rows: dict[str, list[Any]] = {
-            name: [] for name in ("obs", "raw_action", "log_prob", "value", "reward", "done")
+            name: []
+            for name in (
+                "obs",
+                "raw_action",
+                "log_prob",
+                "value",
+                "reward",
+                "done",
+                *environment_metrics,
+            )
         }
         episode_returns: list[float] = []
+        episode_lengths: list[int] = []
+        episode_falls: list[bool] = []
+        episode_timeouts: list[bool] = []
+        episode_end_of_data: list[bool] = []
         episode_return = 0.0
+        episode_length = 0
         for _ in range(steps):
             action, raw_action, log_prob, value = self._policy(self.current_obs)
-            next_obs, reward, terminated, truncated, _info = self.env.step(action)
+            next_obs, reward, terminated, truncated, info = self.env.step(action)
             done = bool(terminated or truncated)
             rows["obs"].append(self.current_obs.copy())
             rows["raw_action"].append(raw_action)
@@ -191,11 +217,19 @@ class ResidualPPOTrainer:
             rows["value"].append(value)
             rows["reward"].append(reward)
             rows["done"].append(done)
+            for name in environment_metrics:
+                rows[name].append(float(info[name]))
             episode_return += reward
+            episode_length += 1
             self.current_obs = next_obs
             if done:
                 episode_returns.append(episode_return)
+                episode_lengths.append(episode_length)
+                episode_falls.append(bool(info["fell"]))
+                episode_timeouts.append(bool(info["timeout"]))
+                episode_end_of_data.append(bool(info["end_of_data"]))
                 episode_return = 0.0
+                episode_length = 0
                 self.current_obs, _ = self.env.reset()
         last_value = self._value(self.current_obs)
         batch = {name: np.asarray(values) for name, values in rows.items()}
@@ -210,6 +244,10 @@ class ResidualPPOTrainer:
         batch["advantage"] = advantages
         batch["return"] = returns
         batch["episode_returns"] = np.asarray(episode_returns, dtype=np.float32)
+        batch["episode_lengths"] = np.asarray(episode_lengths, dtype=np.int32)
+        batch["episode_falls"] = np.asarray(episode_falls, dtype=np.bool_)
+        batch["episode_timeouts"] = np.asarray(episode_timeouts, dtype=np.bool_)
+        batch["episode_end_of_data"] = np.asarray(episode_end_of_data, dtype=np.bool_)
         return batch
 
     def _update_minibatch(self, state, batch):
@@ -296,7 +334,38 @@ class ResidualPPOTrainer:
                     "total_steps": total_steps,
                     "mean_step_reward": float(np.mean(batch["reward"])),
                     "mean_episode_return": float(np.mean(returns)) if returns.size else None,
+                    "mean_episode_length": (
+                        float(np.mean(batch["episode_lengths"]))
+                        if batch["episode_lengths"].size
+                        else None
+                    ),
                     "episodes": int(returns.size),
+                    "episodes_fell": int(np.sum(batch["episode_falls"])),
+                    "fall_rate": (
+                        float(np.mean(batch["episode_falls"]))
+                        if batch["episode_falls"].size
+                        else None
+                    ),
+                    "timeout_rate": (
+                        float(np.mean(batch["episode_timeouts"]))
+                        if batch["episode_timeouts"].size
+                        else None
+                    ),
+                    "end_of_data_rate": (
+                        float(np.mean(batch["episode_end_of_data"]))
+                        if batch["episode_end_of_data"].size
+                        else None
+                    ),
+                    "mean_healthy_pos_rms": float(np.mean(batch["healthy_pos_rms"])),
+                    "mean_healthy_vel_rms": float(np.mean(batch["healthy_vel_rms"])),
+                    "mean_prosthesis_pos_rms": float(np.mean(batch["prosthesis_pos_rms"])),
+                    "mean_prosthesis_vel_rms": float(np.mean(batch["prosthesis_vel_rms"])),
+                    "mean_root_height": float(np.mean(batch["root_height"])),
+                    "mean_root_up_z": float(np.mean(batch["root_up_z"])),
+                    "mean_residual_norm": float(np.mean(batch["residual_norm"])),
+                    "mean_action_norm": float(np.mean(batch["action_norm"])),
+                    "mean_action_rate_norm": float(np.mean(batch["action_rate_norm"])),
+                    "mean_command_norm": float(np.mean(batch["command_norm"])),
                     "elapsed_seconds": float(time.time() - started),
                     **optimization,
                 }

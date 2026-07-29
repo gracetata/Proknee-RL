@@ -1,0 +1,6 @@
+# A100 HORA environment. PyTorch is resolved from the CUDA 12.6 wheel index.
+torch==2.7.1+cu126
+mujoco==3.4.0
+numpy==2.2.6
+PyYAML==6.0.2
+tensorboardX==2.6.4
