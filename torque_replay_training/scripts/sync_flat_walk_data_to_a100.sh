@@ -54,17 +54,29 @@ print(f"pending_files={len(pending)}")
 PY
 
 if [[ -s "${PENDING_LIST}" ]]; then
-  tar -C "${DATA_DIR}" -cf - -T "${PENDING_LIST}" |
-    ssh -o BatchMode=yes -p "${PORT}" "${REMOTE}" \
-      "tar -C '${REMOTE_DATA}' -xf -"
+  SHARD_PREFIX="${RUNTIME}/flat_walk_compact_shard_"
+  split -n l/4 -d -a 1 "${PENDING_LIST}" "${SHARD_PREFIX}"
+  PIDS=()
+  for shard in "${SHARD_PREFIX}"*; do
+    [[ -s "${shard}" ]] || continue
+    (
+      tar -C "${DATA_DIR}" -cf - -T "${shard}" |
+        ssh -o BatchMode=yes -p "${PORT}" "${REMOTE}" \
+          "tar -C '${REMOTE_DATA}' -xf -"
+    ) &
+    PIDS+=("$!")
+  done
+  for pid in "${PIDS[@]}"; do
+    wait "${pid}"
+  done
 fi
 
 if [[ ! -f "${MODEL_DIR}/musclemimic_replay.mjb" || \
-      ! -f "${MODEL_DIR}/musclemimic_replay.json" ]]; then
+      ! -f "${MODEL_DIR}/musclemimic_replay.mjb.json" ]]; then
   echo "missing local replay MJB or metadata in ${MODEL_DIR}" >&2
   exit 1
 fi
-tar -C "${MODEL_DIR}" -cf - musclemimic_replay.mjb musclemimic_replay.json |
+tar -C "${MODEL_DIR}" -cf - musclemimic_replay.mjb musclemimic_replay.mjb.json |
   ssh -o BatchMode=yes -p "${PORT}" "${REMOTE}" \
     "mkdir -p '${REMOTE_ROOT}/torque_replay_training/data/replay_model' && \
      tar -C '${REMOTE_ROOT}/torque_replay_training/data/replay_model' -xf -"
