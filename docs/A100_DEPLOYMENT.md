@@ -66,6 +66,33 @@ PIP_EXTRA_INDEX_URL=https://pypi.org/simple \
 
 不要使用系统 Python 3.10。镜像缺少 `tfp-nightly` 时从官方 PyPI 补充，不能删除依赖。
 
+### nvitop GPU 监控
+
+`nvitop` 使用独立环境 `/opt/nvitop`，不安装进项目 `.venv`。全局入口为
+`/usr/local/bin/nvitop`，当前验证版本是 1.7.1：
+
+```bash
+PYTHON=/workspace/.tools/cpython-3.11.15-linux-x86_64-gnu/bin/python3.11
+"${PYTHON}" -m venv /opt/nvitop
+/opt/nvitop/bin/python -m pip install --upgrade nvitop
+ln -sfn /opt/nvitop/bin/nvitop /usr/local/bin/nvitop
+ln -sfn /opt/nvitop/bin/nvisel /usr/local/bin/nvisel
+nvitop --version
+```
+
+共享服务器默认使用只读模式，避免误触 `T/K` 向他人的进程发送信号。只监控当前允许使用
+的物理 GPU 5：
+
+```bash
+nvitop --readonly -o 5
+```
+
+只打印一次状态后退出：
+
+```bash
+nvitop -1 --readonly -o 5
+```
+
 ## 4. 正式数据与完整训练
 
 正式数据固定包含直行、慢走、右转、左转四条完整 motion：
