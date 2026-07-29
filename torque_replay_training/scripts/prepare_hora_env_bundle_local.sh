@@ -4,7 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REPO_ROOT="$(cd "${ROOT}/.." && pwd)"
 BUILD="${ROOT}/runtime/hora_env_build"
-BUNDLE="${ROOT}/runtime/hora_site_packages_py311_cu126.tar.zst"
+BUNDLE="${ROOT}/runtime/hora_torch_py311_cu126_minimal.tar.zst"
 UV="${UV:-$(command -v uv)}"
 
 rm -rf "${BUILD}"
@@ -23,7 +23,12 @@ print(
 )
 assert torch.version.cuda == "12.6"
 PY
-tar --zstd -C "${BUILD}/lib/python3.11" \
-  -cf "${BUNDLE}" site-packages
+SITE="${BUILD}/lib/python3.11/site-packages"
+tar --zstd -C "${SITE}" -cf "${BUNDLE}" \
+  torch torch-2.7.1+cu126.dist-info functorch torchgen \
+  sympy sympy-1.14.0.dist-info mpmath mpmath-1.3.0.dist-info \
+  networkx networkx-3.6.1.dist-info \
+  jinja2 jinja2-3.1.6.dist-info markupsafe markupsafe-3.0.3.dist-info \
+  typing_extensions.py typing_extensions-4.15.0.dist-info
 sha256sum "${BUNDLE}" >"${BUNDLE}.sha256"
 echo "created ${BUNDLE}"

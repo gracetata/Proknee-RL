@@ -180,14 +180,14 @@ checkpoint 是 HORA 风格的 `.pth`，同时保存策略、观测/价值归一�
 - MuJoCo `3.4.0`；
 - NumPy `2.2.6`、PyYAML、tensorboardX。
 
-A100 无法直接访问 PyTorch wheel 源，因此从本机生成离线包：
+A100 无法稳定下载 PyTorch wheel，因此从本机生成离线包。A100 原 `.venv` 已有
+CUDA、MuJoCo、NumPy、PyYAML 和 TensorBoardX；`.venv-hora` 只增加 PyTorch 本体并以
+只读路径复用这些运行库，避免重复传输约 1.7 GiB CUDA 依赖：
 
 ```bash
 cd /home/user/Workspace/Proknee-RL-muscle
 bash torque_replay_training/scripts/prepare_hora_env_bundle_local.sh
-scp -P 6029 \
-  torque_replay_training/runtime/hora_site_packages_py311_cu126.tar.zst \
-  root@39.105.12.60:/workspace/Proknee-RL-muscle/torque_replay_training/runtime/
+bash torque_replay_training/scripts/sync_hora_env_bundle_to_a100.sh
 ```
 
 A100 解包：
