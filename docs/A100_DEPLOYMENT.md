@@ -12,6 +12,8 @@
   PyTorch `2.7.1+cu126` PPO；
 - HORA 参考副本：`/workspace/hora`，固定 commit `410d95824dd28b...`；
 - 项目：`/workspace/Proknee-RL-muscle`，必须与本机、GitHub `muscle` 同一 commit。
+- 正式平地数据：`torque_replay_training/data/flat_walk_compact_v1`，281 条约
+  760 MiB，只含全身状态、全身广义力和 warm-start，不含肌肉/接触日志。
 
 离线安装环境：
 

@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 from dataclasses import replace
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -27,10 +28,19 @@ def _datasets(split_path: Path, data_dir: Path, group: str) -> list[Path]:
     return paths
 
 
+def _sha256(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as stream:
+        for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", required=True)
     parser.add_argument("--split", required=True)
+    parser.add_argument("--manifest")
     parser.add_argument("--data-dir", required=True)
     parser.add_argument("--model", required=True)
     parser.add_argument("--output", required=True)
@@ -70,6 +80,12 @@ def main() -> None:
         "git_head": git_head,
         "config": str(Path(args.config).resolve()),
         "split": str(split_path),
+        "compact_manifest": (
+            str(Path(args.manifest).resolve()) if args.manifest else None
+        ),
+        "compact_manifest_sha256": (
+            _sha256(Path(args.manifest).resolve()) if args.manifest else None
+        ),
         "split_group": args.group,
         "datasets": [str(path) for path in paths],
         "model": str(Path(args.model).resolve()),

@@ -12,7 +12,7 @@ import numpy as np
 import torch
 
 from .control import compose_prosthesis_torque, root_up_z
-from .schema import TorqueReplayDataset
+from .compact_schema import CompactTorqueReplayDataset
 
 
 @dataclass(frozen=True)
@@ -57,10 +57,8 @@ def _scalar_joint_maps(metadata: dict[str, Any]) -> dict[int, int]:
     }
 
 
-def _warmstart(dataset: TorqueReplayDataset, step: int) -> np.ndarray:
-    if step == 0:
-        return np.zeros(dataset.nv, dtype=np.float64)
-    return np.asarray(dataset.rollout_qacc[step - 1, -1], dtype=np.float64)
+def _warmstart(dataset: CompactTorqueReplayDataset, step: int) -> np.ndarray:
+    return np.asarray(dataset.qacc_warmstart[step], dtype=np.float64)
 
 
 class HoraTorqueReplayVecEnv:
@@ -90,7 +88,7 @@ class HoraTorqueReplayVecEnv:
         self.model_path = Path(model_path).resolve()
         self.dataset_paths = tuple(Path(path).resolve() for path in dataset_paths)
         self.datasets = tuple(
-            TorqueReplayDataset.load(path) for path in self.dataset_paths
+            CompactTorqueReplayDataset.load(path) for path in self.dataset_paths
         )
         self.model = mujoco.MjModel.from_binary_path(str(self.model_path))
         first = self.datasets[0]
@@ -165,7 +163,7 @@ class HoraTorqueReplayVecEnv:
         self.action_space = _Box(self.action_size)
         self.reset()
 
-    def _max_start(self, dataset: TorqueReplayDataset) -> int:
+    def _max_start(self, dataset: CompactTorqueReplayDataset) -> int:
         length = min(max(1, self.config.episode_steps), dataset.n_steps)
         return max(0, dataset.n_steps - length)
 
@@ -204,7 +202,7 @@ class HoraTorqueReplayVecEnv:
 
     def _targets(
         self,
-        dataset: TorqueReplayDataset,
+        dataset: CompactTorqueReplayDataset,
         step: int,
         substep: int,
     ) -> tuple[np.ndarray, np.ndarray]:
@@ -337,7 +335,7 @@ class HoraTorqueReplayVecEnv:
     def _metrics(
         self,
         actor: _ActorState,
-        dataset: TorqueReplayDataset,
+        dataset: CompactTorqueReplayDataset,
         action: np.ndarray,
         residual: np.ndarray,
         command_norm: float,
@@ -405,7 +403,7 @@ class HoraTorqueReplayVecEnv:
     def _observation(
         self,
         actor: _ActorState,
-        dataset: TorqueReplayDataset,
+        dataset: CompactTorqueReplayDataset,
     ) -> np.ndarray:
         step = min(actor.step_index, dataset.n_steps - 1)
         reference_index = min(actor.step_index, dataset.n_steps)

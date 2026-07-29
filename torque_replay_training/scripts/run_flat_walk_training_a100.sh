@@ -7,7 +7,8 @@ GUARD_PYTHON="${REPO_ROOT}/.venv/bin/python"
 PYTHON="${REPO_ROOT}/.venv-hora/bin/python"
 CONFIG="${ROOT}/configs/flat_walk_hora.yaml"
 SPLIT="${ROOT}/configs/flat_walk_split.json"
-DATA_DIR="${ROOT}/data/fullbody_all_v3"
+MANIFEST="${ROOT}/configs/flat_walk_compact_manifest.json"
+DATA_DIR="${ROOT}/data/flat_walk_compact_v1"
 MODEL="${ROOT}/data/replay_model/musclemimic_replay.mjb"
 OUTPUT_ROOT="${ROOT}/outputs/a100_flat_walk_v1"
 OUTPUT="${OUTPUT_ROOT}/seed_0"
@@ -48,30 +49,36 @@ if [[ "$(git -C "${REPO_ROOT}" branch --show-current)" != "muscle" ]]; then
   exit 1
 fi
 
+"${GUARD_PYTHON}" "${ROOT}/scripts/verify_compact_flat_walk_data.py" \
+  --manifest "${MANIFEST}" --data-dir "${DATA_DIR}"
 mapfile -t TRAIN_DATASETS < <(
-  "${PYTHON}" - "${SPLIT}" "${DATA_DIR}" <<'PY'
+  "${PYTHON}" - "${SPLIT}" "${MANIFEST}" "${DATA_DIR}" <<'PY'
 import json
 from pathlib import Path
 import sys
 split = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-root = Path(sys.argv[2])
+manifest = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8"))
+expected = {row["dataset_basename"]: int(row["compact_bytes"]) for row in manifest["datasets"]}
+root = Path(sys.argv[3])
 for row in split["train"]:
     path = root / row["dataset_basename"]
-    if not path.is_file() or path.stat().st_size != int(row["bytes"]):
+    if not path.is_file() or path.stat().st_size != expected[path.name]:
         raise SystemExit(f"missing or invalid training dataset: {path}")
     print(path)
 PY
 )
 mapfile -t VALIDATION_DATASETS < <(
-  "${PYTHON}" - "${SPLIT}" "${DATA_DIR}" <<'PY'
+  "${PYTHON}" - "${SPLIT}" "${MANIFEST}" "${DATA_DIR}" <<'PY'
 import json
 from pathlib import Path
 import sys
 split = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
-root = Path(sys.argv[2])
+manifest = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8"))
+expected = {row["dataset_basename"]: int(row["compact_bytes"]) for row in manifest["datasets"]}
+root = Path(sys.argv[3])
 for row in split["validation"]:
     path = root / row["dataset_basename"]
-    if not path.is_file() or path.stat().st_size != int(row["bytes"]):
+    if not path.is_file() or path.stat().st_size != expected[path.name]:
         raise SystemExit(f"missing or invalid validation dataset: {path}")
     print(path)
 PY
@@ -128,6 +135,7 @@ PY
   "${ROOT}/scripts/train_hora_policy.py" \
   --config "${CONFIG}" \
   --split "${SPLIT}" \
+  --manifest "${MANIFEST}" \
   --data-dir "${DATA_DIR}" \
   --model "${MODEL}" \
   --output "${OUTPUT}" \

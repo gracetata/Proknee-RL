@@ -81,8 +81,9 @@ Actor mean 输出层为零初始化，所以训练前确定性动作严格为零
 | `walking_fast` | 67 | 60 | 7 |
 | 合计 | 281 | 229 | 52 |
 
-共 150,076 个 100 Hz 控制步，约 25 分钟、2.88 GiB。训练为 229 条、121,805 步；
-验证为 52 条、28,271 步。
+共 150,076 个 100 Hz 控制步，约 25 分钟。原始 schema-v3 为 3,088,889,783 bytes
+（2.88 GiB）；训练使用的无损 compact-v1 为 796,666,901 bytes（约 760 MiB，
+原体积的 25.79%）。训练为 229 条、121,805 步；验证为 52 条、28,271 步。
 
 划分按受试者隔离：`subject 9` 和 `subject 425` 只用于验证，其余 15 个受试者用于
 训练。固定清单位于
@@ -91,10 +92,43 @@ Actor mean 输出层为零初始化，所以训练前确定性动作严格为零
 ```bash
 cd /home/user/Workspace/Proknee-RL-muscle
 .venv/bin/python torque_replay_training/scripts/build_flat_walk_split.py
-.venv/bin/python torque_replay_training/scripts/verify_flat_walk_data.py
+.venv/bin/python torque_replay_training/scripts/compact_flat_walk_data.py --workers 8
+.venv/bin/python torque_replay_training/scripts/verify_compact_flat_walk_data.py
 ```
 
-## 5. MuJoCo—HORA 适配
+## 5. Compact 回放格式
+
+正式训练不读取原始 tracker 的全部导出字段。每条 compact NPZ 只有 8 个 key：
+
+| key | 形状 | 用途 |
+|---|---|---|
+| `motion_path` | scalar | 轨迹身份 |
+| `dt_control` | scalar | 100 Hz 控制周期 |
+| `dt_physics` | scalar | 500 Hz 物理周期 |
+| `rollout_qpos` | `[T+1,89]` | 全身位置与随机重置 |
+| `rollout_qvel` | `[T+1,88]` | 全身速度与随机重置 |
+| `qacc_warmstart` | `[T+1,88]` | MuJoCo 接触求解器精确 warm-start |
+| `qfrc_actuator` | `[T,5,88]` | 每个物理子步的全身广义力 |
+| `metadata` | JSON scalar | 关节顺序、DOF/qpos 映射和四个假肢索引 |
+
+所有决定物理演化的数组保持 `float64`，没有量化。以下内容不进入训练数据：
+
+- 354 维肌肉 `actuator_ctrl` 和 `actuator_force`；
+- tracker 的 `policy_action`；
+- `qfrc_passive`、`qfrc_constraint`；
+- contact 记录；
+- reference、reward、done、absorbing；
+- 肌肉名称、tracker checkpoint 和采集诊断 metadata。
+
+被动力、约束力和接触在 MuJoCo 每个 `mj_step` 中由当前状态、模型和环境重新计算。
+`qfrc_actuator_mean` 不保存，在加载后由 `[T,5,88]` 的广义力在线求均值。
+
+每个 compact 文件都记录大小和 SHA-256：
+`torque_replay_training/configs/flat_walk_compact_manifest.json`。批处理会在写入后重新加载
+并校验维度；最终验证还检查 281 个文件的 SHA-256 和 schema。compact 与原始数据的
+`qpos/qvel/qfrc/warm-start` 均逐元素相等。
+
+## 6. MuJoCo—HORA 适配
 
 `HoraTorqueReplayVecEnv` 只替换 HORA 的任务接口，不改变物理：
 
@@ -111,7 +145,7 @@ cd /home/user/Workspace/Proknee-RL-muscle
 力矩、上一步 residual、pelvis 高度/朝向、root 速度、健康关节误差统计和接触数量。
 这是 privileged policy，不能直接等同于实物可部署观测。
 
-## 6. HORA PPO 配置
+## 7. HORA PPO 配置
 
 正式配置：`torque_replay_training/configs/flat_walk_hora.yaml`。
 
@@ -136,7 +170,7 @@ cd /home/user/Workspace/Proknee-RL-muscle
 checkpoint 是 HORA 风格的 `.pth`，同时保存策略、观测/价值归一化器、optimizer、配置、
 步数和 Git commit。
 
-## 7. 环境
+## 8. 环境
 
 项目原 `.venv` 用于 MuscleMimic/JAX、数据导出和 GPU 占用检查。正式 PPO 使用独立
 `.venv-hora`：
@@ -165,7 +199,7 @@ CUDA_VISIBLE_DEVICES=5 .venv-hora/bin/python -c \
   'import torch; print(torch.__version__, torch.version.cuda, torch.cuda.get_device_name(0))'
 ```
 
-## 8. 本机测试
+## 9. 本机测试
 
 ```bash
 cd /home/user/Workspace/Proknee-RL-muscle
@@ -181,15 +215,15 @@ rm -rf "$OUT"
 .venv/bin/python torque_replay_training/scripts/train_hora_policy.py \
   --config torque_replay_training/configs/flat_walk_hora_smoke.yaml \
   --split torque_replay_training/configs/flat_walk_split.json \
-  --data-dir torque_replay_training/data/fullbody_all_v3 \
+  --data-dir torque_replay_training/data/flat_walk_compact_v1 \
   --model torque_replay_training/data/replay_model/musclemimic_replay.mjb \
   --output "$OUT/seed_0" --limit-datasets 2
 ```
 
-## 9. Git、数据与 A100 同步
+## 10. Git、数据与 A100 同步
 
-本机、GitHub 和 A100 必须位于 `muscle` 分支的同一 commit。NPZ 和 119 MiB MJB 是
-运行数据，不提交 Git：
+本机、GitHub 和 A100 必须位于 `muscle` 分支的同一 commit。约 760 MiB compact NPZ
+和 119 MiB MJB 是运行数据，不提交 Git：
 
 ```bash
 cd /home/user/Workspace/Proknee-RL-muscle
@@ -201,7 +235,7 @@ ssh -p 6029 root@39.105.12.60 \
 bash torque_replay_training/scripts/sync_flat_walk_data_to_a100.sh
 ```
 
-## 10. A100 卡 5 smoke 与正式训练
+## 11. A100 卡 5 smoke 与正式训练
 
 只能使用物理 GPU 5。每次启动前都必须检查是否已有他人计算进程；脚本检测到占用会
 退出，不杀进程、不抢卡。
@@ -233,7 +267,7 @@ ssh -N -L 6011:127.0.0.1:6011 -p 6029 root@39.105.12.60
 浏览器访问 `http://127.0.0.1:6011`。可视化回放仍只在本机使用，A100 只运行
 headless MuJoCo。
 
-## 11. 验收与制品
+## 12. 验收与制品
 
 最低条件：
 
@@ -261,7 +295,7 @@ torque_replay_training/outputs/a100_flat_walk_v1/
 运行标记为
 `torque_replay_training/runtime/a100_flat_walk_v1.{running,complete,failed}`。
 
-## 12. 后续阶段
+## 13. 后续阶段
 
 v1 先证明 HORA PPO 与精确 MuJoCo 回放链路。通过后再逐项加入 baseline 降额、状态和
 动力学扰动、延迟/低通/slew-rate、真实假肢惯量和硬件限幅、足底 GRF/滑移奖励、

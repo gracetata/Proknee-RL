@@ -16,6 +16,15 @@ PYTHONPATH=torque_replay_training/src:. \
 本机可运行 CPU HORA smoke；交互 MuJoCo 可视化仍使用本文后续命令，A100 不运行
 viewer。
 
+生成和验证仅保留回放/训练必要字段的 compact 平地数据：
+
+```bash
+.venv/bin/python torque_replay_training/scripts/compact_flat_walk_data.py --workers 8
+.venv/bin/python torque_replay_training/scripts/verify_compact_flat_walk_data.py
+```
+
+输出目录为 `torque_replay_training/data/flat_walk_compact_v1`，281 条约 760 MiB。
+
 完整回放原理和数据管理规则见
 [全身广义力回放逻辑与数据管理](FULLBODY_TORQUE_REPLAY.md)。
 
