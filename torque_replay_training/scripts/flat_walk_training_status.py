@@ -31,7 +31,13 @@ def _latest_jsonl(path: Path) -> dict | None:
 def _json_file(path: Path) -> dict | None:
     if not path.is_file():
         return None
-    return json.loads(path.read_text(encoding="utf-8"))
+    raw = path.read_text(encoding="utf-8")
+    if not raw.strip():
+        return {"state": "writing"}
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError as error:
+        return {"state": "writing", "json_error": str(error)}
 
 
 def _http_ok() -> bool:
