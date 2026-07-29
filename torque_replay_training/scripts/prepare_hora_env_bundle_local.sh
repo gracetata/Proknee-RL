@@ -5,6 +5,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REPO_ROOT="$(cd "${ROOT}/.." && pwd)"
 BUILD="${ROOT}/runtime/hora_env_build"
 BUNDLE="${ROOT}/runtime/hora_torch_py311_cu126_minimal.tar.zst"
+EXTRA_BUNDLE="${ROOT}/runtime/hora_cuda_missing_cu126.tar.zst"
 UV="${UV:-$(command -v uv)}"
 
 rm -rf "${BUILD}"
@@ -30,5 +31,9 @@ tar --zstd -C "${SITE}" -cf "${BUNDLE}" \
   networkx networkx-3.6.1.dist-info \
   jinja2 jinja2-3.1.6.dist-info markupsafe markupsafe-3.0.3.dist-info \
   typing_extensions.py typing_extensions-4.15.0.dist-info
+tar --zstd -C "${SITE}" -cf "${EXTRA_BUNDLE}" \
+  cusparselt nvidia/curand nvidia/cufile nvidia/nvtx
 sha256sum "${BUNDLE}" >"${BUNDLE}.sha256"
+sha256sum "${EXTRA_BUNDLE}" >"${EXTRA_BUNDLE}.sha256"
 echo "created ${BUNDLE}"
+echo "created ${EXTRA_BUNDLE}"

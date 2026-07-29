@@ -3,8 +3,9 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 REPO_ROOT="$(cd "${ROOT}/.." && pwd)"
-BUNDLE="${ROOT}/runtime/hora_torch_py311_cu126_minimal.tar.zst"
-PREFIX="${ROOT}/runtime/hora_torch_chunk_"
+BUNDLE="${1:-${ROOT}/runtime/hora_torch_py311_cu126_minimal.tar.zst}"
+TAG="$(basename "${BUNDLE}" .tar.zst)"
+PREFIX="${ROOT}/runtime/${TAG}_chunk_"
 REMOTE="root@39.105.12.60"
 PORT="6029"
 REMOTE_RUNTIME="/workspace/Proknee-RL-muscle/torque_replay_training/runtime"
@@ -21,11 +22,11 @@ if ssh -o BatchMode=yes -p "${PORT}" "${REMOTE}" \
   exit 0
 fi
 
-find "${ROOT}/runtime" -maxdepth 1 -type f -name 'hora_torch_chunk_*' -delete
+find "${ROOT}/runtime" -maxdepth 1 -type f -name "${TAG}_chunk_*" -delete
 split -b 80M -d -a 2 "${BUNDLE}" "${PREFIX}"
 ssh -o BatchMode=yes -p "${PORT}" "${REMOTE}" \
   "mkdir -p '${REMOTE_RUNTIME}' && \
-   find '${REMOTE_RUNTIME}' -maxdepth 1 -type f -name 'hora_torch_chunk_*' -delete"
+   find '${REMOTE_RUNTIME}' -maxdepth 1 -type f -name '${TAG}_chunk_*' -delete"
 
 PIDS=()
 for chunk in "${PREFIX}"*; do
@@ -38,7 +39,7 @@ done
 
 ssh -o BatchMode=yes -p "${PORT}" "${REMOTE}" \
   "cd '/workspace/Proknee-RL-muscle' && .venv/bin/python - \
-    '${REMOTE_RUNTIME}' '${REMOTE_BUNDLE}' '${EXPECTED}'" <<'PY'
+    '${REMOTE_RUNTIME}' '${REMOTE_BUNDLE}' '${EXPECTED}' '${TAG}'" <<'PY'
 import hashlib
 from pathlib import Path
 import sys
@@ -46,8 +47,9 @@ import sys
 runtime = Path(sys.argv[1])
 target = Path(sys.argv[2])
 expected = sys.argv[3]
+tag = sys.argv[4]
 temporary = target.with_suffix(target.suffix + ".tmp")
-chunks = sorted(runtime.glob("hora_torch_chunk_*"))
+chunks = sorted(runtime.glob(f"{tag}_chunk_*"))
 if not chunks:
     raise SystemExit("no HORA chunks were uploaded")
 with temporary.open("wb") as output:

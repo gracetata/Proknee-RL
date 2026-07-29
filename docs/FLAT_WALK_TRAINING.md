@@ -188,6 +188,8 @@ CUDA、MuJoCo、NumPy、PyYAML 和 TensorBoardX；`.venv-hora` 只增加 PyTorch
 cd /home/user/Workspace/Proknee-RL-muscle
 bash torque_replay_training/scripts/prepare_hora_env_bundle_local.sh
 bash torque_replay_training/scripts/sync_hora_env_bundle_to_a100.sh
+bash torque_replay_training/scripts/sync_hora_env_bundle_to_a100.sh \
+  torque_replay_training/runtime/hora_cuda_missing_cu126.tar.zst
 ```
 
 A100 解包：
