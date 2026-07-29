@@ -26,6 +26,7 @@ fi
   --data-dir "${DATA_DIR}" \
   --model "${MODEL}" \
   --output "${OUTPUT}/seed_0" \
+  --device cuda:0 \
   --limit-datasets 2 \
   --seed 0 | tee "${OUTPUT}.console.log"
 LATEST_POLICY="${OUTPUT}/seed_0/stage1_nn/last.pth"
@@ -38,5 +39,6 @@ LATEST_POLICY="${OUTPUT}/seed_0/stage1_nn/last.pth"
   --group train \
   --limit-datasets 2 \
   --policy "${LATEST_POLICY}" \
+  --device cuda:0 \
   --episodes 4 | tee "${OUTPUT}/evaluation.json"
 echo "flat-walk smoke output: ${OUTPUT}"
