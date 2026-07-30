@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import os
+import re
 from pathlib import Path
 
 import mujoco
@@ -50,6 +51,12 @@ def load_replay_spec(
     root = resolve_model_root(model_root)
     text = xml_path.read_text(encoding="utf-8")
     text = text.replace('meshdir="../"', f'meshdir="{root.as_posix()}"')
+    text = text.replace('texturedir="../"', f'texturedir="{root.as_posix()}"')
+    text = re.sub(
+        r'file="[^"]*musclemimic_models/model/([^"]+)"',
+        lambda match: f'file="{(root / match.group(1)).as_posix()}"',
+        text,
+    )
     spec = mujoco.MjSpec.from_string(text)
     for actuator in spec.actuators:
         actuator.gaintype = mujoco.mjtGain.mjGAIN_FIXED
