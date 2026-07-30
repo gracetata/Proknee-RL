@@ -127,7 +127,7 @@ L=L_{\mathrm{clip}}+1.0L_{\mathrm{value}}-5\cdot10^{-4}H.
 ## 8. 环境版本
 
 - Python 3.11
-- PyTorch `2.7.1+cu128`
+- PyTorch `2.7.1`（本机 `+cu128`；A100 复用已验证的 `+cu126` wheel）
 - MJLAB `1.5.3`
 - RSL-RL `5.4.0`
 - MuJoCo `3.10.0`

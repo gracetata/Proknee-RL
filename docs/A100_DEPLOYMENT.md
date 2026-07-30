@@ -15,6 +15,9 @@ git pull --ff-only origin muscle
 bash torque_replay_training/scripts/setup_mjlab_env_a100.sh
 ```
 
+安装脚本以写时复制复用服务器现有、已验证的 PyTorch `2.7.1+cu126`，然后在独立
+`.venv-mjlab` 中安装 MJLAB/MuJoCo/MJWarp 固定版本；不会修改 `.venv-hora`。
+
 ## 启动
 
 ```bash
