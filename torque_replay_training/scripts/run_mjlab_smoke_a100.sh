@@ -20,6 +20,14 @@ MODEL_ROOT="${MUSCLEMIMIC_MODEL_ROOT:-${REPO_ROOT}/.venv/lib/python3.11/site-pac
   --root-torque-limit 1000 --max-fall-rate 0 --max-tracking-error 5 \
   --output "${ROOT}/outputs/mjlab_a100_replay_gate.json"
 
+for _ in $(seq 1 12); do
+  if "${REPO_ROOT}/.venv/bin/python" \
+    "${ROOT}/scripts/a100_gpu_guard.py" --gpus 5; then
+    break
+  fi
+  echo "GPU 5 still has transient activity after replay gate; waiting 5 seconds"
+  sleep 5
+done
 "${REPO_ROOT}/.venv/bin/python" "${ROOT}/scripts/a100_gpu_guard.py" --gpus 5
 "${ROOT}/scripts/a100_exec_gpu.sh" 5 "${PYTHON}" \
   "${ROOT}/scripts/train_mjlab_prosthesis.py" \
