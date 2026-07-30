@@ -42,6 +42,18 @@ def main() -> None:
         raise ValueError("portable XML has no compiler element")
     compiler.set("meshdir", str(asset_root))
     compiler.set("texturedir", str(asset_root))
+    for element in tree.getroot().iter():
+        file_name = element.get("file")
+        if not file_name or not Path(file_name).is_absolute():
+            continue
+        parts = Path(file_name).parts
+        if "model" not in parts:
+            raise ValueError(f"cannot relocate absolute model asset: {file_name}")
+        model_index = len(parts) - 1 - tuple(reversed(parts)).index("model")
+        relocated = asset_root.joinpath(*parts[model_index + 1 :])
+        if not relocated.is_file():
+            raise FileNotFoundError(f"relocated model asset does not exist: {relocated}")
+        element.set("file", str(relocated))
     xml = ET.tostring(tree.getroot(), encoding="unicode")
     model = mujoco.MjModel.from_xml_string(xml)
     model.actuator_gainprm[:] = 0.0
