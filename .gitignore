@@ -37,6 +37,7 @@ tmp_orbax_ckpts/*
 checkpoints_*/
 checkpoints/
 **/.jax_cache/
+MUJOCO_LOG.TXT
 uv.lock
 musclemimic/models/skeleton/tests/output/
 **.mp4

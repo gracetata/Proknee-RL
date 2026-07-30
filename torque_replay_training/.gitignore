@@ -6,4 +6,7 @@ __pycache__/
 data/fullbody/
 data/fullbody_v1/
 outputs/train*/
+outputs/
+artifacts/
 runtime/
+MUJOCO_LOG.TXT

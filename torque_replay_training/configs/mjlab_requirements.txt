@@ -1,0 +1,7 @@
+mjlab==1.5.3
+rsl-rl-lib==5.4.0
+mujoco==3.10.0
+mujoco-warp==3.10.0.3
+warp-lang==1.15.0
+torch==2.7.1
+torchvision==0.22.1

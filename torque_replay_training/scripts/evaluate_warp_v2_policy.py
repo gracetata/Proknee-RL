@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Evaluate a Warp-v2 policy in CPU MuJoCo with replay beta forced to zero."""
+"""Contrast exact replay, zero prosthesis, and a frozen policy in CPU MuJoCo."""
 
 from __future__ import annotations
 
@@ -63,12 +63,18 @@ def main() -> None:
     parser.add_argument("--split", required=True)
     parser.add_argument("--data-dir", required=True)
     parser.add_argument("--model", required=True)
-    parser.add_argument("--policy", required=True)
+    parser.add_argument(
+        "--mode",
+        choices=("exact-replay", "zero-prosthesis", "checkpoint"),
+        default="checkpoint",
+    )
+    parser.add_argument("--policy")
     parser.add_argument("--group", choices=("train", "validation"), default="validation")
     parser.add_argument("--episodes", type=int, default=1000)
     parser.add_argument("--episode-steps", type=int, default=512)
     parser.add_argument("--seed", type=int, default=20260730)
     parser.add_argument("--full-trajectories", action="store_true")
+    parser.add_argument("--output")
     args = parser.parse_args()
 
     config = load_training_config(args.config)
@@ -79,33 +85,34 @@ def main() -> None:
     )
     datasets = [CompactTorqueReplayDataset.load(path) for path in paths]
     model = mujoco.MjModel.from_binary_path(str(Path(args.model).resolve()))
-    checkpoint = torch.load(
-        Path(args.policy),
-        map_location="cpu",
-        weights_only=False,
-    )
-    if checkpoint.get("run_metadata", {}).get("behavior_cloning") is not False:
-        raise ValueError("checkpoint does not declare behavior_cloning=false")
-    if checkpoint.get("run_metadata", {}).get("imitation_reward") is not False:
-        raise ValueError("checkpoint does not declare imitation_reward=false")
-    if float(checkpoint.get("replay_beta", -1.0)) != 0.0:
-        raise ValueError(
-            "formal evaluation requires a checkpoint saved with replay_beta=0"
+    checkpoint = None
+    actor = None
+    normalizer = None
+    if args.mode == "checkpoint":
+        if not args.policy:
+            parser.error("--policy is required in checkpoint mode")
+        checkpoint = torch.load(
+            Path(args.policy),
+            map_location="cpu",
+            weights_only=False,
         )
-
-    actor = AsymmetricActorCritic(
-        96,
-        96 + model.nq + model.nv + 4,
-        4,
-        config.ppo.actor_units,
-        config.ppo.critic_units,
-        config.ppo.initial_log_std,
-    )
-    actor.load_state_dict(checkpoint["model"])
-    actor.eval()
-    normalizer = RunningMeanStd((96,))
-    normalizer.load_state_dict(checkpoint["actor_mean_std"])
-    normalizer.eval()
+        if checkpoint.get("run_metadata", {}).get("behavior_cloning") is not False:
+            raise ValueError("checkpoint does not declare behavior_cloning=false")
+        if checkpoint.get("run_metadata", {}).get("imitation_reward") is not False:
+            raise ValueError("checkpoint does not declare imitation_reward=false")
+        actor = AsymmetricActorCritic(
+            96,
+            96 + model.nq + model.nv + 4,
+            4,
+            config.ppo.actor_units,
+            config.ppo.critic_units,
+            config.ppo.initial_log_std,
+        )
+        actor.load_state_dict(checkpoint["model"])
+        actor.eval()
+        normalizer = RunningMeanStd((96,))
+        normalizer.load_state_dict(checkpoint["actor_mean_std"])
+        normalizer.eval()
     first = datasets[0]
     prosthesis_dofs_np = np.asarray(
         first.metadata["prosthesis_dof_indices"],
@@ -177,33 +184,43 @@ def main() -> None:
         mujoco.mj_forward(model, data)
         previous_action = torch.zeros(1, 4)
         history = ObservationHistory(1, device=torch.device("cpu"))
-        initial = _frame(
-            data,
-            dataset,
-            start,
-            prosthesis_qpos,
-            prosthesis_dofs,
-            previous_action,
-        )
-        history.reset(torch.ones(1, dtype=torch.bool), initial)
+        if args.mode == "checkpoint":
+            initial = _frame(
+                data,
+                dataset,
+                start,
+                prosthesis_qpos,
+                prosthesis_dofs,
+                previous_action,
+            )
+            history.reset(torch.ones(1, dtype=torch.bool), initial)
         episode_fell = False
         episode_min_height = float(data.qpos[2])
         episode_min_up = root_up_z(data.qpos)
         for local_step in range(length):
             step = start + local_step
-            with torch.no_grad():
-                policy_action = actor.act_inference(
-                    normalizer(history.observation())
-                )
-            # beta is deliberately and unconditionally zero here.
-            torque = policy_action[0] * torque_limits
+            if args.mode == "checkpoint":
+                assert actor is not None and normalizer is not None
+                with torch.no_grad():
+                    policy_action = actor.act_inference(
+                        normalizer(history.observation())
+                    )
+                torque = policy_action[0] * torque_limits
+            else:
+                policy_action = torch.zeros(1, 4)
+                torque = torch.zeros(4)
             saturation.append(float((policy_action.abs() > 0.999).float().mean()))
             for substep in range(dataset.n_substeps):
                 data.ctrl[:] = 0.0
                 if data.act.size:
                     data.act[:] = 0.0
                 data.qfrc_applied[:] = dataset.qfrc_actuator[step, substep]
-                data.qfrc_applied[prosthesis_dofs_np] = torque.numpy()
+                if args.mode == "exact-replay":
+                    data.qfrc_applied[prosthesis_dofs_np] = dataset.qfrc_actuator[
+                        step, substep, prosthesis_dofs_np
+                    ]
+                else:
+                    data.qfrc_applied[prosthesis_dofs_np] = torque.numpy()
                 mujoco.mj_step(model, data)
             episode_min_height = min(episode_min_height, float(data.qpos[2]))
             episode_min_up = min(episode_min_up, root_up_z(data.qpos))
@@ -232,16 +249,17 @@ def main() -> None:
                 break
             previous_action = policy_action
             next_step = min(step + 1, dataset.n_steps)
-            history.append(
-                _frame(
-                    data,
-                    dataset,
-                    next_step,
-                    prosthesis_qpos,
-                    prosthesis_dofs,
-                    previous_action,
+            if args.mode == "checkpoint":
+                history.append(
+                    _frame(
+                        data,
+                        dataset,
+                        next_step,
+                        prosthesis_qpos,
+                        prosthesis_dofs,
+                        previous_action,
+                    )
                 )
-            )
         if not episode_fell:
             completed += 1
         min_heights.append(episode_min_height)
@@ -249,7 +267,8 @@ def main() -> None:
 
     report = {
         "backend": "CPU MuJoCo",
-        "replay_beta": 0.0,
+        "mode": args.mode,
+        "executed_replay_beta": 1.0 if args.mode == "exact-replay" else 0.0,
         "episodes": len(trials),
         "completed": completed,
         "falls": falls,
@@ -260,11 +279,20 @@ def main() -> None:
         "foot_slip_p95": (
             float(np.percentile(slip_speeds, 95)) if slip_speeds else None
         ),
-        "policy": str(Path(args.policy).resolve()),
+        "policy": str(Path(args.policy).resolve()) if args.policy else None,
+        "checkpoint_agent_steps": (
+            int(checkpoint.get("agent_steps", -1)) if checkpoint is not None else None
+        ),
+        "checkpoint_replay_beta": (
+            float(checkpoint.get("replay_beta", -1.0))
+            if checkpoint is not None
+            else None
+        ),
     }
-    print(json.dumps(report, indent=2, sort_keys=True))
-    if falls:
-        raise SystemExit(3)
+    rendered = json.dumps(report, indent=2, sort_keys=True)
+    print(rendered)
+    if args.output:
+        Path(args.output).write_text(rendered + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

@@ -11,7 +11,7 @@ import subprocess
 from typing import Any
 
 
-ALLOWED_GPUS = {5, 6, 7}
+ALLOWED_GPUS = {5}
 
 
 def _nvidia_smi(*query: str) -> list[list[str]]:
@@ -79,12 +79,12 @@ def inspect_gpus(gpus: list[int], memory_limit_mib: int, utilization_limit: int)
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--gpus", nargs="+", type=int, default=[5, 6, 7])
+    parser.add_argument("--gpus", nargs="+", type=int, default=[5])
     parser.add_argument("--memory-limit-mib", type=int, default=1024)
     parser.add_argument("--utilization-limit", type=int, default=10)
     args = parser.parse_args()
     if not args.gpus or not set(args.gpus).issubset(ALLOWED_GPUS):
-        raise SystemExit("only physical GPUs 5, 6, and 7 are permitted")
+        raise SystemExit("only physical GPU 5 is permitted")
     report = inspect_gpus(args.gpus, args.memory_limit_mib, args.utilization_limit)
     print(json.dumps(report, indent=2, sort_keys=True))
     if not report["all_free"]:
