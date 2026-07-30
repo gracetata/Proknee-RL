@@ -27,9 +27,24 @@ else
   if [[ ! -x "${PYTHON}" ]]; then
     "${PYTHON311}" -m venv "${VENV}"
   fi
-  "${PYTHON}" -m pip install \
-    --extra-index-url https://download.pytorch.org/whl/cu126 \
-    -r "${ROOT}/configs/warp_v2_requirements.txt"
+  # The A100 workspace already has the pinned CUDA Torch, Warp and MJWarp
+  # wheels in .venv. Reuse those immutable packages through a .pth file and
+  # install only the conflicting MuJoCo version locally. This avoids a
+  # multi-gigabyte CUDA download on servers without uv.
+  SHARED_SITE="$("${REPO_ROOT}/.venv/bin/python" - <<'PY'
+import site
+
+print(site.getsitepackages()[0])
+PY
+)"
+  LOCAL_SITE="$("${PYTHON}" - <<'PY'
+import site
+
+print(site.getsitepackages()[0])
+PY
+)"
+  printf '%s\n' "${SHARED_SITE}" >"${LOCAL_SITE}/proknee_shared_runtime.pth"
+  "${PYTHON}" -m pip install --no-deps mujoco==3.5.0
   "${PYTHON}" -m pip install --no-deps -e "${ROOT}"
 fi
 SOURCE_XML="${ROOT}/data/replay_model/musclemimic_replay.xml"
