@@ -6,17 +6,32 @@ REPO_ROOT="$(cd "${ROOT}/.." && pwd)"
 VENV="${REPO_ROOT}/.venv-warp"
 PYTHON="${VENV}/bin/python"
 UV="${UV:-/root/.local/bin/uv}"
+PYTHON311="${PYTHON311:-/workspace/.tools/cpython-3.11.15-linux-x86_64-gnu/bin/python3.11}"
 
 if [[ ! -x "${UV}" ]]; then
-  UV="$(command -v uv)"
+  UV="$(command -v uv || true)"
 fi
-if [[ ! -x "${PYTHON}" ]]; then
-  "${UV}" venv --python 3.11 "${VENV}"
+if [[ -n "${UV}" && -x "${UV}" ]]; then
+  if [[ ! -x "${PYTHON}" ]]; then
+    "${UV}" venv --python 3.11 "${VENV}"
+  fi
+  "${UV}" pip install --python "${PYTHON}" \
+    --extra-index-url https://download.pytorch.org/whl/cu126 \
+    -r "${ROOT}/configs/warp_v2_requirements.txt"
+  "${UV}" pip install --python "${PYTHON}" --no-deps -e "${ROOT}"
+else
+  if [[ ! -x "${PYTHON311}" ]]; then
+    echo "missing Python 3.11 runtime: ${PYTHON311}" >&2
+    exit 1
+  fi
+  if [[ ! -x "${PYTHON}" ]]; then
+    "${PYTHON311}" -m venv "${VENV}"
+  fi
+  "${PYTHON}" -m pip install \
+    --extra-index-url https://download.pytorch.org/whl/cu126 \
+    -r "${ROOT}/configs/warp_v2_requirements.txt"
+  "${PYTHON}" -m pip install --no-deps -e "${ROOT}"
 fi
-"${UV}" pip install --python "${PYTHON}" \
-  --extra-index-url https://download.pytorch.org/whl/cu126 \
-  -r "${ROOT}/configs/warp_v2_requirements.txt"
-"${UV}" pip install --python "${PYTHON}" --no-deps -e "${ROOT}"
 SOURCE_XML="${ROOT}/data/replay_model/musclemimic_replay.xml"
 WARP_MODEL="${ROOT}/data/replay_model/musclemimic_replay_warp_3_5.mjb"
 if [[ ! -f "${SOURCE_XML}" ]]; then
