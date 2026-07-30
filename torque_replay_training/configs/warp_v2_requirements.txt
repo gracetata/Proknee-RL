@@ -1,0 +1,8 @@
+# One coherent MuJoCo/MJWarp stack for A100 training.
+mujoco==3.5.0
+mujoco-warp==3.5.0
+warp-lang==1.12.1
+numpy==2.2.6
+PyYAML>=6.0
+tensorboardX>=2.6.5
+torch==2.7.1+cu126

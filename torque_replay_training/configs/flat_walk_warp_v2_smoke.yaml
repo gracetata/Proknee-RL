@@ -1,0 +1,54 @@
+environment:
+  num_envs: 16
+  episode_steps: 32
+  history_steps: 4
+  random_start: false
+  nconmax_per_world: 96
+  njmax_per_world: 512
+  ccd_iterations: 100
+  torque_limits: [260.0, 280.0, 80.0, 15.0]
+  fall_height: 0.55
+  fall_up_z: 0.35
+  seed: 0
+
+replay_annealing:
+  hold_steps: 32
+  end_steps: 256
+
+reward:
+  alive: 1.0
+  upright: 1.0
+  root_height: 0.5
+  root_velocity: 1.0
+  yaw_rate: 0.5
+  foot_slip: -0.1
+  both_feet_airborne: -0.25
+  torque_l2: -0.000002
+  joint_acceleration_l2: -0.0000001
+  action_rate_l2: -0.006
+  joint_limit: -1.0
+  fall: -200.0
+  upright_sigma: 0.10
+  height_sigma: 0.05
+  velocity_sigma: 0.40
+  yaw_rate_sigma: 0.40
+
+ppo:
+  device: cuda:0
+  max_agent_steps: 512
+  horizon_length: 8
+  minibatch_size: 64
+  mini_epochs: 2
+  learning_rate: 0.0003
+  target_kl: 0.02
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_epsilon: 0.2
+  critic_coefficient: 2.0
+  entropy_coefficient: 0.0005
+  max_grad_norm: 1.0
+  reward_scale: 0.01
+  initial_log_std: -3.5
+  save_frequency: 1
+  actor_units: [64, 64]
+  critic_units: [128, 64]

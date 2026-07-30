@@ -1,9 +1,9 @@
 [project]
 name = "torque-replay-training"
 version = "0.1.0"
-description = "Independent full-body torque replay and left prosthesis residual-policy training"
+description = "Full-body torque replay and independent left-prosthesis PPO training"
 requires-python = ">=3.11"
-dependencies = ["tensorboardX>=2.6.5"]
+dependencies = ["PyYAML>=6.0", "tensorboardX>=2.6.5"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

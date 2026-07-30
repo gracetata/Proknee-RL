@@ -72,11 +72,15 @@ if [[ -s "${PENDING_LIST}" ]]; then
 fi
 
 if [[ ! -f "${MODEL_DIR}/musclemimic_replay.mjb" || \
-      ! -f "${MODEL_DIR}/musclemimic_replay.mjb.json" ]]; then
-  echo "missing local replay MJB or metadata in ${MODEL_DIR}" >&2
+      ! -f "${MODEL_DIR}/musclemimic_replay.mjb.json" || \
+      ! -f "${MODEL_DIR}/musclemimic_replay.xml" ]]; then
+  echo "missing local replay MJB, metadata, or portable XML in ${MODEL_DIR}" >&2
   exit 1
 fi
-tar -C "${MODEL_DIR}" -cf - musclemimic_replay.mjb musclemimic_replay.mjb.json |
+tar -C "${MODEL_DIR}" -cf - \
+  musclemimic_replay.mjb \
+  musclemimic_replay.mjb.json \
+  musclemimic_replay.xml |
   ssh -o BatchMode=yes -p "${PORT}" "${REMOTE}" \
     "mkdir -p '${REMOTE_ROOT}/torque_replay_training/data/replay_model' && \
      tar -C '${REMOTE_ROOT}/torque_replay_training/data/replay_model' -xf -"

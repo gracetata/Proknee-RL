@@ -29,6 +29,10 @@ def main() -> None:
     parser.add_argument("--dataset", required=True)
     parser.add_argument("--checkpoint", default=str(DEFAULT_CHECKPOINT))
     parser.add_argument("--output", required=True)
+    parser.add_argument(
+        "--xml-output",
+        help="optional portable XML for recompilation by a newer MuJoCo",
+    )
     args = parser.parse_args()
     output = Path(args.output).resolve()
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -39,6 +43,15 @@ def main() -> None:
     )
     with TorqueReplayEnv(args.dataset, args.checkpoint, config) as env:
         mujoco.mj_saveModel(env.model, str(output))
+        xml_output = (
+            Path(args.xml_output).resolve() if args.xml_output else None
+        )
+        if xml_output is not None:
+            xml_output.parent.mkdir(parents=True, exist_ok=True)
+            spec = env._source_env.mjspec  # noqa: SLF001 - export owns this env
+            spec.to_file(str(xml_output))
+            if not xml_output.is_file() or xml_output.stat().st_size == 0:
+                raise RuntimeError("MuJoCo did not create a portable XML model")
         metadata = {
             "model": str(output),
             "sha256": _sha256(output),
@@ -51,6 +64,8 @@ def main() -> None:
             "source_motion": env.dataset.motion_path,
             "actuator_gain_max_abs": float(abs(env.model.actuator_gainprm).max()),
             "actuator_bias_max_abs": float(abs(env.model.actuator_biasprm).max()),
+            "xml_model": str(xml_output) if xml_output else None,
+            "xml_sha256": _sha256(xml_output) if xml_output else None,
         }
     metadata_path = output.with_suffix(output.suffix + ".json")
     metadata_path.write_text(
