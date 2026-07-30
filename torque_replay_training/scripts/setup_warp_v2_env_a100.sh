@@ -31,7 +31,13 @@ else
   # wheels in .venv. Reuse those immutable packages through a .pth file and
   # install only the conflicting MuJoCo version locally. This avoids a
   # multi-gigabyte CUDA download on servers without uv.
-  SHARED_SITE="$("${REPO_ROOT}/.venv/bin/python" - <<'PY'
+  SHARED_WARP_SITE="$("${REPO_ROOT}/.venv/bin/python" - <<'PY'
+import site
+
+print(site.getsitepackages()[0])
+PY
+)"
+  SHARED_TORCH_SITE="$("${REPO_ROOT}/.venv-hora/bin/python" - <<'PY'
 import site
 
 print(site.getsitepackages()[0])
@@ -43,7 +49,10 @@ import site
 print(site.getsitepackages()[0])
 PY
 )"
-  printf '%s\n' "${SHARED_SITE}" >"${LOCAL_SITE}/proknee_shared_runtime.pth"
+  printf '%s\n%s\n' \
+    "${SHARED_WARP_SITE}" \
+    "${SHARED_TORCH_SITE}" \
+    >"${LOCAL_SITE}/proknee_shared_runtime.pth"
   "${PYTHON}" -m pip install --no-deps mujoco==3.5.0
   "${PYTHON}" -m pip install --no-deps -e "${ROOT}"
 fi
